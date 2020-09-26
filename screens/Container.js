@@ -2,11 +2,11 @@ import * as React from "react";
 import { Text, View } from "react-native";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Community from "../screens/Community";
-import Home from "../screens/Home";
-import Myprofile from "../screens/Myprofile";
-import Schedule from "../screens/Schedule";
-import Write from "../screens/Write";
+import Community from "./Community";
+import Home from "./Home";
+import Myprofile from "./Myprofile";
+import Schedule from "./Schedule";
+import Write from "./Write";
 import * as theme from "../assets/theme";
 
 /* 
