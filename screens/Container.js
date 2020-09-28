@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Text, View } from "react-native";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Community from "./Community";
@@ -26,14 +25,17 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer theme={Theme}>
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Community" component={Community} />
-        <Tab.Screen name="Write" component={Write} />
-        <Tab.Screen name="Schedule" component={Schedule} />
-        <Tab.Screen name="Myprofile" component={Myprofile} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <>
+      {/* Top Navigator */}
+      <NavigationContainer theme={Theme}>
+        <Tab.Navigator>
+          <Tab.Screen name="Home" component={Home} />
+          <Tab.Screen name="Community" component={Community} />
+          <Tab.Screen name="Write" component={Write} />
+          <Tab.Screen name="Schedule" component={Schedule} />
+          <Tab.Screen name="Myprofile" component={Myprofile} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </>
   );
 }
