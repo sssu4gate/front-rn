@@ -1,10 +1,21 @@
-import * as React from 'react';
-import { View, Text , Button} from 'react-native';
+import * as React from "react";
+import { View, Text, Button } from "react-native";
+import styled from "styled-components/native";
+import CourseContent from "../components/CourseContent";
+import CourseTitle from "../components/CourseTitle";
 
-export default function Write(){
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>Write!</Text>
-        </View>
-      );
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+`;
+
+export default function Write() {
+  return (
+    <Container>
+      <CourseTitle />
+      <CourseContent />
+    </Container>
+  );
 }

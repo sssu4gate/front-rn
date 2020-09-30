@@ -18,6 +18,7 @@ const Theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: theme.PRIMARY_COLOR,
+    text: "#777",
   },
 };
 
@@ -29,9 +30,10 @@ export default function App() {
       {/* Top Navigator */}
       <NavigationContainer theme={Theme}>
         <Tab.Navigator>
+          <Tab.Screen name="Write" component={Write} />
           <Tab.Screen name="Home" component={Home} />
           <Tab.Screen name="Community" component={Community} />
-          <Tab.Screen name="Write" component={Write} />
+          {/* <Tab.Screen name="Write" component={Write} /> */}
           <Tab.Screen name="Schedule" component={Schedule} />
           <Tab.Screen name="Myprofile" component={Myprofile} />
         </Tab.Navigator>
