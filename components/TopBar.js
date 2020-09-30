@@ -1,6 +1,6 @@
 import React from "react";
 import "react-native-gesture-handler";
-import { View, Text , Button} from 'react-native';
+import { View, Text , Button, Image} from 'react-native';
 
 export default function Topbar(){
     return <View style = {styles.container}>

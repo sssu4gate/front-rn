@@ -63,12 +63,14 @@ export default function App() {
                 />
               );
             } else if (route.name === 'Write') {
+              showLabel: false;
               return (
                 <Image 
                 source={require("../assets/Write.png")}
                 style={{
                 width: 40,
                 height: 40,
+                bottom:0,
               }}
                 />
               );
@@ -109,13 +111,14 @@ export default function App() {
         tabBarOptions={{
           activeTintColor: "#FF6DA0",
           inactiveTintColor: "blcak",
-          showLabel: false
-        }}>
-          <Tab.Screen name="Home" component={Home} />
-          <Tab.Screen name="Community" component={Community} />
-          <Tab.Screen name="Write" component={Write} />
-          <Tab.Screen name="Schedule" component={Schedule} />
-          <Tab.Screen name="Myprofile" component={Myprofile} />
+        }}
+        >
+          
+          <Tab.Screen name="Home" component={Home} options={{tabBarLabel:"홈"}} />
+          <Tab.Screen name="Community" component={Community} options={{tabBarLabel:"커뮤니티"}} />
+          <Tab.Screen name="Write" component={Write} options={{tabBarLabel:""}} />
+          <Tab.Screen name="Schedule" component={Schedule} options={{tabBarLabel:"일정"}} />
+          <Tab.Screen name="Myprofile" component={Myprofile} options={{tabBarLabel:"내 정보"}} />
         </Tab.Navigator>
       </NavigationContainer>
     </>
