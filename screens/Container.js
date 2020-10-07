@@ -8,6 +8,7 @@ import Myprofile from "./Myprofile";
 import Schedule from "./Schedule";
 import Write from "./Write";
 import * as theme from "../assets/theme";
+import TopBar from "../components/TopBar";
 
 /* 
  Navigation Theme Reference 
@@ -29,6 +30,7 @@ export default function App() {
   return (
     <>
       {/* Top Navigator */}
+      <TopBar />
       <NavigationContainer theme={Theme}>
         <Tab.Navigator
         screenOptions={({ route }) => ({
