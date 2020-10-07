@@ -4,8 +4,7 @@ import Home from "../screens/Home";
 
 class TopBar extends React.Component {
     onPress = () => {
-        console.log("go Home");
-        navigation.navigate('Home')
+        window.location.href = 'Home';
     }
 
     render() {

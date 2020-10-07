@@ -2,6 +2,7 @@ import * as React from "react";
 import { Text, View, Image } from "react-native";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import Community from "./Community";
 import Home from "./Home";
 import Myprofile from "./Myprofile";
@@ -25,13 +26,14 @@ const Theme = {
 };
 
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 export default function App() {
   return (
     <>
       {/* Top Navigator */}
-      <TopBar />
       <NavigationContainer theme={Theme}>
+      <TopBar />
         <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
