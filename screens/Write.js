@@ -5,6 +5,7 @@ import CourseContent from "../components/CourseContent";
 import CourseTitle from "../components/CourseTitle";
 
 const Container = styled.View`
+  padding-top: 50px;
   flex: 1;
   justify-content: center;
   align-items: center;
@@ -12,9 +13,15 @@ const Container = styled.View`
 `;
 
 export default function Write() {
+  const [isSharingCourse, setSharingCourse] = React.useState(false);
+  const [selectedStartDate, selectStartDate] = React.useState(null);
+
   return (
     <Container>
-      <CourseTitle />
+      <CourseTitle
+        sharingHandler={() => setSharingCourse(!isSharingCourse)}
+        isSharingCourse={isSharingCourse}
+      />
       <CourseContent />
     </Container>
   );

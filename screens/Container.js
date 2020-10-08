@@ -11,9 +11,11 @@ import Write from "./Write";
 import * as theme from "../assets/theme";
 import TopBar from "../components/TopBar";
 
+import CourseAdd from "./CourseAdd";
+
 /* 
  Navigation Theme Reference 
-   https://reactnavigation.org/docs/themes/
+ https://reactnavigation.org/docs/themes/
 */
 
 const Theme = {
