@@ -15,17 +15,17 @@ function Icon({ length = 14 }) {
         x="22.5"
         y="22.5"
         fill="#fff"
-        stroke="#FF6DA0"
+        stroke="#777777"
         strokeWidth="45"
         rx="63.5"
       ></rect>
       <path
-        stroke="#FF6DA0"
+        stroke="#777777"
         strokeWidth="45"
         d="M101.243 237.944L227.25 365.365"
       ></path>
       <path
-        stroke="#FF6DA0"
+        stroke="#777777"
         strokeWidth="45"
         d="M196.132 364.663L408.028 154.181"
       ></path>

@@ -8,9 +8,11 @@ import Schedule from "./Schedule";
 import Write from "./Write";
 import * as theme from "../assets/theme";
 
+import CourseAdd from "./CourseAdd";
+
 /* 
  Navigation Theme Reference 
-   https://reactnavigation.org/docs/themes/
+ https://reactnavigation.org/docs/themes/
 */
 
 const Theme = {

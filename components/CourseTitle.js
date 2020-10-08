@@ -4,11 +4,11 @@ import styled from "styled-components/native";
 import * as theme from "../assets/theme";
 import Heart from "../assets/images/Heart";
 import Calendar from "../assets/images/Calendar";
+import Photo from "../assets/images/Photo";
 import Check from "../assets/images/Check";
 import CheckFull from "../assets/images/CheckFull";
 
 const Container = styled.View`
-  margin-top: 50px;
   height: 100px;
   width: 100vw;
   justify-content: center;
@@ -35,7 +35,7 @@ const Title = styled.Text`
   flex: 8;
 `;
 const IconContainer = styled.View`
-  flex: 2;
+  margin-right: 20px;
   flex-direction: row;
   align-items: center;
   height: 100%;
@@ -59,6 +59,10 @@ export default function CourseTitle({
   view = 0,
   date,
   location,
+  calendarPicker,
+  photoPicker,
+  sharingHandler,
+  isSharingCourse,
 }) {
   return (
     <Container>
@@ -139,18 +143,39 @@ export default function CourseTitle({
                 {date ? date : "미정"}
               </Text>
             </IconContainer>
-            <IconContainer style={{ justifyContent: "flex-end" }}>
-              <Check />
+            <IconContainer style={{ justifyContent: "flex-start" }}>
+              <Photo length={14} />
               <Text
                 style={{
                   fontSize: "12px",
-                  color: theme.PRIMARY_COLOR,
+                  color: theme.SECOND_TEXT_COLOR,
                   fontWeight: "bold",
                   marginLeft: "5px",
                 }}
               >
-                공유
+                사진 변경
               </Text>
+            </IconContainer>
+            <IconContainer
+              style={{
+                justifyContent: "flex-end",
+                flex: "1",
+                marginRight: "0",
+              }}
+            >
+              <View style={{ flexDirection: "row" }} onClick={sharingHandler}>
+                {isSharingCourse ? <CheckFull /> : <Check />}
+                <Text
+                  style={{
+                    fontSize: "12px",
+                    color: isSharingCourse ? theme.PRIMARY_COLOR : "#777",
+                    fontWeight: "bold",
+                    marginLeft: "5px",
+                  }}
+                >
+                  공유
+                </Text>
+              </View>
             </IconContainer>
           </>
         )}
