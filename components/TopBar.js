@@ -1,16 +1,19 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Button, TouchableOpacity } from 'react-native';
+import { NavigationContainer, DrawerActions, useNavigation } from '@react-navigation/native';
 import Home from "../screens/Home";
 
-class TopBar extends React.Component {
-    onPress = () => {
-        window.location.href = 'Home';
-    }
+function TopBar () {
+    const ref = React.useRef(null);
+    const navigation = useNavigation();
+    console.log(navigation);
 
-    render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity 
+                style={styles.button}
+                onPress={() => {navigation.toggleDrawer()}}
+                >
                     <Image
                         source={require("../assets/menu(black).png")}
                         style={{
@@ -20,7 +23,7 @@ class TopBar extends React.Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={this.onPress}
+                    onPress={() => {navigation.navigate('Home')}}
                 >
                     <Image
                         source={require("../assets/LoCo(pink).png")}
@@ -39,7 +42,7 @@ class TopBar extends React.Component {
                 </TouchableOpacity>
             </View>
         );
-    }
+    
 }
 
 const styles = StyleSheet.create({
