@@ -9,6 +9,11 @@ import Schedule from "./Schedule";
 import Write from "./Write";
 import CourseAdd from "./CourseAdd";
 import TopBar from "../components/TopBar";
+import HomeIcon from "../assets/images/home"
+import Calendar from "../assets/images/Calendar"
+import Group from "../assets/images/group"
+import MyPage from "../assets/images/myPage"
+import Edit from "../assets/images/edit"
 
 /* 
  Navigation Theme Reference 
@@ -30,74 +35,34 @@ export default function Main() {
 
             if (route.name === 'Home') {
               return (
-                <Image 
-                source={
-                  focused
-                  ? require("../assets/Home(p).png")
-                  : require("../assets/Home.png")
-                }
-                style={{
-                width: 20,
-                height: 20,
-              }}
-                />
+                focused
+                ? <HomeIcon length="20"/>
+                : <HomeIcon color="#000" length="20"/>
               );
             } else if (route.name === 'Community') {
               return (
-                <Image 
-                source={
-                  focused
-                  ? require("../assets/Community(p).png")
-                  : require("../assets/Community.png")
-                }
-                style={{
-                width: 20,
-                height: 20,
-              }}
-                />
+                focused
+                ? <Group length="30"/>
+                : <Group length="30" color="#000"/>
               );
             } else if (route.name === 'Write') {
               showLabel: false;
               return (
-                <Image 
-                source={require("../assets/Write.png")}
-                style={{
-                width: 40,
-                height: 40,
-                bottom:0,
-              }}
-                />
+                <Edit length="40"/>
               );
             } else if (route.name === 'Schedule') {
               return (
-                <Image 
-                source={
-                  focused
-                  ? require("../assets/Schedule(p).png")
-                  : require("../assets/Schedule.png")
-                }
-                style={{
-                width: 20,
-                height: 20,
-              }}
-                />
+                focused
+                ? <Calendar length="20"/>
+                : <Calendar length="20" color="#000"/>
               );
             } else if (route.name === 'Myprofile') {
               return (
-                <Image 
-                source={
-                  focused
-                  ? require("../assets/Myprofile(p).png")
-                  : require("../assets/Myprofile.png")
-                }
-                style={{
-                width: 20,
-                height: 20,
-              }}
-                />
+                focused
+                ? <MyPage length="20"/>
+                : <MyPage length="20" color="#000"/>
               );
             }
-
             // You can return any component that you like here!
             
           },

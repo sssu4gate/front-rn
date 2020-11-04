@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, Button, TouchableOpacity } from 'react-native';
 import { NavigationContainer, DrawerActions, useNavigation } from '@react-navigation/native';
 import Home from "../screens/Home";
+import TitleIcon from "../assets/images/Title";
+import MenuIcon from "../assets/images/menu";
 
 function TopBar () {
     const ref = React.useRef(null);
@@ -14,23 +16,13 @@ function TopBar () {
                 style={styles.button}
                 onPress={() => {navigation.toggleDrawer()}}
                 >
-                    <Image
-                        source={require("../assets/menu(black).png")}
-                        style={{
-                            width: 30,
-                            height: 30,
-                        }} />
+                    <MenuIcon length="20"/>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {navigation.navigate('Home')}}
                 >
-                    <Image
-                        source={require("../assets/LoCo(pink).png")}
-                        style={{
-                            width: 91,
-                            height: 30,
-                        }} />
+                <TitleIcon />
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.button}>

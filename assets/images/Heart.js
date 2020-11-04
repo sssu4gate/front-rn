@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Heart({ length = 16 }) {
+export default function Heart({ length = 16 , color = "#FF6DA0"}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
