@@ -5,6 +5,16 @@ import {
   useScrollToTop,
 } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Callender from "../assets/images/Calendar";
+import Check from "../assets/images/Check";
+import CheckFull from "../assets/images/CheckFull";
+import Filter from "../assets/images/Filter";
+import Heart from "../assets/images/Heart";
+import HeartFull from "../assets/images/HeartFull";
+import Photo from "../assets/images/Photo";
+import Search from "../assets/images/Search";
+import Title from "../assets/images/Title";
+
 
 export default function Home(){
   const ref = React.useRef(null);
@@ -14,26 +24,15 @@ export default function Home(){
       <>
 
       <ScrollView ref={ref}>
-      <Image
-        source={{ uri: 'https://facebook.github.io/react/logo-og.png' }}
-        style={{ width: 400, height: 400 }}
-        key="1"
-      />
-      <Image
-        source={{ uri: 'https://facebook.github.io/react/logo-og.png' }}
-        style={{ width: 400, height: 400 }}
-        key="2"
-      />
-      <Image
-        source={{ uri: 'https://facebook.github.io/react/logo-og.png' }}
-        style={{ width: 400, height: 400 }}
-        key="3"
-      />
-      <Image
-        source={{ uri: 'https://facebook.github.io/react/logo-og.png' }}
-        style={{ width: 400, height: 400 }}
-        key="4"
-      />
+      <Callender />
+      <Check />
+      <CheckFull />
+      <Filter length="14"/>
+      <Heart />
+      <HeartFull />
+      <Photo />
+      <Search length="14"/>
+      <Title />
     </ScrollView>
     </>
       );
