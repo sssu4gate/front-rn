@@ -30,31 +30,13 @@ export default function Home() {
     <>
       <White>
         <ScrollView>
-          <View style={styles.container}>
-            <Text style={styles.baseText}>
-              추천 코스
-              <TouchableOpacity>
-                <Text style={styles.innerText}>더보기</Text>
-              </TouchableOpacity>
-            </Text>
-          </View>
           <View style={styles.recommand}>
             <Recommand />
           </View>
-
-          <ContainerCenter>
-            <View style={styles.container}>
-              <Search />
-            </View>
-            <View style={styles.container}>
-              <Text style={styles.baseText}>인기코스 TOP 5</Text>
-              <TouchableOpacity>
-                <Text style={styles.innerText}>더보기</Text>
-              </TouchableOpacity>
-            </View>
-
+          <View style={styles.container}>
+            <Search />
             <Hot5 />
-          </ContainerCenter>
+          </View>
         </ScrollView>
       </White>
     </>
@@ -63,8 +45,10 @@ export default function Home() {
 
 const styles = StyleSheet.create({
   container: {
+    width: "100%",
     padding: "10px",
-    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "center",
   },
   baseText: {
     fontWeight: "bold",
@@ -76,8 +60,14 @@ const styles = StyleSheet.create({
     alignItems: "right",
   },
   recommand: {
-    height: "50%",
-    width: "90%",
+    height: "45%",
+    width: "100%",
     alignSelf: "center",
+  },
+  hot: {
+    height: "50%",
+    width: "100%",
+    alignSelf: "center",
+    flexDirection: "row",
   },
 });
