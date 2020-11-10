@@ -1,12 +1,13 @@
 import * as React from "react";
 import { Text, View, Image } from "react-native";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import * as theme from "../assets/theme";
 import Main from "./Main";
 import Menu from "./Menu";
 
 import CourseAdd from "./CourseAdd";
+import MainScreen from "./Main";
 
 /* 
  Navigation Theme Reference 
@@ -29,11 +30,10 @@ export default function App() {
     <>
       {/* Top Navigator */}
       <NavigationContainer theme={Theme}>
-
-      <Drawer.Navigator initialRouteName="Main">
-        <Drawer.Screen name="Main" component={Main} />
-        <Drawer.Screen name="Menu" component={Menu} />
-      </Drawer.Navigator>
+        <Drawer.Navigator initialRouteName="Main">
+          <Drawer.Screen name="Main" component={Main} />
+          <Drawer.Screen name="Menu" component={Menu} />
+        </Drawer.Navigator>
       </NavigationContainer>
     </>
   );
