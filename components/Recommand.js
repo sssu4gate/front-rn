@@ -50,7 +50,7 @@ export default function Recommand() {
         <TouchableOpacity
           style={styles.more}
           onPress={() => {
-            navigation.navigate("Community");
+            navigation.navigate("Community", { initalScreen: "Loco" });
           }}
         >
           <Text style={styles.more}>더보기</Text>
