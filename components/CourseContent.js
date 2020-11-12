@@ -1,6 +1,7 @@
 import * as React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, TextInput, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
+import * as theme from "../assets/theme";
 
 const Container = styled.View`
   flex: 1;
@@ -11,7 +12,7 @@ const Container = styled.View`
 `;
 const Content = styled.View`
   flex-direction: row;
-  padding: 15px 30px;
+  padding: 10px 30px;
   width: 100%;
 `;
 const Line = styled.View`
@@ -33,7 +34,23 @@ const Indicator = styled.View`
   height: 100%;
 `;
 
-export default function CourseContent({ mode }) {
+
+function Memo({text, isChecked, checkHandler}) {
+  return (
+    <View style={{flexDirection:'row', padding:12, boxShadow:"1px 1px 5px #00000040", borderRadius:10, marginBottom:15}}>
+      {isChecked!==undefined?(
+        <TouchableOpacity style={{height:20, width:20, borderWidth:1, borderColor:'red' }}>
+          {/* SVG check */}
+        </TouchableOpacity>
+      ):null}
+      <Text style={{flex:1}}>{text}</Text>
+    </View>
+  )
+}
+
+export default function CourseContent({ editMode, courses, memos, setCourses, setMemos}) {
+  const [text, setText] = React.useState("");
+
   return (
     <Container>
       <Content>
@@ -41,7 +58,7 @@ export default function CourseContent({ mode }) {
         <Line />
       </Content>
       <Content style={{ flexDirection: "column" }}>
-        <Content style={{ padding: "0" }}>
+        <View style={{ height:40 }}>
           <AddButton>
             <Text
               style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
@@ -49,15 +66,24 @@ export default function CourseContent({ mode }) {
               코스 추가
             </Text>
           </AddButton>
-        </Content>
+        </View>
       </Content>
       <Content>
         <Text style={{ fontSize: "12px", color: "#AAAAAA" }}>메모</Text>
         <Line />
       </Content>
       <Content style={{ flexDirection: "column" }}>
+        {
+          memos.map(memo=><Memo {...memo} />)
+        }
+        <TextInput 
+          style={{height: 100, borderColor: "#e3e3e3" , borderWidth: 0.1, borderRadius:10, flex:1, padding:5, marginBottom:15 }}
+          multiline
+          numberOfLines={4}
+          onChangeText={setText}
+          value={text}/>
         <Content style={{ padding: "0" }}>
-          <AddButton>
+          <AddButton onPress={()=>{text!=''?setMemos([...memos, {text, type:'memo'}]):null;setText('')}}>
             <Text
               style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
             >
@@ -65,7 +91,7 @@ export default function CourseContent({ mode }) {
             </Text>
           </AddButton>
           <Indicator />
-          <AddButton>
+          <AddButton onPress={()=>{text!=''?setMemos([...memos, {text, type:'check', isChecked:false}]):null;setText('')}}>
             <Text
               style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
             >

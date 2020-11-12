@@ -30,8 +30,8 @@ export default function App() {
       {/* Top Navigator */}
       <NavigationContainer theme={Theme}>
         <Drawer.Navigator initialRouteName="Main">
-          <Drawer.Screen name="Main" component={Main} />
-          <Drawer.Screen name="Menu" component={Menu} />
+          <Drawer.Screen name="Main" component={Main} options={{headerShown:false}} />
+          <Drawer.Screen name="Menu" component={Menu} options={{headerShown:false}}/>
         </Drawer.Navigator>
       </NavigationContainer>
     </>
