@@ -3,7 +3,7 @@ import { View, Text, Image } from "react-native";
 import styled from "styled-components/native";
 import * as theme from "../assets/theme";
 import Heart from "../assets/images/Heart";
-import Calendar from "../assets/images/Calendar";
+import CalendarIcon from "../assets/images/Calendar";
 import Photo from "../assets/images/Photo";
 import Check from "../assets/images/Check";
 import CheckFull from "../assets/images/CheckFull";
@@ -13,7 +13,6 @@ const Container = styled.View`
   width: 100vw;
   justify-content: center;
   align-items: center;
-  background: #f3f3f3;
   border-bottom-width: 1px;
   border-bottom-color: #e3e3e3;
 `;
@@ -34,7 +33,7 @@ const Title = styled.Text`
   font-weight: bolder;
   flex: 8;
 `;
-const IconContainer = styled.View`
+const IconContainer = styled.TouchableOpacity`
   margin-right: 20px;
   flex-direction: row;
   align-items: center;
@@ -48,90 +47,28 @@ const Profile = styled.Image`
 `;
 
 export default function CourseTitle({
-  mode = "edit",
-  title = "코스 1",
-  heart = 0,
-  user = {
-    img:
-      "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2200&q=80",
-    name: "앤서니",
-  },
-  view = 0,
+  editMode,
+  title,
+  user,
+  heartCount,
+  viewCount,
   date,
-  location,
-  calendarPicker,
-  photoPicker,
-  sharingHandler,
-  isSharingCourse,
+  setDate,
+  backgroundImg,
+  sharing,
+  toggleSharing,
+  setBackgroundImg,
 }) {
   return (
     <Container>
-      <Row flex={5.5} paddingTop="14px">
-        <Title>{title}</Title>
-        {mode == "view" ? (
-          <IconContainer
-            style={{ justifyContent: "flex-end", alignItems: "flex-end" }}
-          >
-            <Heart length={20} />
-            <Text
-              style={{
-                fontSize: "20px",
-                color: theme.PRIMARY_COLOR,
-                marginLeft: "3px",
-                fontWeight: "300",
-              }}
-            >
-              {heart}
-            </Text>
-          </IconContainer>
-        ) : (
-          ""
-        )}
-      </Row>
-      <Row flex={4.5}>
-        {mode == "view" ? (
-          <>
-            <IconContainer style={{ flex: 8 }}>
-              <Profile source={{ uri: user.img }} />
-              <Text
-                style={{
-                  color: theme.SECOND_TEXT_COLOR,
-                  fontSize: "12px",
-                  marginLeft: "8px",
-                }}
-              >
-                {user.name} 조회 {view}
-              </Text>
-            </IconContainer>
-            <IconContainer
-              style={{
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text
-                style={{
-                  color: theme.SECOND_TEXT_COLOR,
-                  fontSize: "10px",
-                }}
-              >
-                {location}
-              </Text>
-              <Text
-                style={{
-                  color: theme.SECOND_TEXT_COLOR,
-                  fontSize: "10px",
-                }}
-              >
-                {date}
-              </Text>
-            </IconContainer>
-          </>
-        ) : (
-          <>
-            <IconContainer style={{ justifyContent: "flex-start" }}>
-              <Calendar length={14} />
+      {editMode ? (
+        <>
+          <Row flex={5.5} paddingTop="14px">
+            <Title>{title}</Title>
+          </Row>
+          <Row flex={4.5}>
+            <IconContainer style={{ justifycontent: "flex-start" }} onPress={setDate}>
+              <CalendarIcon length={14} />
               <Text
                 style={{
                   fontSize: "12px",
@@ -143,7 +80,7 @@ export default function CourseTitle({
                 {date ? date : "미정"}
               </Text>
             </IconContainer>
-            <IconContainer style={{ justifyContent: "flex-start" }}>
+            <IconContainer style={{ justifycontent: "flex-start" }}>
               <Photo length={14} />
               <Text
                 style={{
@@ -163,12 +100,12 @@ export default function CourseTitle({
                 marginRight: "0",
               }}
             >
-              <View style={{ flexDirection: "row" }} onClick={sharingHandler}>
-                {isSharingCourse ? <CheckFull /> : <Check />}
+              <View style={{ flexDirection: "row" }} onClick={toggleSharing}>
+                {sharing ? <CheckFull /> : <Check />}
                 <Text
                   style={{
                     fontSize: "12px",
-                    color: isSharingCourse ? theme.PRIMARY_COLOR : "#777",
+                    color: sharing ? theme.PRIMARY_COLOR : "#777",
                     fontWeight: "bold",
                     marginLeft: "5px",
                   }}
@@ -177,9 +114,60 @@ export default function CourseTitle({
                 </Text>
               </View>
             </IconContainer>
-          </>
-        )}
-      </Row>
+          </Row>
+        </>
+      ) : (
+        <>
+          <Row flex={5.5} paddingTop="14px">
+            <Title>{title}</Title>
+            <IconContainer
+              style={{ justifyContent: "flex-end", alignItems: "flex-end" }}
+            >
+              <Heart length={20} />
+              <Text
+                style={{
+                  fontSize: "20px",
+                  color: theme.PRIMARY_COLOR,
+                  marginLeft: "3px",
+                  fontWeight: "300",
+                }}
+              >
+                {heartCount}
+              </Text>
+            </IconContainer>
+          </Row>
+          <Row flex={4.5}>
+            <IconContainer style={{ flex: 8 }}>
+              <Profile source={{ uri: user.img }} />
+              <Text
+                style={{
+                  color: theme.SECOND_TEXT_COLOR,
+                  fontSize: "12px",
+                  marginLeft: "8px",
+                }}
+              >
+                {user.name} 조회 {viewCount}
+              </Text>
+            </IconContainer>
+            <IconContainer
+              style={{
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text
+                style={{
+                  color: theme.SECOND_TEXT_COLOR,
+                  fontSize: "10px",
+                }}
+              >
+                {date}
+              </Text>
+            </IconContainer>
+          </Row>
+        </>
+      )}
     </Container>
   );
 }
