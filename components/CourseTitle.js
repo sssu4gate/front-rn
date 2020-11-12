@@ -68,7 +68,7 @@ export default function CourseTitle({
           </Row>
           <Row flex={4.5}>
             <IconContainer style={{ justifycontent: "flex-start" }} onPress={setDate}>
-              <CalendarIcon length={14} />
+              <CalendarIcon length={14} color="#777" />
               <Text
                 style={{
                   fontSize: "12px",
@@ -81,7 +81,7 @@ export default function CourseTitle({
               </Text>
             </IconContainer>
             <IconContainer style={{ justifycontent: "flex-start" }}>
-              <Photo length={14} />
+              <Photo length={14} color="#777"/>
               <Text
                 style={{
                   fontSize: "12px",
