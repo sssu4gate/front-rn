@@ -9,6 +9,11 @@ import Schedule from "./Schedule";
 import Write from "./Write";
 import CourseAdd from "./CourseAdd";
 import TopBar from "../components/TopBar";
+import HomeIcon from "../assets/images/home";
+import Calendar from "../assets/images/Calendar";
+import Group from "../assets/images/group";
+import MyPage from "../assets/images/myPage";
+import Edit from "../assets/images/edit";
 
 /* 
  Navigation Theme Reference 
@@ -93,7 +98,6 @@ export default function Main() {
                 />
               );
             }
-
             // You can return any component that you like here!
           },
         })}

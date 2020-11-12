@@ -1,6 +1,6 @@
 import React from "react";
 
-function Icon({ length = 14 }) {
+function Icon({ length = 14 , color = "#FF6DA0"}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
