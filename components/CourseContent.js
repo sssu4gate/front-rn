@@ -2,6 +2,8 @@ import * as React from "react";
 import { View, Text, Button, TextInput, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import * as theme from "../assets/theme";
+import {useNavigation} from "@react-navigation/native";
+
 
 const Container = styled.View`
   flex: 1;
@@ -50,6 +52,7 @@ function Memo({text, isChecked, checkHandler}) {
 
 export default function CourseContent({ editMode, courses, memos, setCourses, setMemos}) {
   const [text, setText] = React.useState("");
+  const navigation = useNavigation();
 
   return (
     <Container>
@@ -59,7 +62,7 @@ export default function CourseContent({ editMode, courses, memos, setCourses, se
       </Content>
       <Content style={{ flexDirection: "column" }}>
         <View style={{ height:40 }}>
-          <AddButton>
+          <AddButton onPress={()=>{navigation.navigate("Home")}}>
             <Text
               style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
             >
