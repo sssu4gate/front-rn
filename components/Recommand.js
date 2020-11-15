@@ -86,7 +86,7 @@ function ImgList({ uri, text, like }) {
           width: "80%",
           height: "80%",
           alignSelf: "center",
-          borderRadius: "20px",
+          borderRadius: 20,
         }}
       />
       <View
@@ -102,7 +102,7 @@ function ImgList({ uri, text, like }) {
         <View
           style={{
             alignSelf: "center",
-            padding: "3px",
+            padding: 3,
             flexDirection: "row",
             alignItems: "center",
             flex: 0.2,
@@ -127,28 +127,28 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#000",
-    fontSize: "16px",
+    fontSize: 16,
     fontWeight: "bold",
     alignSelf: "center",
     textAlign: "center",
-    padding: "10px",
+    padding: 10,
     flex: 0.6,
   },
   title: {
     color: "#000",
-    fontSize: "24px",
+    fontSize: 24,
     fontWeight: "bold",
     alignSelf: "center",
-    padding: "10px",
+    padding: 10,
     flex: 0.6,
     textAlign: "center",
   },
   more: {
     color: "#b0b0b0",
-    fontSize: "12px",
+    fontSize: 12,
     fontWeight: "bold",
     textAlign: "center",
-    padding: "10px",
+    padding: 10,
     flex: 0.2,
   },
 });

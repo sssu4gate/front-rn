@@ -67,27 +67,30 @@ export default function CourseTitle({
             <Title>{title}</Title>
           </Row>
           <Row flex={4.5}>
-            <IconContainer style={{ justifycontent: "flex-start" }} onPress={setDate}>
+            <IconContainer
+              style={{ justifycontent: "flex-start" }}
+              onPress={setDate}
+            >
               <CalendarIcon length={14} color="#777" />
               <Text
                 style={{
-                  fontSize: "12px",
+                  fontSize: 12,
                   color: theme.SECOND_TEXT_COLOR,
                   fontWeight: "bold",
-                  marginLeft: "5px",
+                  marginLeft: 5,
                 }}
               >
                 {date ? date : "미정"}
               </Text>
             </IconContainer>
             <IconContainer style={{ justifycontent: "flex-start" }}>
-              <Photo length={14} color="#777"/>
+              <Photo length={14} color="#777" />
               <Text
                 style={{
-                  fontSize: "12px",
+                  fontSize: 12,
                   color: theme.SECOND_TEXT_COLOR,
                   fontWeight: "bold",
-                  marginLeft: "5px",
+                  marginLeft: 5,
                 }}
               >
                 사진 변경
@@ -96,7 +99,7 @@ export default function CourseTitle({
             <IconContainer
               style={{
                 justifyContent: "flex-end",
-                flex: "1",
+                flex: 1,
                 marginRight: "0",
               }}
             >
@@ -104,10 +107,10 @@ export default function CourseTitle({
                 {sharing ? <CheckFull /> : <Check />}
                 <Text
                   style={{
-                    fontSize: "12px",
+                    fontSize: 12,
                     color: sharing ? theme.PRIMARY_COLOR : "#777",
                     fontWeight: "bold",
-                    marginLeft: "5px",
+                    marginLeft: 5,
                   }}
                 >
                   공유
@@ -126,9 +129,9 @@ export default function CourseTitle({
               <Heart length={20} />
               <Text
                 style={{
-                  fontSize: "20px",
+                  fontSize: 20,
                   color: theme.PRIMARY_COLOR,
-                  marginLeft: "3px",
+                  marginLeft: 3,
                   fontWeight: "300",
                 }}
               >
@@ -142,8 +145,8 @@ export default function CourseTitle({
               <Text
                 style={{
                   color: theme.SECOND_TEXT_COLOR,
-                  fontSize: "12px",
-                  marginLeft: "8px",
+                  fontSize: 12,
+                  marginLeft: 8,
                 }}
               >
                 {user.name} 조회 {viewCount}
@@ -159,7 +162,7 @@ export default function CourseTitle({
               <Text
                 style={{
                   color: theme.SECOND_TEXT_COLOR,
-                  fontSize: "10px",
+                  fontSize: 10,
                 }}
               >
                 {date}

@@ -54,22 +54,20 @@ export default function CourseContent({ editMode, courses, memos, setCourses, se
   return (
     <Container>
       <Content>
-        <Text style={{ fontSize: "12px", color: "#AAAAAA" }}>코스</Text>
+        <Text style={{ fontSize: 12, color: "#AAAAAA" }}>코스</Text>
         <Line />
       </Content>
       <Content style={{ flexDirection: "column" }}>
         <View style={{ height:40 }}>
           <AddButton>
-            <Text
-              style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
-            >
+            <Text style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}>
               코스 추가
             </Text>
           </AddButton>
         </View>
       </Content>
       <Content>
-        <Text style={{ fontSize: "12px", color: "#AAAAAA" }}>메모</Text>
+        <Text style={{ fontSize: 12, color: "#AAAAAA" }}>메모</Text>
         <Line />
       </Content>
       <Content style={{ flexDirection: "column" }}>
@@ -83,18 +81,28 @@ export default function CourseContent({ editMode, courses, memos, setCourses, se
           onChangeText={setText}
           value={text}/>
         <Content style={{ padding: "0" }}>
+<<<<<<< HEAD
           <AddButton onPress={()=>{text!=''?setMemos([...memos, {text, type:'memo'}]):null;setText('')}}>
             <Text
               style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
             >
+=======
+          <AddButton>
+            <Text style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}>
+>>>>>>> HM
               메모 추가
             </Text>
           </AddButton>
           <Indicator />
+<<<<<<< HEAD
           <AddButton onPress={()=>{text!=''?setMemos([...memos, {text, type:'check', isChecked:false}]):null;setText('')}}>
             <Text
               style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
             >
+=======
+          <AddButton>
+            <Text style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}>
+>>>>>>> HM
               체크리스트 추가
             </Text>
           </AddButton>
