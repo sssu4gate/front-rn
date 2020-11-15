@@ -37,38 +37,32 @@ export default function CourseContent({ mode }) {
   return (
     <Container>
       <Content>
-        <Text style={{ fontSize: "12px", color: "#AAAAAA" }}>코스</Text>
+        <Text style={{ fontSize: 12, color: "#AAAAAA" }}>코스</Text>
         <Line />
       </Content>
       <Content style={{ flexDirection: "column" }}>
         <Content style={{ padding: "0" }}>
           <AddButton>
-            <Text
-              style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
-            >
+            <Text style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}>
               코스 추가
             </Text>
           </AddButton>
         </Content>
       </Content>
       <Content>
-        <Text style={{ fontSize: "12px", color: "#AAAAAA" }}>메모</Text>
+        <Text style={{ fontSize: 12, color: "#AAAAAA" }}>메모</Text>
         <Line />
       </Content>
       <Content style={{ flexDirection: "column" }}>
         <Content style={{ padding: "0" }}>
           <AddButton>
-            <Text
-              style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
-            >
+            <Text style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}>
               메모 추가
             </Text>
           </AddButton>
           <Indicator />
           <AddButton>
-            <Text
-              style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
-            >
+            <Text style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}>
               체크리스트 추가
             </Text>
           </AddButton>

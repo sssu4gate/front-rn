@@ -36,7 +36,7 @@ export default function Write() {
       <Search></Search>
       <CourseList>
         <ScrollView
-          style={{ color: "#f87996", fontSize: "14px" }}
+          style={{ color: "#f87996", fontSize: 14 }}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{

@@ -46,18 +46,18 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    padding: "10px",
+    padding: 10,
     alignItems: "center",
     alignSelf: "center",
   },
   baseText: {
     fontWeight: "bold",
-    fontSize: "24px",
+    fontSize: 24,
   },
   innerText: {
     color: "grey",
-    fontSize: "10px",
-    alignItems: "right",
+    fontSize: 10,
+    alignItems: "flex-end",
   },
   recommand: {
     height: "45%",

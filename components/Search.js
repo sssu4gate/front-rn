@@ -39,7 +39,7 @@ export default function Write() {
           flex: "1",
           color: "#777777",
           height: "100%",
-          fontSize: "20px",
+          fontSize: 20,
           weight: "bold",
         }}
       />
