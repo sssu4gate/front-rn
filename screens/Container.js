@@ -1,12 +1,9 @@
 import * as React from "react";
 import { Text, View, Image } from "react-native";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createStackNavigator } from "@react-navigation/stack";
 import * as theme from "../assets/theme";
-import Main from "./Main";
-import Menu from "./Menu";
-
-import CourseAdd from "./CourseAdd";
+import BottomTabNavigator from "./BottomTabNavigator";
 
 /* 
  Navigation Theme Reference 
@@ -22,18 +19,16 @@ const Theme = {
   },
 };
 
-const Drawer = createDrawerNavigator();
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <>
-      {/* Top Navigator */}
       <NavigationContainer theme={Theme}>
-        <Drawer.Navigator initialRouteName="Main">
-          <Drawer.Screen name="Main" component={Main} options={{headerShown:false}} />
-          <Drawer.Screen name="Menu" component={Menu} options={{headerShown:false}}/>
-        </Drawer.Navigator>
+        <Stack.Navigator initialRouteName="BottomTabNavigator">
+          <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} options={{title:'LoCo'}} />
+          {/* <Stack.Screen name="Kakao" component={Kakao} options={{headerShown:false}} /> */}
+        </Stack.Navigator>
       </NavigationContainer>
-    </>
   );
 }

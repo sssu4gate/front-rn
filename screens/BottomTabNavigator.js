@@ -1,32 +1,33 @@
 import * as React from "react";
 import { Text, View, Image } from "react-native";
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Community from "./Community";
 import Home from "./Home";
 import Myprofile from "./Myprofile";
 import Schedule from "./Schedule";
 import Write from "./Write";
-import CourseAdd from "./CourseAdd";
 import TopBar from "../components/TopBar";
 import HomeIcon from "../assets/images/home";
 import Calendar from "../assets/images/Calendar";
 import Group from "../assets/images/group";
 import MyPage from "../assets/images/myPage";
 import Edit from "../assets/images/edit";
+import * as theme from '../assets/theme';
 
 /* 
  Navigation Theme Reference 
  https://reactnavigation.org/docs/themes/
 */
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 export default function Main() {
   return (
-    <>
-      <TopBar />
       <Tab.Navigator
+        initialRouteName="Home"
+        activeColor={theme.PRIMARY_COLOR}
+        inactiveColor="#777"
+        barStyle={{ backgroundColor: '#fff' }}
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             if (route.name === "Home") {
@@ -98,13 +99,8 @@ export default function Main() {
                 />
               );
             }
-            // You can return any component that you like here!
           },
         })}
-        tabBarOptions={{
-          activeTintColor: "#FF6DA0",
-          inactiveTintColor: "blcak",
-        }}
       >
         <Tab.Screen
           name="Home"
@@ -132,6 +128,5 @@ export default function Main() {
           options={{ tabBarLabel: "내 정보" }}
         />
       </Tab.Navigator>
-    </>
   );
 }

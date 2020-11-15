@@ -30,7 +30,7 @@ function CourseItem({ imgURL, text, handler }) {
   );
 }
 
-export default function Write() {
+export default function AddCourse() {
   return (
     <Container>
       <Search></Search>

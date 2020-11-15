@@ -1,10 +1,20 @@
 import * as React from 'react';
-import { View, Text , Button} from 'react-native';
+import { createStackNavigator } from "@react-navigation/stack";
+import ProfileSummary from './ProfileSummary';
+
+const Stack = createStackNavigator();
 
 export default function Myprofile(){
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>Myprofile!</Text>
-        </View>
-      );
+      <Stack.Navigator
+        initialRouteName="ProfileSummary"
+        screenOptions={({ route, navigation }) => ({
+          headerShown: false,
+        })}
+        mode="modal"
+      >
+        <Stack.Screen name="ProfileSummary" component={ProfileSummary}/> 
+        {/*<Stack.Screen name="SetProfile" component={SetProfile}/> */}
+      </Stack.Navigator>
+    );
 }
