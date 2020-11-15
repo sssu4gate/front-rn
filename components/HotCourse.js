@@ -12,7 +12,6 @@ import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import HeartIcon from "../assets/images/Heart";
 import Indicator from "../assets/images/indicator";
-import Community from "../screens/Community";
 
 export default function HotCourse() {
   const navigation = useNavigation();

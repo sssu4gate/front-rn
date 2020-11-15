@@ -11,9 +11,9 @@ import {
 } from "react-native";
 import { NavigationContainer, useScrollToTop } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Recommand from "../components/Recommand";
-import Search from "../components/SearchInHome";
-import Hot5 from "../components/HotCourse";
+import Recommand from "../../components/Recommand";
+import Search from "../../components/SearchInHome";
+import Hot5 from "../../components/HotCourse";
 
 const ContainerCenter = styled.View`
   align-items: center;

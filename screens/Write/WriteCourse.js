@@ -1,12 +1,12 @@
 import * as React from "react";
 import {View, Text, Button, TouchableOpacity} from "react-native";
-import * as theme from "../assets/theme";
 import styled from "styled-components/native";
-import CourseContent from "../components/CourseContent";
-import CourseTitle from "../components/CourseTitle";
 import { Calendar, LocaleConfig } from "react-native-calendars";
-import LeftArrow from "../assets/images/LeftArrow";
-import RightArrow from "../assets/images/RightArrow";
+import * as theme from "../../assets/theme";
+import CourseContent from "../../components/CourseContent";
+import CourseTitle from "../../components/CourseTitle";
+import LeftArrow from "../../assets/images/LeftArrow";
+import RightArrow from "../../assets/images/RightArrow";
 
 LocaleConfig.locales["kr"] = {
   monthNames: [

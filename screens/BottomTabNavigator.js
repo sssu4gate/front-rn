@@ -1,12 +1,11 @@
 import * as React from "react";
 import { Text, View, Image } from "react-native";
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import Community from "./Community";
-import Home from "./Home";
-import Myprofile from "./Myprofile";
-import Schedule from "./Schedule";
-import Write from "./Write";
-import TopBar from "../components/TopBar";
+import Community from "./Community/Community";
+import Home from "./Home/Home";
+import MyProfile from "./MyProfile/MyProfile";
+import Schedule from "./Schedule/Schedule";
+import Write from "./Write/Write";
 import HomeIcon from "../assets/images/home";
 import Calendar from "../assets/images/Calendar";
 import Group from "../assets/images/group";
@@ -84,13 +83,13 @@ export default function Main() {
                   }}
                 />
               );
-            } else if (route.name === "Myprofile") {
+            } else if (route.name === "MyProfile") {
               return (
                 <Image
                   source={
                     focused
-                      ? require("../assets/Myprofile(p).png")
-                      : require("../assets/Myprofile.png")
+                      ? require("../assets/MyProfile(p).png")
+                      : require("../assets/MyProfile.png")
                   }
                   style={{
                     width: 20,
@@ -123,8 +122,8 @@ export default function Main() {
           options={{ tabBarLabel: "일정" }}
         />
         <Tab.Screen
-          name="Myprofile"
-          component={Myprofile}
+          name="MyProfile"
+          component={MyProfile}
           options={{ tabBarLabel: "내 정보" }}
         />
       </Tab.Navigator>

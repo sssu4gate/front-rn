@@ -2,7 +2,7 @@ import * as React from "react";
 import { Text, ScrollView, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import styled from "styled-components/native";
-import Search from "../components/Search";
+import Search from "../../components/Search";
 
 const Container = styled.View`
   padding-top: 50px;

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import HeartIcon from "../assets/images/Heart";
+import HeartIcon from "../../assets/images/Heart";
 
 const Tab = createMaterialTopTabNavigator();
 
