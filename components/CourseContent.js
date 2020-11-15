@@ -81,28 +81,18 @@ export default function CourseContent({ editMode, courses, memos, setCourses, se
           onChangeText={setText}
           value={text}/>
         <Content style={{ padding: "0" }}>
-<<<<<<< HEAD
           <AddButton onPress={()=>{text!=''?setMemos([...memos, {text, type:'memo'}]):null;setText('')}}>
             <Text
-              style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
+              style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
             >
-=======
-          <AddButton>
-            <Text style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}>
->>>>>>> HM
               메모 추가
             </Text>
           </AddButton>
           <Indicator />
-<<<<<<< HEAD
           <AddButton onPress={()=>{text!=''?setMemos([...memos, {text, type:'check', isChecked:false}]):null;setText('')}}>
             <Text
-              style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
+              style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
             >
-=======
-          <AddButton>
-            <Text style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}>
->>>>>>> HM
               체크리스트 추가
             </Text>
           </AddButton>
