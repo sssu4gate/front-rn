@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
     color: "#777777",
     padding: 3,
     flex: 0.15,
-    textAlign: "flex-start",
+    textAlign: "left",
   },
   infoText2: {
     fontSize: 10,
