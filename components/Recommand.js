@@ -10,21 +10,13 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Swiper from "react-native-swiper";
 import HeartIcon from "../assets/images/Heart";
 
 export default function Recommand() {
   const navigation = useNavigation();
-  var imgList = [
-    "https://reactnative.dev/img/tiny_logo.png",
-    "https://image.bugsm.co.kr/artist/images/1000/800491/80049126.jpg",
-    "https://img7.yna.co.kr/etc/inner/KR/2020/01/03/AKR20200103136600005_01_i_P2.jpg",
-    "https://post-phinf.pstatic.net/MjAxOTEyMDRfOSAg/MDAxNTc1NDI1MTg2MDE2.b1S1g-yhSiy6hxFJOoMsO7-PlMTc2iWAdznJ2xZwTxQg.3kTCo5pOPX6G3wtYR1AAYeGetDTkOXO2xTCM0SU4bNcg.JPEG/253-%EC%95%84%EC%9D%B4%EC%9C%A04.jpg?type=w1200",
-  ];
   var imgList2 = [
     {
-      uri:
-        "https://img7.yna.co.kr/etc/inner/KR/2020/01/03/AKR20200103136600005_01_i_P2.jpg",
+      uri: "",
       text: "도심속 한적한 아이유",
       like: 11,
     },
@@ -57,22 +49,16 @@ export default function Recommand() {
         </TouchableOpacity>
       </View>
 
-      <Swiper
-        style={styles.wrapper}
-        showsButtons={false}
-        showsPagination={false}
-      >
-        {imgList2.map((imgList2) => {
+      {/*imgList.map((imgList) => {
           return (
             <ImgList
               key={id++}
-              uri={imgList2.uri}
-              text={imgList2.text}
-              like={imgList2.like}
+              uri={imgList.uri}
+              text={imgList.text}
+              like={imgList.like}
             />
           );
-        })}
-      </Swiper>
+        })*/}
     </>
   );
 }
