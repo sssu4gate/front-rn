@@ -1,17 +1,13 @@
-import types from "../actions/types";
+import * as api from "../api/api.js";
 
-const defaultState = {
-  courses: [],
+export const types = {
+  COURSE_SEARCH_REQUEST: "COURSE_SEARCH_REQUEST",
+  COURSE_SEARCH_SUCCESS: "COURSE_SEARCH_SUCCESS",
+  COURSE_SEARCH_ERROR: "COURSE_SEARCH_ERROR",
+  COURSE_ADD_REQUEST: "COURSE_ADD_REQUEST",
+  COURSE_ADD_SUCCESS: "COURSE_ADD_SUCCESS",
+  COURSE_ADD_ERROR: "COURSE_ADD_ERROR",
+  COURSE_INIT : "COURSE_INIT"
 };
 
-export default (state = defaultState, action) => {
-  switch (action.type) {
-    case types.COURSE_ADD:
-      return {
-        // ...state,
-        courses: action.course + state.courses,
-      };
-    default:
-      return state;
-  }
-};
+// reducer, create action 구현해야함

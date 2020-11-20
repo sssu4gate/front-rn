@@ -1,11 +1,12 @@
 import * as React from "react";
 import { Text, ScrollView, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
+import {connect} from "react-redux";
 import styled from "styled-components/native";
 import Search from "../../components/Search";
+import {fetchLocation, initLocation} from "../../reducers/locationReducer";
 
 const Container = styled.View`
-  padding-top: 50px;
   flex: 1;
   justify-content: center;
   align-items: center;
@@ -30,7 +31,11 @@ function CourseItem({ imgURL, text, handler }) {
   );
 }
 
-export default function AddCourse() {
+function AddCourse({locationList, error, loading, fetchLocation, initLocation}) {
+  React.useEffect(()=>{
+    fetchLocation("keyword");
+  }, []); 
+  console.log(locationList, error, loading);
   return (
     <Container>
       <Search></Search>
@@ -50,3 +55,8 @@ export default function AddCourse() {
     </Container>
   );
 }
+
+export default connect(
+  state=>({locationList: state.location.locationList, error:state.location.error, loading:state.location.loading}),
+  {fetchLocation, initLocation}
+)(AddCourse);

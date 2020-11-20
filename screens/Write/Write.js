@@ -1,6 +1,7 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import WriteCourse from "./WriteCourse";
+import AddCourse from "./AddCourse";
 
 const Stack = createStackNavigator();
 
@@ -14,7 +15,7 @@ export default function Write({ navigation, route }) {
       mode="modal"
     >
       <Stack.Screen name="InitialWrite" component={WriteCourse}/> 
-      {/*<Stack.Screen name="AddCourse" component={AddCourse}/> */}
+      <Stack.Screen name="AddCourse" component={AddCourse}/>
     </Stack.Navigator>
   );
 }

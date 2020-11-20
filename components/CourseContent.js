@@ -4,7 +4,6 @@ import styled from "styled-components/native";
 import * as theme from "../assets/theme";
 import {useNavigation} from "@react-navigation/native";
 
-
 const Container = styled.View`
   flex: 1;
   width: 100vw;
@@ -62,7 +61,7 @@ export default function CourseContent({ editMode, courses, memos, setCourses, se
       </Content>
       <Content style={{ flexDirection: "column" }}>
         <View style={{ height:40 }}>
-          <AddButton onPress={()=>{navigation.navigate("Home")}}>
+          <AddButton onPress={()=>{navigation.navigate("AddCourse")}}>
             <Text
               style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
             >
