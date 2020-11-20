@@ -12,7 +12,6 @@ import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import HeartIcon from "../assets/images/Heart";
 import Indicator from "../assets/images/indicator";
-import Community from "../screens/Community";
 
 export default function HotCourse() {
   const navigation = useNavigation();
@@ -125,32 +124,32 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#000",
-    fontSize: "24px",
+    fontSize: 24,
     fontWeight: "bold",
     alignSelf: "center",
-    padding: "10px",
+    padding: 10,
     flex: 0.6,
     textAlign: "center",
   },
   more: {
     color: "#b0b0b0",
-    fontSize: "12px",
+    fontSize: 12,
     fontWeight: "bold",
     textAlign: "center",
-    padding: "10px",
+    padding: 10,
     flex: 0.2,
   },
   text: {
     color: "#000",
-    fontSize: "20px",
+    fontSize: 20,
     alignSelf: "flex-start",
-    padding: "10px",
+    padding: 10,
   },
   hot5Title: {
     color: "#000",
-    fontSize: "14px",
+    fontSize: 14,
     alignSelf: "flex-start",
     textAlign: "center",
-    padding: "10px",
+    padding: 10,
   },
 });

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { View, Text , Button} from 'react-native';
 
-export default function Myprofile(){
+export default function Schedule(){
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>Myprofile!</Text>
+          <Text>Schedule!</Text>
         </View>
       );
 }

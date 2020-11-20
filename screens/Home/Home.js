@@ -11,9 +11,9 @@ import {
 } from "react-native";
 import { NavigationContainer, useScrollToTop } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Recommand from "../components/Recommand";
-import Search from "../components/SearchInHome";
-import Hot5 from "../components/HotCourse";
+import Recommand from "../../components/Recommand";
+import Search from "../../components/SearchInHome";
+import Hot5 from "../../components/HotCourse";
 
 const ContainerCenter = styled.View`
   align-items: center;
@@ -46,18 +46,18 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    padding: "10px",
+    padding: 10,
     alignItems: "center",
     alignSelf: "center",
   },
   baseText: {
     fontWeight: "bold",
-    fontSize: "24px",
+    fontSize: 24,
   },
   innerText: {
     color: "grey",
-    fontSize: "10px",
-    alignItems: "right",
+    fontSize: 10,
+    alignItems: "flex-end",
   },
   recommand: {
     height: "45%",

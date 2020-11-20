@@ -8,7 +8,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import HeartIcon from "../assets/images/Heart";
+import HeartIcon from "../../assets/images/Heart";
+
+const Tab = createMaterialTopTabNavigator();
 
 function Post({ title, course, text, writer, profile, like, time, view }) {
   return (
@@ -215,9 +217,7 @@ function Loco() {
   );
 }
 
-const Tab = createMaterialTopTabNavigator();
-
-export default function Community({ navigation, route }) {
+export default function CourseList({navigation, route}){
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
     color: "#777777",
     padding: 3,
     flex: 0.15,
-    textAlign: "flex-start",
+    textAlign: "left",
   },
   infoText2: {
     fontSize: 10,

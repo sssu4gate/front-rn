@@ -2,7 +2,7 @@ import * as React from "react";
 import { Text, ScrollView, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import styled from "styled-components/native";
-import Search from "../components/Search";
+import Search from "../../components/Search";
 
 const Container = styled.View`
   padding-top: 50px;
@@ -30,13 +30,13 @@ function CourseItem({ imgURL, text, handler }) {
   );
 }
 
-export default function Write() {
+export default function AddCourse() {
   return (
     <Container>
       <Search></Search>
       <CourseList>
         <ScrollView
-          style={{ color: "#f87996", fontSize: "14px" }}
+          style={{ color: "#f87996", fontSize: 14 }}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{

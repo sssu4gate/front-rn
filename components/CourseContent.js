@@ -57,7 +57,7 @@ export default function CourseContent({ editMode, courses, memos, setCourses, se
   return (
     <Container>
       <Content>
-        <Text style={{ fontSize: "12px", color: "#AAAAAA" }}>코스</Text>
+        <Text style={{ fontSize: 12, color: "#AAAAAA" }}>코스</Text>
         <Line />
       </Content>
       <Content style={{ flexDirection: "column" }}>
@@ -72,7 +72,7 @@ export default function CourseContent({ editMode, courses, memos, setCourses, se
         </View>
       </Content>
       <Content>
-        <Text style={{ fontSize: "12px", color: "#AAAAAA" }}>메모</Text>
+        <Text style={{ fontSize: 12, color: "#AAAAAA" }}>메모</Text>
         <Line />
       </Content>
       <Content style={{ flexDirection: "column" }}>
@@ -88,7 +88,7 @@ export default function CourseContent({ editMode, courses, memos, setCourses, se
         <Content style={{ padding: "0" }}>
           <AddButton onPress={()=>{text!=''?setMemos([...memos, {text, type:'memo'}]):null;setText('')}}>
             <Text
-              style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
+              style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
             >
               메모 추가
             </Text>
@@ -96,7 +96,7 @@ export default function CourseContent({ editMode, courses, memos, setCourses, se
           <Indicator />
           <AddButton onPress={()=>{text!=''?setMemos([...memos, {text, type:'check', isChecked:false}]):null;setText('')}}>
             <Text
-              style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
+              style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
             >
               체크리스트 추가
             </Text>
