@@ -5,7 +5,9 @@ export const types = {
   LOCATION_SEARCH_REQUEST: "LOCATION_SEARCH_REQUEST",
   LOCATION_SEARCH_SUCCESS: "LOCATION_SEARCH_SUCCESS",
   LOCATION_SEARCH_ERROR: "LOCATION_SEARCH_ERROR",
-  LOCATION_INIT : "LOCATION_INIT"
+  LOCATION_INIT : "LOCATION_INIT",
+  LOCATION_LOAD : "LOCATION_LOAD",
+  LOCATION_SELECT : "LOCATION_SELECT"
 };
 
 export function fetchLocation(keyword){
@@ -25,10 +27,10 @@ export function searchLocationRequest() {
   }
 }
 
-export function searchLocationSuccess(locationList) {
+export function searchLocationSuccess(locations) {
   return {
     type: types.LOCATION_SEARCH_SUCCESS,
-    locationList
+    locations
   }
 }
 
@@ -45,8 +47,22 @@ export function initLocation() {
   }
 }
 
+export function loadSelectedLocation() {
+  return {
+    type: types.LOCATION_LOAD
+  }
+}
+
+export function selectLocation(selectedLocations) {
+  return {
+    type: types.LOCATION_SELECT,
+    selectedLocations
+  }
+}
+
 const defaultState = {
-  locationList: [],
+  locations: [],
+  selectedLocations:[],
   loading: false,
   error: null
 };
@@ -55,7 +71,7 @@ export default (state = defaultState, action) => {
   switch (action.type) {
     case types.LOCATION_INIT:
       return {
-        locationList:[] 
+        locations:[] 
       }
     case types.LOCATION_SEARCH_REQUEST:
       return {
@@ -66,7 +82,7 @@ export default (state = defaultState, action) => {
     case types.LOCATION_SEARCH_SUCCESS:
       return {
         ...state,
-        locationList: action.locationList,
+        locations: action.locations,
         loading:false,
         error:null
       }
@@ -75,6 +91,15 @@ export default (state = defaultState, action) => {
         ...state,
         loading:false,
         error:action.error
+      }
+    case types.LOCATION_LOAD:
+      return {
+        ...state,
+      }
+    case types.LOCATION_SELECT:
+      return {
+        ...state,
+        selectedLocations:action.selectedLocations
       }
     default:
       return state;

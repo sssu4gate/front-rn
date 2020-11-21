@@ -3,7 +3,7 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 
-import {View, Text, Button, TouchableOpacity} from "react-native";
+import {View, Text, Button, TouchableOpacity, ScrollView} from "react-native";
 import styled from "styled-components/native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import * as theme from "../../assets/theme";
@@ -112,67 +112,69 @@ export default function Write({
 
   return (
     <Container>
-      <CourseTitle
-        editMode={editMode}
-        toggleSharing={toggleSharing}
-        setTitle={setTitle}
-        setDate={()=>{setCalendarVisible(true)}}
-        date={date}
-        setBackgroundImg={setBackgroundImg}
-        {...courseData}
-      />
-      <CourseContent
-        editMode={editMode}
-        setCourses={setCourses}
-        setMemos={setMemos}
-        submitCourseData={submitCourseData}
-        {...courseData}
-      />
-      {editMode ? (
-        <CalendarContainer display={calendarVisible}>
-          <Calendar
-            markedDates={
-              date
-            }
-            theme={{
-              todayTextColor: theme.PRIMARY_COLOR,
-              selectedDayBackgroundColor: theme.PRIMARY_COLOR,
-            }}
-            onDayPress={(day) => {
-              setDate(day.dateString)
-            }}
-            monthFormat={"yyyy년 MMM"}
-            renderArrow={(direction) => {
-              return (
-                <Arrow>
-                  {direction == "left" ? <LeftArrow /> : <RightArrow />}
-                </Arrow>
-              );
-            }}
-          />
-          <View style={{flexDirection:"row"}}>
-            <TouchableOpacity 
-              style={{
-                flex:1, 
-                padding:'8px',
-                textAlign:'center'
-              }} 
-              onPress={()=>{setCalendarVisible(false);setDate(null);}}>
-              <Text style={{color:theme.PRIMARY_COLOR, fontSize:"16px"}}>초기화</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={{
-                flex:1, 
-                backgroundColor:theme.PRIMARY_COLOR,
-                padding:'8px',
-                textAlign:'center'
-              }} 
-              onPress={()=>setCalendarVisible(false)}>
-              <Text style={{color:"white", fontSize:'16px'}}>확인</Text>
-            </TouchableOpacity>
-          </View>
-        </CalendarContainer>
-      ) : null}
+      <ScrollView>
+        <CourseTitle
+          editMode={editMode}
+          toggleSharing={toggleSharing}
+          setTitle={setTitle}
+          setDate={()=>{setCalendarVisible(true)}}
+          date={date}
+          setBackgroundImg={setBackgroundImg}
+          {...courseData}
+        />
+        <CourseContent
+          editMode={editMode}
+          setCourses={setCourses}
+          setMemos={setMemos}
+          submitCourseData={submitCourseData}
+          {...courseData}
+        />
+        {editMode ? (
+          <CalendarContainer display={calendarVisible}>
+            <Calendar
+              markedDates={
+                date
+              }
+              theme={{
+                todayTextColor: theme.PRIMARY_COLOR,
+                selectedDayBackgroundColor: theme.PRIMARY_COLOR,
+              }}
+              onDayPress={(day) => {
+                setDate(day.dateString)
+              }}
+              monthFormat={"yyyy년 MMM"}
+              renderArrow={(direction) => {
+                return (
+                  <Arrow>
+                    {direction == "left" ? <LeftArrow /> : <RightArrow />}
+                  </Arrow>
+                );
+              }}
+            />
+            <View style={{flexDirection:"row"}}>
+              <TouchableOpacity 
+                style={{
+                  flex:1, 
+                  padding:'8px',
+                  textAlign:'center'
+                }} 
+                onPress={()=>{setCalendarVisible(false);setDate(null);}}>
+                <Text style={{color:theme.PRIMARY_COLOR, fontSize:"16px"}}>초기화</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={{
+                  flex:1, 
+                  backgroundColor:theme.PRIMARY_COLOR,
+                  padding:'8px',
+                  textAlign:'center'
+                }} 
+                onPress={()=>setCalendarVisible(false)}>
+                <Text style={{color:"white", fontSize:'16px'}}>확인</Text>
+              </TouchableOpacity>
+            </View>
+          </CalendarContainer>
+        ) : null}
+      </ScrollView>
     </Container>
   );
 }

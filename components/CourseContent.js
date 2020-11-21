@@ -1,8 +1,11 @@
 import * as React from "react";
-import { View, Text, Button, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, Button, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import * as theme from "../assets/theme";
 import {useNavigation} from "@react-navigation/native";
+import {connect} from "react-redux";
+import {loadSelectedLocation, selectLocation} from "../reducers/locationReducer";
 
 const Container = styled.View`
   flex: 1;
@@ -30,26 +33,37 @@ const AddButton = styled.TouchableOpacity`
   border-radius: 10px;
   box-shadow: 1px 1px 5px #00000040;
 `;
-const Indicator = styled.View`
-  width: 20px;
-  height: 100%;
-`;
+
+function LocationItem({title, index, price, type}){
+  return (
+    <TouchableOpacity style={{flexDirection:"row", marginBottom:20, boxShadow:"1px 1px 5px #00000040", height:40, borderRadius:10, padding:8, alignItems:"center"}}>
+      <Text style={{borderRadius:"50%", width:20, height:20, color:"#ffffff", backgroundColor:theme.PRIMARY_COLOR, textAlign:"center"}}>{index + 1}</Text>
+      <View style={{width:1, height:25, backgroundColor:"#e3e3e3", marginLeft:7, marginRight:7}}/>
+      {/*<Image />*/}
+      <Text style={{color:"#3c3c3c", flex:1}}>{title}</Text>
+      <Text style={{borderRadius:4, paddingLeft:5, paddingRight:5, paddingTop:2, paddingBottom:2, backgroundColor:"#e5e5e5", color:"#3c3c3c"}}>₩ {price}</Text>
+    </TouchableOpacity>
+  );
+}
 
 
 function Memo({text, isChecked, checkHandler}) {
   return (
-    <View style={{flexDirection:'row', padding:12, boxShadow:"1px 1px 5px #00000040", borderRadius:10, marginBottom:15}}>
+    <View style={{flexDirection:'row', padding:12, boxShadow:"1px 1px 5px #00000040", borderRadius:10, alignItems:'center', marginBottom:15}}>
       {isChecked!==undefined?(
-        <TouchableOpacity style={{height:20, width:20, borderWidth:1, borderColor:'red' }}>
-          {/* SVG check */}
-        </TouchableOpacity>
+        <>
+          <TouchableOpacity style={{height:16, width:16, borderWidth:1, borderColor:theme.PRIMARY_COLOR, borderRadius:"25%" }}>
+            {/* SVG check */}
+          </TouchableOpacity>
+          <View style={{width:1, height:20, backgroundColor:"#e3e3e3", marginLeft:7, marginRight:7}}/>
+        </>
       ):null}
-      <Text style={{flex:1}}>{text}</Text>
+      <Text style={{flex:1, color:"#3c3c3c"}}>{text}</Text>
     </View>
   )
 }
 
-export default function CourseContent({ editMode, courses, memos, setCourses, setMemos}) {
+function CourseContent({ editMode, memos, setMemos, selectLocation, loadSelectedLocation, selectedLocations}) {
   const [text, setText] = React.useState("");
   const navigation = useNavigation();
 
@@ -60,6 +74,15 @@ export default function CourseContent({ editMode, courses, memos, setCourses, se
         <Line />
       </Content>
       <Content style={{ flexDirection: "column" }}>
+        <FlatList 
+          style={{width:"100%", overflow:"visible"}}
+          data={selectedLocations}
+          renderItem={
+            ({item, index})=>{
+              return <LocationItem price={0} title={item.title} index={index}/>;
+            }
+          }
+        />
         <View style={{ height:40 }}>
           <AddButton onPress={()=>{navigation.navigate("AddCourse")}}>
             <Text
@@ -74,10 +97,18 @@ export default function CourseContent({ editMode, courses, memos, setCourses, se
         <Text style={{ fontSize: 12, color: "#AAAAAA" }}>메모</Text>
         <Line />
       </Content>
+      <Content style={{paddingBottom:0}}>
+        <FlatList 
+          style={{width:"100%", overflow:"visible"}}
+          data={memos}
+          renderItem={
+            ({item, index})=>{
+              return <Memo {...item}/>;
+            }
+          }
+        />
+      </Content>
       <Content style={{ flexDirection: "column" }}>
-        {
-          memos.map(memo=><Memo {...memo} />)
-        }
         <TextInput 
           style={{height: 100, borderColor: "#e3e3e3" , borderWidth: 0.1, borderRadius:10, flex:1, padding:5, marginBottom:15 }}
           multiline
@@ -92,7 +123,7 @@ export default function CourseContent({ editMode, courses, memos, setCourses, se
               메모 추가
             </Text>
           </AddButton>
-          <Indicator />
+          <View style={{width:20, height:"100%"}} />
           <AddButton onPress={()=>{text!=''?setMemos([...memos, {text, type:'check', isChecked:false}]):null;setText('')}}>
             <Text
               style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
@@ -105,3 +136,10 @@ export default function CourseContent({ editMode, courses, memos, setCourses, se
     </Container>
   );
 }
+
+export default connect(
+  state=>({
+    selectedLocations: state.location.selectedLocations
+  }),
+  {loadSelectedLocation, selectLocation}
+)(CourseContent);
