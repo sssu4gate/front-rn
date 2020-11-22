@@ -1,4 +1,4 @@
-export const searchLocation=async (keyword)=>{
+export const searchPlace=async (keyword)=>{
   const dummyData=[
     {idx:1, title: "어린이대공원", type:1}, 
     {idx:2, title: "어메이징 브루잉 컴퍼니 건대점", type:0}, 

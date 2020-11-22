@@ -8,6 +8,9 @@ import Photo from "../assets/images/Photo";
 import Check from "../assets/images/Check";
 import CheckFull from "../assets/images/CheckFull";
 
+import {connect} from "react-redux";
+import {setCourse} from "../reducers/courseReducer";
+
 const Container = styled.View`
   height: 100px;
   width: 100vw;
@@ -46,30 +49,23 @@ const Profile = styled.Image`
   height: 28px;
 `;
 
-export default function CourseTitle({
+function CourseTitle({
   editMode,
-  title,
-  user,
-  heartCount,
-  viewCount,
-  date,
-  setDate,
-  backgroundImg,
-  sharing,
-  toggleSharing,
-  setBackgroundImg,
+  course,
+  setCourse,
+  setCalendarVisible,
 }) {
   return (
     <Container>
       {editMode ? (
         <>
           <Row flex={5.5} paddingTop="14px">
-            <Title>{title}</Title>
+            <Title>{course.courseName}</Title>
           </Row>
           <Row flex={4.5}>
             <IconContainer
               style={{ justifycontent: "flex-start" }}
-              onPress={setDate}
+              onPress={()=>setCalendarVisible(true)}
             >
               <CalendarIcon length={14} color="#777" />
               <Text
@@ -80,7 +76,7 @@ export default function CourseTitle({
                   marginLeft: 5,
                 }}
               >
-                {date ? date : "미정"}
+                {course.date ? course.date : "미정"}
               </Text>
             </IconContainer>
             <IconContainer style={{ justifycontent: "flex-start" }}>
@@ -96,33 +92,12 @@ export default function CourseTitle({
                 사진 변경
               </Text>
             </IconContainer>
-            <IconContainer
-              style={{
-                justifyContent: "flex-end",
-                flex: 1,
-                marginRight: "0",
-              }}
-            >
-              <View style={{ flexDirection: "row" }} onClick={toggleSharing}>
-                {sharing ? <CheckFull /> : <Check />}
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color: sharing ? theme.PRIMARY_COLOR : "#777",
-                    fontWeight: "bold",
-                    marginLeft: 5,
-                  }}
-                >
-                  공유
-                </Text>
-              </View>
-            </IconContainer>
           </Row>
         </>
       ) : (
         <>
           <Row flex={5.5} paddingTop="14px">
-            <Title>{title}</Title>
+            <Title>{course.courseName}</Title>
             <IconContainer
               style={{ justifyContent: "flex-end", alignItems: "flex-end" }}
             >
@@ -135,13 +110,13 @@ export default function CourseTitle({
                   fontWeight: "300",
                 }}
               >
-                {heartCount}
+                {course.heartCount}
               </Text>
             </IconContainer>
           </Row>
           <Row flex={4.5}>
             <IconContainer style={{ flex: 8 }}>
-              <Profile source={{ uri: user.img }} />
+              <Profile source={{ uri: course.user.img }} />
               <Text
                 style={{
                   color: theme.SECOND_TEXT_COLOR,
@@ -149,7 +124,7 @@ export default function CourseTitle({
                   marginLeft: 8,
                 }}
               >
-                {user.name} 조회 {viewCount}
+                {course.user.name} 조회 {course.viewCount}
               </Text>
             </IconContainer>
             <IconContainer
@@ -165,7 +140,7 @@ export default function CourseTitle({
                   fontSize: 10,
                 }}
               >
-                {date}
+                {course.date}
               </Text>
             </IconContainer>
           </Row>
@@ -174,3 +149,9 @@ export default function CourseTitle({
     </Container>
   );
 }
+export default connect(
+  state=>({
+    course: state.course.course,
+  }),
+  {setCourse}
+)(CourseTitle)

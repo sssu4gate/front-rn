@@ -4,7 +4,7 @@ import { FlatList } from "react-native-gesture-handler";
 import {connect} from "react-redux";
 import styled from "styled-components/native";
 import Search from "../../components/Search";
-import {fetchLocation, initLocation, selectLocation} from "../../reducers/locationReducer";
+import {fetchPlace, initPlace, selectPlace} from "../../reducers/placeReducer";
 import * as theme from "../../assets/theme";
 
 const Container = styled.View`
@@ -24,21 +24,19 @@ function CourseItem({ imgURL, text, handler }) {
   );
 }
 
-function AddCourse({locations, error, loading, fetchLocation, initLocation, selectLocation, selectedLocations}) {
-  // route: {params: defaultSelectedLocationList}
-  // [] 대신 route로 WriteCourse에서 넘겨준 defaultSelectedLocationList 변경
+function AddCourse({places, error, loading, fetchPlace, initPlace, selectPlace, selectedPlaces}) {
   // loading true 일경우 로딩중 표시
-  
   React.useEffect(()=>{
     // 추천 코스
-    fetchLocation("keyword");
+    // 검색시 키워드 검색
+    fetchPlace("keyword");
   }, []); 
   return (
     <Container>
       <Search ></Search>
       <FlatList 
         style={{width:"100%", height:50, backgroundColor:"#f5f5f5", padding:15}}
-        data={selectedLocations}
+        data={selectedPlaces}
         renderItem={
           ({item, index})=>{
             return (
@@ -46,9 +44,9 @@ function AddCourse({locations, error, loading, fetchLocation, initLocation, sele
                   key={item.index} 
                   style={{height:20, flexDirection:"row", marginRight:15}}
                   onPress={()=>{
-                    const idx = selectedLocations.findIndex(e=>e.idx==item.idx);
+                    const idx = selectedPlaces.findIndex(e=>e.idx==item.idx);
                     if(idx != -1) {
-                      selectLocation([...selectedLocations.slice(0, idx), ...selectedLocations.slice(idx+1, selectedLocations.length)])
+                      selectPlace([...selectedPlaces.slice(0, idx), ...selectedPlaces.slice(idx+1, selectedPlaces.length)])
                     }
                   }}
                 >
@@ -70,14 +68,14 @@ function AddCourse({locations, error, loading, fetchLocation, initLocation, sele
           )
         }
         style={{width:"100%"}}
-        data={locations}
+        data={places}
         renderItem={
           ({item, index})=>{
             return (
               <TouchableOpacity key={item.index} style={{height:60,paddingRight:20, paddingLeft:20, paddingTop:15, paddingBottom:15, flexDirection:"row"}}
                 onPress={()=>{
-                  if(selectedLocations.findIndex(e=>e.idx==item.idx)==-1) {
-                    selectLocation(selectedLocations.concat(item))
+                  if(selectedPlaces.findIndex(e=>e.idx==item.idx)==-1) {
+                    selectPlace(selectedPlaces.concat(item))
                   }
                 }}
               >
@@ -94,10 +92,10 @@ function AddCourse({locations, error, loading, fetchLocation, initLocation, sele
 
 export default connect(
   state=>({
-    locations: state.location.locations, 
-    error:state.location.error, 
-    loading:state.location.loading,
-    selectedLocations: state.location.selectedLocations
+    places: state.place.places, 
+    error:state.place.error, 
+    loading:state.place.loading,
+    selectedPlaces: state.place.selectedPlaces
   }),
-  {fetchLocation, initLocation, selectLocation}
+  {fetchPlace, initPlace, selectPlace}
 )(AddCourse);

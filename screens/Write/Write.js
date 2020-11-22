@@ -14,7 +14,7 @@ export default function Write({ navigation, route }) {
       })}
       mode="modal"
     >
-      <Stack.Screen name="InitialWrite" component={WriteCourse}/> 
+      <Stack.Screen name="InitialWrite" component={WriteCourse} initialParams={{editMode:true}}/> 
       <Stack.Screen name="AddCourse" component={AddCourse}/>
     </Stack.Navigator>
   );

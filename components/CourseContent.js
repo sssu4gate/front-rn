@@ -5,7 +5,8 @@ import styled from "styled-components/native";
 import * as theme from "../assets/theme";
 import {useNavigation} from "@react-navigation/native";
 import {connect} from "react-redux";
-import {loadSelectedLocation, selectLocation} from "../reducers/locationReducer";
+import {loadSelectedPlace, selectPlace} from "../reducers/placeReducer";
+import {setCourse} from "../reducers/courseReducer";
 
 const Container = styled.View`
   flex: 1;
@@ -34,7 +35,7 @@ const AddButton = styled.TouchableOpacity`
   box-shadow: 1px 1px 5px #00000040;
 `;
 
-function LocationItem({title, index, price, type}){
+function PlaceItem({title, index, price, type}){
   return (
     <TouchableOpacity style={{flexDirection:"row", marginBottom:20, boxShadow:"1px 1px 5px #00000040", height:40, borderRadius:10, padding:8, alignItems:"center"}}>
       <Text style={{borderRadius:"50%", width:20, height:20, color:"#ffffff", backgroundColor:theme.PRIMARY_COLOR, textAlign:"center"}}>{index + 1}</Text>
@@ -63,7 +64,7 @@ function Memo({text, isChecked, checkHandler}) {
   )
 }
 
-function CourseContent({ editMode, memos, setMemos, selectLocation, loadSelectedLocation, selectedLocations}) {
+function CourseContent({ editMode, course, setCourse, selectPlace, loadSelectedPlace, selectedPlaces}) {
   const [text, setText] = React.useState("");
   const navigation = useNavigation();
 
@@ -76,10 +77,10 @@ function CourseContent({ editMode, memos, setMemos, selectLocation, loadSelected
       <Content style={{ flexDirection: "column" }}>
         <FlatList 
           style={{width:"100%", overflow:"visible"}}
-          data={selectedLocations}
+          data={selectedPlaces}
           renderItem={
             ({item, index})=>{
-              return <LocationItem price={0} title={item.title} index={index}/>;
+              return <PlaceItem price={0} title={item.title} index={index}/>;
             }
           }
         />
@@ -100,7 +101,7 @@ function CourseContent({ editMode, memos, setMemos, selectLocation, loadSelected
       <Content style={{paddingBottom:0}}>
         <FlatList 
           style={{width:"100%", overflow:"visible"}}
-          data={memos}
+          data={course.memos}
           renderItem={
             ({item, index})=>{
               return <Memo {...item}/>;
@@ -116,7 +117,7 @@ function CourseContent({ editMode, memos, setMemos, selectLocation, loadSelected
           onChangeText={setText}
           value={text}/>
         <Content style={{ padding: "0" }}>
-          <AddButton onPress={()=>{text!=''?setMemos([...memos, {text, type:'memo'}]):null;setText('')}}>
+          <AddButton onPress={()=>{text!=''?setCourse({...course, memos:[...memos, {text, type:'memo'}]}):null;setText('')}}>
             <Text
               style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
             >
@@ -124,7 +125,7 @@ function CourseContent({ editMode, memos, setMemos, selectLocation, loadSelected
             </Text>
           </AddButton>
           <View style={{width:20, height:"100%"}} />
-          <AddButton onPress={()=>{text!=''?setMemos([...memos, {text, type:'check', isChecked:false}]):null;setText('')}}>
+          <AddButton onPress={()=>{text!=''?setCourse({...course, memos:[...memos, {text, type:'check', isChecked:false}]}):null;setText('')}}>
             <Text
               style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
             >
@@ -139,7 +140,8 @@ function CourseContent({ editMode, memos, setMemos, selectLocation, loadSelected
 
 export default connect(
   state=>({
-    selectedLocations: state.location.selectedLocations
+    selectedPlaces: state.place.selectedPlaces,
+    course: state.course.course,
   }),
-  {loadSelectedLocation, selectLocation}
+  {loadSelectedPlace, selectPlace, setCourse}
 )(CourseContent);
