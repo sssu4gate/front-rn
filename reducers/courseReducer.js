@@ -34,7 +34,7 @@ const defaultState =  {
     id: null,
     date: null,
     createdAt:null,
-    sharing: false,
+    sharing: true,
     places: [],
     memos: [],
   },

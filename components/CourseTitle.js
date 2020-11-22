@@ -1,12 +1,10 @@
 import * as React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TextInput } from "react-native";
 import styled from "styled-components/native";
 import * as theme from "../assets/theme";
 import Heart from "../assets/images/Heart";
 import CalendarIcon from "../assets/images/Calendar";
 import Photo from "../assets/images/Photo";
-import Check from "../assets/images/Check";
-import CheckFull from "../assets/images/CheckFull";
 
 import {connect} from "react-redux";
 import {setCourse} from "../reducers/courseReducer";
@@ -18,6 +16,7 @@ const Container = styled.View`
   align-items: center;
   border-bottom-width: 1px;
   border-bottom-color: #e3e3e3;
+  background-color:#f5f5f5;
 `;
 const Row = styled.View`
   flex: ${({ flex }) => (flex ? flex : 1)};
@@ -29,12 +28,6 @@ const Row = styled.View`
   ${({ paddingTop }) => (paddingTop ? `padding-top: ${paddingTop}` : "")}
   ${({ paddingBottom }) =>
     paddingBottom ? `padding-bottom: ${paddingBottom}` : ""}
-`;
-const Title = styled.Text`
-  font-size: 28px;
-  color: ${theme.PRIMARY_TEXT_COLOR};
-  font-weight: bolder;
-  flex: 8;
 `;
 const IconContainer = styled.TouchableOpacity`
   margin-right: 20px;
@@ -60,7 +53,16 @@ function CourseTitle({
       {editMode ? (
         <>
           <Row flex={5.5} paddingTop="14px">
-            <Title>{course.courseName}</Title>
+            <TextInput 
+              style={{
+                fontSize: 28,
+                color: "#777",
+                fontWeight: "bolder",
+                flex: 1
+              }}
+              value={course.courseName}
+              onChangeText={text=>setCourse({...course, courseName:text})}
+            />
           </Row>
           <Row flex={4.5}>
             <IconContainer

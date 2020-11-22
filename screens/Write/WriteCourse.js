@@ -37,23 +37,7 @@ const Container = styled.View`
   drop-shadow: 1px 1px black;
 `;
 
-function WriteCourse({course, editMode, loading, error, setCourse}) {
-  /*
-  const [courseData, setCourseData] = React.useState(course);
-
-  const setTitle = (title) => setCourseData({ ...courseData, title });
-  const setDate = (date) => setCourseData({ ...courseData, date });
-  const setBackgroundImg = () => setCourseData({ ...courseData }); // photo
-  const setCourses = (courses) => setCourseData({ ...courseData, courses });
-  const setMemos = (memos) => setCourseData({ ...courseData, memos });
-  const toggleSharing = () =>
-    setCourseData({ ...courseData, sharing: !courseData.sharing });
-
-  const submitCourseData = () => {}; // dispatch action 공부 하자.
-  
-  let date = {}
-  date[courseData.date]= { selected: true}
-  */
+function WriteCourse({course, loading, error, setCourse, route:{params:{editMode}}}) {
   const [calendarVisible, setCalendarVisible] = React.useState(false);
 
   return (
@@ -107,10 +91,10 @@ function WriteCourse({course, editMode, loading, error, setCourse}) {
     </Container>);
 }
 export default connect(
-  state=>{console.log(state);return ({
+  state=>({
     course: state.course.course, 
     error:state.course.error, 
     loading:state.course.loading,
-  })},
+  }),
   {setCourse}
 )(WriteCourse)

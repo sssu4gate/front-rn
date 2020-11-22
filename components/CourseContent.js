@@ -7,6 +7,8 @@ import {useNavigation} from "@react-navigation/native";
 import {connect} from "react-redux";
 import {loadSelectedPlace, selectPlace} from "../reducers/placeReducer";
 import {setCourse} from "../reducers/courseReducer";
+import Check from "../assets/images/Check";
+import CheckFull from "../assets/images/CheckFull";
 
 const Container = styled.View`
   flex: 1;
@@ -133,6 +135,39 @@ function CourseContent({ editMode, course, setCourse, selectPlace, loadSelectedP
             </Text>
           </AddButton>
         </Content>
+      </Content>
+      <Content>
+        <Text style={{ fontSize: 12, color: "#AAAAAA" }}>본문</Text>
+        <Line />
+        <TouchableOpacity
+          style={{
+            marginLeft: 15,
+            flexDirection: "row",
+            alignItems: "center",
+            height: "100%",
+            justifyContent: "right",
+          }}
+          onPress={()=>{setCourse({...course, sharing:!course.sharing})}}
+        >
+          {course.sharing ? <CheckFull /> : <Check />}
+          <Text
+            style={{
+              fontSize: 12,
+              color: course.sharing ? theme.PRIMARY_COLOR : "#AAAAAA",
+              marginLeft: 5,
+            }}
+          >
+            공유
+          </Text>
+        </TouchableOpacity>
+      </Content>
+      <Content style={{ flexDirection: "column" }}>
+        <TextInput 
+          style={{height: 100, borderColor: "#e3e3e3" , borderWidth: 0.1, borderRadius:10, flex:1, padding:5, marginBottom:15 }}
+          multiline
+          numberOfLines={10}
+          onChangeText={text=>setCourse({...course, content:text})}
+          value={course.content}/>
       </Content>
     </Container>
   );
