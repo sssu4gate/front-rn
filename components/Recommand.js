@@ -42,6 +42,7 @@ export default function Recommand() {
         <TouchableOpacity
           style={styles.more}
           onPress={() => {
+            console.log("asdasd");
             navigation.navigate("Community", { initalScreen: "Loco" });
           }}
         >

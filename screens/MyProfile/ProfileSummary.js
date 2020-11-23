@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -18,6 +18,8 @@ export default function ProfileSummary({ navigation }) {
   };
   userInfo.imgUri = require("../../assets/아이유1.jpg");
   userInfo.name = "이지금";
+  var PostOrLike = "Post";
+  const [isShowingPost, setIsShowingPost] = useState(true);
 
   return (
     <>
@@ -53,14 +55,23 @@ export default function ProfileSummary({ navigation }) {
         </View>
       </View>
       <View>
-        <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity onPress={() => {}}>
+        <View style={{ flexDirection: "row", backgroundColor: "#ffffff" }}>
+          <TouchableOpacity
+            onPress={() => {
+              setIsShowingPost(!isShowingPost);
+            }}
+          >
             <Text style={styles.like_post}>게시글</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity
+            onPress={() => {
+              setIsShowingPost(!isShowingPost);
+            }}
+          >
             <Text style={styles.like_post}>좋아요</Text>
           </TouchableOpacity>
         </View>
+        <View>{isShowingPost ? <MyPost /> : <MyLike />}</View>
       </View>
     </>
   );

@@ -14,7 +14,11 @@ const Tab = createMaterialTopTabNavigator();
 
 function Post({ title, course, text, writer, profile, like, time, view }) {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() => {
+        console.log("asd");
+      }}
+    >
       <View style={styles.postView}>
         <View style={styles.titleView}>
           <Text style={styles.titleText}>{title}</Text>
@@ -217,7 +221,10 @@ function Loco() {
   );
 }
 
-export default function CourseList({navigation, route}){
+export default function CourseList({ navigation, route, initalScreen }) {
+  console.log(initalScreen);
+  console.log(route.params?.initalScreen);
+  console.log(route.params?.title);
   return (
     <Tab.Navigator
       tabBarOptions={{

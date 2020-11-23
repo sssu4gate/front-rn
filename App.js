@@ -1,4 +1,12 @@
 import * as React from "react";
+import {
+  View,
+  Text,
+  Button,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { Provider } from "react-redux";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -29,10 +37,21 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer theme={Theme}>
         <Stack.Navigator initialRouteName="BottomTabNavigator">
-          <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} options={{title:'LoCo'}} />
+          <Stack.Screen
+            name="BottomTabNavigator"
+            component={BottomTabNavigator}
+            options={{ title: "LoCo" }}
+            styles={styles.topbar}
+          />
           {/* <Stack.Screen name="Kakao" component={Kakao} options={{headerShown:false}} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
   );
 }
+
+const styles = StyleSheet.create({
+  topbar: {
+    textAlign: "center",
+  },
+});
