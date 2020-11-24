@@ -24,22 +24,19 @@ const White = styled.View`
 `;
 export default function Home() {
   const ref = React.useRef(null);
-
   useScrollToTop(ref);
   return (
-    <>
-      <White>
-        <ScrollView>
-          <View style={styles.recommand}>
-            <Recommand />
-          </View>
-          <View style={styles.container}>
-            <Search />
-            <Hot5 />
-          </View>
-        </ScrollView>
-      </White>
-    </>
+    <White>
+      <ScrollView>
+        <View style={styles.recommand}>
+          <Recommand />
+        </View>
+        <View style={styles.container}>
+          <Search />
+          <Hot5 />
+        </View>
+      </ScrollView>
+    </White>
   );
 }
 

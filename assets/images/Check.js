@@ -15,7 +15,7 @@ function Icon({ length = 14 , color = "#FF6DA0"}) {
         x="22.5"
         y="22.5"
         fill="#fff"
-        stroke="#777777"
+        stroke="#aaa"
         strokeWidth="45"
         rx="63.5"
       ></rect>
