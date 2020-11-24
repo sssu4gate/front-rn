@@ -39,6 +39,8 @@ const Container = styled.View`
 
 function WriteCourse({course, loading, error, setCourse, route:{params:{editMode}}}) {
   const [calendarVisible, setCalendarVisible] = React.useState(false);
+  const date={};
+  course.date?date[course.date] = {selected:true}:null;
 
   return (
     <Container>
@@ -48,12 +50,12 @@ function WriteCourse({course, loading, error, setCourse, route:{params:{editMode
       { editMode ? (
           <CalendarContainer display={calendarVisible}>
             <Calendar
-              markedDates={course.date}
+              markedDates={date}
               theme={{
                 todayTextColor: theme.PRIMARY_COLOR,
                 selectedDayBackgroundColor: theme.PRIMARY_COLOR,
               }}
-              onDayPress={day => setCourse({...course, date:day.dateString})}
+              onDayPress={day =>setCourse({...course, date:day.dateString})}
               monthFormat={"yyyy년 MMM"}
               renderArrow={(direction) => (
                 <Arrow>

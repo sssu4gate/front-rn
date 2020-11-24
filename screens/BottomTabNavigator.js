@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Text, View, Image } from "react-native";
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Community from "./Community/Community";
 import Home from "./Home/Home";
 import MyProfile from "./MyProfile/MyProfile";
@@ -18,7 +18,7 @@ import * as theme from '../assets/theme';
  https://reactnavigation.org/docs/themes/
 */
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function Main() {
   return (
