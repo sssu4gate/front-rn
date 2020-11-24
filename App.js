@@ -3,9 +3,11 @@ import { Provider } from "react-redux";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LocaleConfig } from "react-native-calendars";
+import {SafeAreaView, SafeAreaProvider} from "react-native-safe-area-context";
 import * as theme from "./assets/theme";
 import BottomTabNavigator from "./screens/BottomTabNavigator";
 import initStore from "./store";
+
 
 /* 
  Navigation Theme Reference 
@@ -71,12 +73,14 @@ const store = initStore();
 export default function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer theme={Theme}>
-        <Stack.Navigator initialRouteName="BottomTabNavigator">
-          <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} options={{title:'LoCo'}} />
-          {/* <Stack.Screen name="Kakao" component={Kakao} options={{headerShown:false}} /> */}
-        </Stack.Navigator>
-      </NavigationContainer>
+      <SafeAreaProvider>
+        <NavigationContainer theme={Theme}>
+          <Stack.Navigator initialRouteName="BottomTabNavigator">
+            <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} options={{title:'LoCo'}} />
+            {/* <Stack.Screen name="Kakao" component={Kakao} options={{headerShown:false}} /> */}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaProvider>
     </Provider>
   );
 }

@@ -119,7 +119,7 @@ function CourseContent({ editMode, course, setCourse, selectPlace, loadSelectedP
           onChangeText={setText}
           value={text}/>
         <Content style={{ padding: "0" }}>
-          <AddButton onPress={()=>{text!=''?setCourse({...course, memos:[...memos, {text, type:'memo'}]}):null;setText('')}}>
+          <AddButton onPress={()=>{text!=''?setCourse({...course, memos:[...course.memos, {text, type:'memo'}]}):null;setText('')}}>
             <Text
               style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
             >
@@ -127,7 +127,7 @@ function CourseContent({ editMode, course, setCourse, selectPlace, loadSelectedP
             </Text>
           </AddButton>
           <View style={{width:20, height:"100%"}} />
-          <AddButton onPress={()=>{text!=''?setCourse({...course, memos:[...memos, {text, type:'check', isChecked:false}]}):null;setText('')}}>
+          <AddButton onPress={()=>{text!=''?setCourse({...course, memos:[...course.memos, {text, type:'check', isChecked:false}]}):null;setText('')}}>
             <Text
               style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
             >
