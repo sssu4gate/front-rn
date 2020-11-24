@@ -57,6 +57,7 @@ export default function HotCourse() {
           style={styles.more}
           onPress={() => {
             navigation.navigate("Community", { initalScreen: "Trend" });
+            console.log("Com");
           }}
         >
           <Text style={styles.more}>더보기</Text>
