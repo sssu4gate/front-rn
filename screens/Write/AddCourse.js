@@ -43,7 +43,7 @@ function AddCourse({
   React.useEffect(() => {
     // 추천 코스
     // 검색시 키워드 검색
-    requestPlace(token, "keyword");
+    requestPlace(token, "숭실대 맛집");
   }, []);
   return (
     <Container>

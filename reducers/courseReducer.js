@@ -4,12 +4,13 @@ export const types = {
   COURSE_SEARCH_REQUEST: "COURSE_SEARCH_REQUEST",
   COURSE_SEARCH_SUCCESS: "COURSE_SEARCH_SUCCESS",
   COURSE_SEARCH_ERROR: "COURSE_SEARCH_ERROR",
-  COURSE_UPLOAD_REQUEST: "COURSE_UPLOAD_REQUEST",
-  COURSE_UPLOAD_SUCCESS: "COURSE_UPLOAD_SUCCESS",
-  COURSE_UPLOAD_ERROR: "COURSE_UPLOAD_ERROR",
   COURSE_FETCH_REQUEST: "COURSE_FETCH_REQUEST",
   COURSE_FETCH_SUCCESS: "COURSE_FETCH_SUCCESS",
   COURSE_FETCH_ERROR: "COURSE_FETCH_ERROR",
+  COURSE_INIT: "COURSE_INIT",
+  COURSE_SAVE_REQUEST: "COURSE_SAVE_REQUEST",
+  COURSE_SAVE_SUCCESS: "COURSE_SAVE_SUCCESS",
+  COURSE_SAVE_ERROR: "COURSE_SAVE_ERROR",
   COURSE_SET: "COURSE_SET",
   COURSE_LOAD: "COURSE_LOAD",
 };
@@ -18,6 +19,38 @@ export function setCourse(course) {
   return {
     type: types.COURSE_SET,
     course
+  }
+}
+
+export function requestSaveCourse(token, course) {
+  return dispatch => {
+    dispatch({type:types.COURSE_SAVE_REQUEST});
+    return api
+      .saveCourse(token, course)
+      .then(json => {
+        dispatch(saveCourseSuccess(json));
+      })
+      .catch(error => dispatch(saveCourseError(error)));
+  }
+}
+
+export function saveCourseSuccess(course){
+  return {
+    type:types.COURSE_SAVE_SUCCESS,
+    course
+  }
+}
+
+export function saveCourseError(error){
+  return {
+    type:types.COURSE_SAVE_ERROR,
+    error
+  }
+}
+
+export function initCourse() {
+  return {
+    type: types.COURSE_INIT,
   }
 }
 
@@ -37,9 +70,11 @@ const defaultState =  {
     sharing: true,
     places: [],
     memos: [],
+    content:"",
   },
   loading: false,
   error: null,
+  uploaded:false,
 }
 
 export default (state = defaultState, action) => {
@@ -48,6 +83,31 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         course:action.course
+      }
+  case types.COURSE_SAVE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      }
+  case types.COURSE_SAVE_SUCCESS:
+      return {
+        ...state,
+        course: action.course,
+        loading: false,
+        uploaded: true,
+        error: null,
+      }
+  case types.COURSE_SAVE_ERROR:
+      return {
+        ...state,
+        loading: false,
+        uploaded: true,
+        error: action.error,
+      }
+  case types.COURSE_INIT:
+      return {
+        ...defaultState
       }
     default:
       return state;

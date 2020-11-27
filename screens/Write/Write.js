@@ -7,6 +7,7 @@ const Stack = createStackNavigator();
 
 export default function Write({ navigation, route }) {
 
+  console.log(route.params);
   return (
     <Stack.Navigator
       initialRouteName="InitialWrite"

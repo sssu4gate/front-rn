@@ -3,10 +3,10 @@ import { View, Text, Button, TextInput, TouchableOpacity, ScrollView, Image } fr
 import { FlatList } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import * as theme from "../assets/theme";
-import {useNavigation} from "@react-navigation/native";
+import {useNavigation, TabActions} from "@react-navigation/native";
 import {connect} from "react-redux";
-import {loadSelectedPlace, selectPlace} from "../reducers/placeReducer";
-import {setCourse} from "../reducers/courseReducer";
+import {loadSelectedPlace, selectPlace, initPlace} from "../reducers/placeReducer";
+import {setCourse, initCourse, requestSaveCourse} from "../reducers/courseReducer";
 
 const Container = styled.View`
   flex: 1;
@@ -64,9 +64,18 @@ function Memo({text, isChecked, checkHandler}) {
   )
 }
 
-function CourseContent({ editMode, course, setCourse, selectPlace, loadSelectedPlace, selectedPlaces}) {
+function CourseContent({ editMode, course, setCourse, selectPlace, initPlace, loadSelectedPlace, selectedPlaces, initCourse, requestSaveCourse, uploaded}) {
   const [text, setText] = React.useState("");
   const navigation = useNavigation();
+
+
+  React.useEffect(()=>{
+    if(uploaded == true) {
+      navigation.dispatch(TabActions.jumpTo('Community'), {course, screens:"detail"})
+      initCourse();
+      initPlace();
+    }
+  }, [uploaded])
 
   return (
     <Container>
@@ -168,10 +177,26 @@ function CourseContent({ editMode, course, setCourse, selectPlace, loadSelectedP
           value={course.content}/>
       </Content>
       <Content style={{ paddingTop:0 }}>
-        <TouchableOpacity style={{flex:1, height:40, boxShadow:"1px 1px 5px #00000040", borderRadius:10, justifyContent:"center", alignItems:"center", marginRight:10}}>
+        <TouchableOpacity 
+          style={{flex:1, height:40, boxShadow:"1px 1px 5px #00000040", borderRadius:10, justifyContent:"center", alignItems:"center", marginRight:10}}
+          onPress={()=>{setText("");initCourse()}}
+        >
           <Text style={{color:"#aaa", fontSize:16, fontWeight:"bold"}}>초기화 하기</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{flex:1, height:40, boxShadow:"1px 1px 5px #00000040", backgroundColor:theme.PRIMARY_COLOR, borderRadius:10, justifyContent:"center", alignItems:"center"}}>
+        <TouchableOpacity 
+          style={{flex:1, height:40, boxShadow:"1px 1px 5px #00000040", backgroundColor:theme.PRIMARY_COLOR, borderRadius:10, justifyContent:"center", alignItems:"center"}}
+          onPress={()=>{
+            console.log(course);
+            const finalCourse = {
+              "content": course.content,
+              "courseName": course.courseName,
+              "memos": course.memos.map(memo=>JSON.stringify(memo)),
+              "places": selectedPlaces,
+              "shareType": course.sharing?"PUBLIC":"PRIVATE"
+            }
+            requestSaveCourse("", finalCourse);
+          }}
+        >
           <Text style={{color:"#ffffff", fontSize:16, fontWeight:"bold"}}>작성 하기</Text>
         </TouchableOpacity>
       </Content>
@@ -183,6 +208,7 @@ export default connect(
   state=>({
     selectedPlaces: state.place.selectedPlaces,
     course: state.course.course,
+    uploaded: state.course.uploaded
   }),
-  {loadSelectedPlace, selectPlace, setCourse}
+  {loadSelectedPlace, selectPlace, initPlace, setCourse, initCourse, requestSaveCourse}
 )(CourseContent);

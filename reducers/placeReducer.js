@@ -70,8 +70,7 @@ export default (state = defaultState, action) => {
   switch (action.type) {
     case types.PLACE_INIT:
       return {
-        ...state,
-        places: [],
+        ...defaultState
       };
     case types.PLACE_SEARCH_REQUEST:
       return {
