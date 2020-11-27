@@ -53,14 +53,15 @@ function TopBar({route:{state}}) {
           <MenuIcon length="20" />
       }
       </TouchableOpacity>
-      <TouchableOpacity
-        style={{flex:1}}
-        onPress={() => {
-          navigation.navigate("Home");
-        }}
-      >
-        <Text style={{textAlign:"center", fontSize:28, color:state?.index!=2?theme.PRIMARY_COLOR:"#fff", fontWeight:"bold", fontStyle:"italic" }}>LoCo</Text>
-      </TouchableOpacity>
+      <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Home");
+          }}
+        >
+          <Text style={{textAlign:"center", fontSize:28, color:state?.index!=2?theme.PRIMARY_COLOR:"#fff", fontWeight:"bold", fontStyle:"italic" }}>LoCo</Text>
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity >
         <Image
           style={{

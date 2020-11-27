@@ -36,6 +36,7 @@ function AddCourse({
   initPlace,
   selectPlace,
   selectedPlaces,
+  navigation
 }) {
   // loading true 일경우 로딩중 표시
   React.useEffect(() => {
@@ -103,7 +104,7 @@ function AddCourse({
             }}
           />
         )}
-        style={{ width: "100%" }}
+        style={{ width: "100%", marginBottom:80 }}
         data={places}
         renderItem={({ item, index }) => {
           return (
