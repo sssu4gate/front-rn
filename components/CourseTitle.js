@@ -48,12 +48,14 @@ function CourseTitle({
   setCourse,
   setCalendarVisible,
 }) {
+
   return (
     <Container>
       {editMode ? (
         <>
           <Row flex={5.5} paddingTop="14px">
             <TextInput 
+              autoFocus
               style={{
                 fontSize: 28,
                 color: "#777",

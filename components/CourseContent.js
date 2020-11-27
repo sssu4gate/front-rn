@@ -163,11 +163,19 @@ function CourseContent({ editMode, course, setCourse, selectPlace, loadSelectedP
       </Content>
       <Content style={{ flexDirection: "column" }}>
         <TextInput 
-          style={{height: 100, borderColor: "#e3e3e3" , borderWidth: 0.1, borderRadius:10, flex:1, padding:5, marginBottom:15 }}
+          style={{height: 100, borderColor: "#e3e3e3" , borderWidth: 0.1, borderRadius:10, flex:1, padding:5}}
           multiline
           numberOfLines={10}
           onChangeText={text=>setCourse({...course, content:text})}
           value={course.content}/>
+      </Content>
+      <Content style={{ paddingTop:0 }}>
+        <TouchableOpacity style={{flex:1, height:40, boxShadow:"1px 1px 5px #00000040", borderRadius:10, justifyContent:"center", alignItems:"center", marginRight:10}}>
+          <Text style={{color:"#aaa", fontSize:16, fontWeight:"bold"}}>초기화 하기</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{flex:1, height:40, boxShadow:"1px 1px 5px #00000040", backgroundColor:theme.PRIMARY_COLOR, borderRadius:10, justifyContent:"center", alignItems:"center"}}>
+          <Text style={{color:"#ffffff", fontSize:16, fontWeight:"bold"}}>작성 하기</Text>
+        </TouchableOpacity>
       </Content>
     </Container>
   );

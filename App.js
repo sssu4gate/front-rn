@@ -15,6 +15,7 @@ import {SafeAreaView, SafeAreaProvider} from "react-native-safe-area-context";
 import * as theme from "./assets/theme";
 import BottomTabNavigator from "./screens/BottomTabNavigator";
 import initStore from "./store";
+import TopBar from "./components/TopBar";
 
 
 /* 
@@ -77,6 +78,7 @@ const Theme = {
 
 const Stack = createStackNavigator();
 const store = initStore();
+// { headerTitle: props => <TopBar {...props, route} />}
 
 export default function App() {
   return (
@@ -84,7 +86,12 @@ export default function App() {
       <SafeAreaProvider>
         <NavigationContainer theme={Theme}>
           <Stack.Navigator initialRouteName="BottomTabNavigator">
-            <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} options={{title:'LoCo'}} />
+            <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} options={({route})=>({header: props => <TopBar {...props} route={route} />, 
+              headerStyle: {
+                backgroundColor: '#f4511e',
+                height:40
+              },
+            })} />
             {/* <Stack.Screen name="Kakao" component={Kakao} options={{headerShown:false}} /> */}
           </Stack.Navigator>
         </NavigationContainer>

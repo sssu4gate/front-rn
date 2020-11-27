@@ -66,7 +66,6 @@ export default function Main() {
                 style={{
                   width: 40,
                   height: 40,
-                  bottom: 7,
                 }}
               />
             );

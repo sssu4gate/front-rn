@@ -24,7 +24,7 @@ function CourseItem({ imgURL, text, handler }) {
   );
 }
 
-function AddCourse({places, error, loading, fetchPlace, initPlace, selectPlace, selectedPlaces}) {
+function AddCourse({places, error, loading, fetchPlace, initPlace, selectPlace, selectedPlaces, navigation}) {
   // loading true 일경우 로딩중 표시
   React.useEffect(()=>{
     // 추천 코스
@@ -35,7 +35,7 @@ function AddCourse({places, error, loading, fetchPlace, initPlace, selectPlace, 
     <Container>
       <Search ></Search>
       <FlatList 
-        style={{width:"100%", height:50, backgroundColor:"#f5f5f5", padding:15}}
+        style={{width:"100%", height:50, maxHeight:50, backgroundColor:"#f5f5f5", padding:15}}
         data={selectedPlaces}
         renderItem={
           ({item, index})=>{
@@ -86,6 +86,11 @@ function AddCourse({places, error, loading, fetchPlace, initPlace, selectPlace, 
         }
       }
       />
+      <TouchableOpacity style={{position:"fixed", bottom:70, left:"5vw", width:"90vw", height:40, backgroundColor:theme.PRIMARY_COLOR, borderRadius:10, justifyContent:"center", alignItems:"center"}}
+        onPress={()=>navigation.goBack()}
+      >
+        <Text style={{fontSize:16, fontWeight:"bold", color:"#fff", backgroundColor:theme.PRIMARY_COLOR}}>장소 추가하기</Text>
+      </TouchableOpacity>
     </Container>
   );
 }
