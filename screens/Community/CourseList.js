@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import HeartIcon from "../../assets/images/Heart";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -23,7 +22,7 @@ function Post({ title, course, text, writer, profile, like, time, view }) {
         <View style={styles.titleView}>
           <Text style={styles.titleText}>{title}</Text>
           <TouchableOpacity style={styles.heartView}>
-            <HeartIcon length="24" />
+            <Image style={{width:24, height:24}} source={{uri: require("../../assets/Heart(pink).png")}} />
             <Text style={styles.heartText}>{like}</Text>
           </TouchableOpacity>
         </View>

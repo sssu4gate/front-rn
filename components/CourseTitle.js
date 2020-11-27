@@ -2,9 +2,6 @@ import * as React from "react";
 import { View, Text, Image, TextInput } from "react-native";
 import styled from "styled-components/native";
 import * as theme from "../assets/theme";
-import Heart from "../assets/images/Heart";
-import CalendarIcon from "../assets/images/Calendar";
-import Photo from "../assets/images/Photo";
 
 import {connect} from "react-redux";
 import {setCourse} from "../reducers/courseReducer";
@@ -71,7 +68,7 @@ function CourseTitle({
               style={{ justifycontent: "flex-start" }}
               onPress={()=>setCalendarVisible(true)}
             >
-              <CalendarIcon length={14} color="#777" />
+              <Image style={{width:14, height:14}} source={{uri: require("../assets/Calendar.png")}}/>
               <Text
                 style={{
                   fontSize: 12,
@@ -84,7 +81,7 @@ function CourseTitle({
               </Text>
             </IconContainer>
             <IconContainer style={{ justifycontent: "flex-start" }}>
-              <Photo length={14} color="#777" />
+              <Image style={{width:14, height:14}} source={{uri: require("../assets/Photo.png")}}/>
               <Text
                 style={{
                   fontSize: 12,
@@ -105,7 +102,7 @@ function CourseTitle({
             <IconContainer
               style={{ justifyContent: "flex-end", alignItems: "flex-end" }}
             >
-              <Heart length={20} />
+              <Image style={{width:20, height:20}} source={{uri: require("../assets/Heart(pink).png")}}/>
               <Text
                 style={{
                   fontSize: 20,

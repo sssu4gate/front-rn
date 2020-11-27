@@ -6,20 +6,9 @@ import AddCourse from "./AddCourse";
 const Stack = createStackNavigator();
 
 export default function Write({ navigation, route }) {
-  const stackRef=React.createRef();
-
-  console.log(navigation, route, stackRef);
-
-  /*
-  React.useLayoutEffect(()=>{
-  }, [route.params?.screen])
-  console.log(stackRef.current, stackRef.current?.push, stackRef.current?.navigate)
-  */
-
 
   return (
     <Stack.Navigator
-      ref={stackRef}
       initialRouteName="InitialWrite"
       screenOptions={({ route, navigation }) => ({
         headerShown: false,

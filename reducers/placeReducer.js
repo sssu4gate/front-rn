@@ -9,13 +9,12 @@ export const types = {
   PLACE_SELECT: "PLACE_SELECT",
 };
 
-export function fetchPlace(keyword) {
+export function requestPlace(token, keyword, pageArray=[1,2]) {
   return (dispatch) => {
     dispatch(searchPlaceRequest());
-    return api
-      .searchPlace(keyword)
-      .then((json) => {
-        return dispatch(searchPlaceSuccess(json));
+    return Promise.all(pageArray.map(page=>api.searchPlace(token, keyword, page)))
+      .then((jsonArray) => {
+        return dispatch(searchPlaceSuccess(jsonArray.flat()));
       })
       .catch((error) => dispatch(searchPlaceError(error)));
   };

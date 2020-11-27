@@ -13,8 +13,6 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import {StackActions} from "@react-navigation/native";
-import TitleIcon from "../assets/images/Title";
-import MenuIcon from "../assets/images/menu";
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import * as theme from "../assets/theme";
 
@@ -50,7 +48,7 @@ function TopBar({route:{state}}) {
             />:
             <View style={{width:30, height:30}}/>
           ):
-          <MenuIcon length="20" />
+          <Image style={{width:20, height:20}} source={{uri: require("../assets/menu(black).png")}}/>
       }
       </TouchableOpacity>
       <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>

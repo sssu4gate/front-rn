@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import styled from "styled-components/native";
 import Search from "../../components/Search";
 import {
-  fetchPlace,
+  requestPlace,
   initPlace,
   selectPlace,
 } from "../../reducers/placeReducer";
@@ -32,17 +32,18 @@ function AddCourse({
   places,
   error,
   loading,
-  fetchPlace,
+  requestPlace,
   initPlace,
   selectPlace,
   selectedPlaces,
-  navigation
+  navigation,
+  token=""
 }) {
   // loading true 일경우 로딩중 표시
   React.useEffect(() => {
     // 추천 코스
     // 검색시 키워드 검색
-    fetchPlace("keyword");
+    requestPlace(token, "keyword");
   }, []);
   return (
     <Container>
@@ -59,10 +60,10 @@ function AddCourse({
         renderItem={({ item, index }) => {
           return (
             <TouchableOpacity
-              key={item.index}
+              key={item.id}
               style={{ height: 20, flexDirection: "row", marginRight: 15 }}
               onPress={() => {
-                const idx = selectedPlaces.findIndex((e) => e.idx == item.idx);
+                const idx = selectedPlaces.findIndex((e) => e.id == item.id);
                 if (idx != -1) {
                   selectPlace([
                     ...selectedPlaces.slice(0, idx),
@@ -75,7 +76,7 @@ function AddCourse({
               <Text
                 style={{ fontSize: 14, height: 20, color: theme.PRIMARY_COLOR }}
               >
-                {item.title}
+                {item.place_name}
               </Text>
               <Text
                 style={{
@@ -109,7 +110,7 @@ function AddCourse({
         renderItem={({ item, index }) => {
           return (
             <TouchableOpacity
-              key={item.index}
+              key={item.id}
               style={{
                 height: 60,
                 paddingRight: 20,
@@ -119,7 +120,7 @@ function AddCourse({
                 flexDirection: "row",
               }}
               onPress={() => {
-                if (selectedPlaces.findIndex((e) => e.idx == item.idx) == -1) {
+                if (selectedPlaces.findIndex((e) => e.id == item.id) == -1) {
                   selectPlace(selectedPlaces.concat(item));
                 }
               }}
@@ -133,7 +134,7 @@ function AddCourse({
                   color: "#3c3c3c",
                 }}
               >
-                {item.title}
+                {item.place_name}
               </Text>
             </TouchableOpacity>
           );
@@ -155,5 +156,5 @@ export default connect(
     loading: state.place.loading,
     selectedPlaces: state.place.selectedPlaces,
   }),
-  { fetchPlace, initPlace, selectPlace }
+  { requestPlace, initPlace, selectPlace }
 )(AddCourse);

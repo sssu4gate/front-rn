@@ -10,8 +10,6 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import HeartIcon from "../assets/images/Heart";
-import Indicator from "../assets/images/indicator";
 
 export default function HotCourse() {
   const navigation = useNavigation();
@@ -93,7 +91,7 @@ function Hot5({ uri, title, like, rank }) {
           }}
         >
           <Text style={styles.text}>{rank}</Text>
-          <Indicator />
+          <View style={{width:1, height:"100%", backgroundColor:"#eee"}}/>
         </View>
 
         <TouchableOpacity
@@ -108,7 +106,7 @@ function Hot5({ uri, title, like, rank }) {
             console.log("Like");
           }}
         >
-          <HeartIcon length="14px" color="gray" />
+          <Image style={{width:14, height:14}} source={{uri: require("../assets/Heart(gray).png")}}/>
           <Text style={styles.more}>{like}</Text>
         </TouchableOpacity>
       </View>

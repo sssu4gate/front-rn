@@ -6,11 +6,6 @@ import Home from "./Home/Home";
 import MyProfile from "./MyProfile/MyProfile";
 import Schedule from "./Schedule/Schedule";
 import Write from "./Write/Write";
-import HomeIcon from "../assets/images/home";
-import Calendar from "../assets/images/Calendar";
-import Group from "../assets/images/group";
-import MyPage from "../assets/images/myPage";
-import Edit from "../assets/images/edit";
 import * as theme from "../assets/theme";
 
 /* 

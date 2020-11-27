@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, Button, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, Button, TextInput, TouchableOpacity, ScrollView, Image } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import * as theme from "../assets/theme";
@@ -7,8 +7,6 @@ import {useNavigation} from "@react-navigation/native";
 import {connect} from "react-redux";
 import {loadSelectedPlace, selectPlace} from "../reducers/placeReducer";
 import {setCourse} from "../reducers/courseReducer";
-import Check from "../assets/images/Check";
-import CheckFull from "../assets/images/CheckFull";
 
 const Container = styled.View`
   flex: 1;
@@ -55,8 +53,8 @@ function Memo({text, isChecked, checkHandler}) {
     <View style={{flexDirection:'row', padding:12, boxShadow:"1px 1px 5px #00000040", borderRadius:10, alignItems:'center', marginBottom:15}}>
       {isChecked!==undefined?(
         <>
-          <TouchableOpacity style={{height:16, width:16, borderWidth:1, borderColor:theme.PRIMARY_COLOR, borderRadius:"25%" }}>
-            {/* SVG check */}
+          <TouchableOpacity style={{borderRadius:"25%"}}>
+            <Image style={{width:16, height:16}} source={{uri: require(isChecked?"../assets/CheckFull(pink).png":"../assets/UnCheck(pink).png")}} />
           </TouchableOpacity>
           <View style={{width:1, height:20, backgroundColor:"#e3e3e3", marginLeft:7, marginRight:7}}/>
         </>
@@ -82,7 +80,7 @@ function CourseContent({ editMode, course, setCourse, selectPlace, loadSelectedP
           data={selectedPlaces}
           renderItem={
             ({item, index})=>{
-              return <PlaceItem price={0} title={item.title} index={index}/>;
+              return <PlaceItem price={0} title={item.place_name} index={index}/>;
             }
           }
         />
@@ -149,7 +147,7 @@ function CourseContent({ editMode, course, setCourse, selectPlace, loadSelectedP
           }}
           onPress={()=>{setCourse({...course, sharing:!course.sharing})}}
         >
-          {course.sharing ? <CheckFull /> : <Check />}
+          <Image style={{width:14, height:14}} source={{uri: require(course.sharing?"../assets/CheckFull(pink).png":"../assets/UnCheck(AAA).png")}} />
           <Text
             style={{
               fontSize: 12,
