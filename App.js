@@ -1,22 +1,26 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  Button,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Provider } from "react-redux";
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DrawerActions,
+} from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LocaleConfig } from "react-native-calendars";
-import {SafeAreaView, SafeAreaProvider} from "react-native-safe-area-context";
+import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import * as theme from "./assets/theme";
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+} from "@react-navigation/drawer";
 import BottomTabNavigator from "./screens/BottomTabNavigator";
+import Settings from "./screens/MyProfile/SetProfile";
 import initStore from "./store";
 import TopBar from "./components/TopBar";
-
+import { setStatusBarBackgroundColor } from "expo-status-bar";
 
 /* 
  Navigation Theme Reference 
@@ -66,7 +70,6 @@ LocaleConfig.locales["kr"] = {
 };
 LocaleConfig.defaultLocale = "kr";
 
-
 const Theme = {
   ...DefaultTheme,
   colors: {
@@ -76,7 +79,7 @@ const Theme = {
   },
 };
 
-const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 const store = initStore();
 // { headerTitle: props => <TopBar {...props, route} />}
 
@@ -85,17 +88,99 @@ export default function App() {
     <Provider store={store}>
       <SafeAreaProvider>
         <NavigationContainer theme={Theme}>
-          <Stack.Navigator initialRouteName="BottomTabNavigator">
-            <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} options={({route})=>({header: props => <TopBar {...props} route={route} />, 
+          <Drawer.Navigator
+            initialRouteName="BottomTabNavigator"
+            drawerContent={props => {
+              return <CustomDrawerContent {...props} />;
+            }}
+          >
+            <Drawer.Screen name="BottomTabNavigator" component={BottomTabNavigator} options={({route})=>({header: props => <TopBar {...props} route={route} />, 
               headerStyle: {
                 backgroundColor: '#f4511e',
                 height:40
-              },
+              }
             })} />
-            {/* <Stack.Screen name="Kakao" component={Kakao} options={{headerShown:false}} /> */}
-          </Stack.Navigator>
+            <Drawer.Screen
+              name="Settings"
+              component={Settings}
+              options={{ title: "Settings" }}
+            />
+          {/* <Stack.Screen name="Kakao" component={Kakao} options={{headerShown:false}} /> */}
+      </Drawer.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>
     </Provider>
   );
 }
+
+function CustomDrawerContent(props) {
+  return (
+    <DrawerContentScrollView {...props}>
+      <View>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.title}>설정</Text>
+          <TouchableOpacity
+            onPress={() =>
+              props.navigation.dispatch(DrawerActions.toggleDrawer())
+            }
+            style={{ justifyContent: "center" }}
+          >
+            <Image
+              source={{ uri: require("./assets/xBtn.png") }}
+              style={styles.btn}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <DrawerItem
+          label="계정 설정"
+          onPress={() => props.navigation.navigate("Settings")}
+          style={styles.borderLine}
+        />
+        <View />
+        <DrawerItem
+          label="앱정보"
+          onPress={() =>
+            props.navigation.dispatch(DrawerActions.toggleDrawer())
+          }
+          style={styles.borderLine}
+        />
+        <DrawerItem
+          label="도움말"
+          onPress={() => props.navigation.dispatch(DrawerActions.closeDrawer())}
+          style={styles.borderLine}
+        />
+        <DrawerItem
+          label="문의 하기"
+          onPress={() =>
+            props.navigation.dispatch(DrawerActions.toggleDrawer())
+          }
+        />
+      </View>
+    </DrawerContentScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 32,
+    padding: 12,
+    color: "#777777",
+    flex: 0.9,
+  },
+  btn: {
+    width: 30,
+    height: 30,
+    alignSelf: "center",
+    padding: 10,
+    flex: 0.1,
+  },
+  borderLine: {
+    borderBottomColor: "#e3e3e3",
+    borderBottomWidth: 1,
+    borderRadius: 0,
+  },
+  header: {
+    backgroundColor: "#888888",
+  },
+});
