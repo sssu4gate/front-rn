@@ -54,8 +54,7 @@ export default function HotCourse() {
         <TouchableOpacity
           style={styles.more}
           onPress={() => {
-            navigation.navigate("Community", { initalScreen: "Trend" });
-            console.log("Com");
+            navigation.navigate("Community", { screen: "Trend" });
           }}
         >
           <Text style={styles.more}>더보기</Text>

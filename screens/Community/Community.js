@@ -1,13 +1,16 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import CourseList from "./CourseList";
 import { useNavigation } from "@react-navigation/native";
+import {StackActions} from "@react-navigation/native";
+import CourseList from "./CourseList";
+import CourseDetail from "./CourseDetail";
 
 const Stack = createStackNavigator();
 
+//const Navigation=Stack({CourseList:<CourseList />})
+
 export default function Community({ navigation, route }) {
-  console.log("in community");
-  console.log(route.params?.initalScreen);
+  console.log(navigation, route);
   return (
     <Stack.Navigator
       initialRouteName="CourseList"
@@ -16,8 +19,8 @@ export default function Community({ navigation, route }) {
       })}
       mode="modal"
     >
-      <Stack.Screen name="CourseList" component={CourseList} />
-      {/*<Stack.Screen name="CourseDetail" component={CourseDetail}/> */}
+      <Stack.Screen name="CourseList" component={CourseList} initialParams={{screen:route.params?.screen}}/>
+      <Stack.Screen name="CourseDetail" component={CourseDetail} />
     </Stack.Navigator>
   );
 }

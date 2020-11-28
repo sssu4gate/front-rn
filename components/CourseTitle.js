@@ -53,6 +53,8 @@ function CourseTitle({
           <Row flex={5.5} paddingTop="14px">
             <TextInput 
               autoFocus
+              placeholder="코스 제목"
+              placeholderTextColor="#aaa"
               style={{
                 fontSize: 28,
                 color: "#777",

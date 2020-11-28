@@ -35,43 +35,13 @@ const AddButton = styled.TouchableOpacity`
   box-shadow: 1px 1px 5px #00000040;
 `;
 
-function PlaceItem({title, index, price, type}){
-  return (
-    <TouchableOpacity style={{flexDirection:"row", marginBottom:20, boxShadow:"1px 1px 5px #00000040", height:40, borderRadius:10, padding:8, alignItems:"center"}}>
-      <Text style={{borderRadius:"50%", width:20, height:20, color:"#ffffff", backgroundColor:theme.PRIMARY_COLOR, textAlign:"center"}}>{index + 1}</Text>
-      <View style={{width:1, height:25, backgroundColor:"#e3e3e3", marginLeft:7, marginRight:7}}/>
-      {/*<Image />*/}
-      <Text style={{color:"#3c3c3c", flex:1}}>{title}</Text>
-      <Text style={{borderRadius:4, paddingLeft:5, paddingRight:5, paddingTop:2, paddingBottom:2, backgroundColor:"#e5e5e5", color:"#3c3c3c"}}>₩ {price}</Text>
-    </TouchableOpacity>
-  );
-}
-
-
-function Memo({text, isChecked, checkHandler}) {
-  return (
-    <View style={{flexDirection:'row', padding:12, boxShadow:"1px 1px 5px #00000040", borderRadius:10, alignItems:'center', marginBottom:15}}>
-      {isChecked!==undefined?(
-        <>
-          <TouchableOpacity style={{borderRadius:"25%"}}>
-            <Image style={{width:16, height:16}} source={{uri: require(isChecked?"../assets/CheckFull(pink).png":"../assets/UnCheck(pink).png")}} />
-          </TouchableOpacity>
-          <View style={{width:1, height:20, backgroundColor:"#e3e3e3", marginLeft:7, marginRight:7}}/>
-        </>
-      ):null}
-      <Text style={{flex:1, color:"#3c3c3c"}}>{text}</Text>
-    </View>
-  )
-}
-
 function CourseContent({ editMode, course, setCourse, selectPlace, initPlace, loadSelectedPlace, selectedPlaces, initCourse, requestSaveCourse, uploaded}) {
   const [text, setText] = React.useState("");
   const navigation = useNavigation();
 
-
   React.useEffect(()=>{
-    if(uploaded == true) {
-      navigation.dispatch(TabActions.jumpTo('Community'), {course, screens:"detail"})
+    if(editMode & uploaded) {
+      navigation.dispatch(TabActions.jumpTo('Community', {screen:"CourseDetail"}))
       initCourse();
       initPlace();
     }
@@ -113,7 +83,12 @@ function CourseContent({ editMode, course, setCourse, selectPlace, initPlace, lo
           data={course.memos}
           renderItem={
             ({item, index})=>{
-              return <Memo {...item}/>;
+              return <Memo {...item} checkHandler={
+                ()=>{
+                  setCourse({...course, memos:[...course.memos.slice(0, index), {text:item.text, type:Number(!item.type)}, ...course.memos.slice(index+1, course.memos.length)]});
+                }
+              }
+              />;
             }
           }
         />
@@ -126,7 +101,7 @@ function CourseContent({ editMode, course, setCourse, selectPlace, initPlace, lo
           onChangeText={setText}
           value={text}/>
         <Content style={{ padding: "0" }}>
-          <AddButton onPress={()=>{text!=''?setCourse({...course, memos:[...course.memos, {text, type:'memo'}]}):null;setText('')}}>
+          <AddButton onPress={()=>{text!=''?setCourse({...course, memos:[...course.memos, {text, type:3}]}):null;setText('')}}>
             <Text
               style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
             >
@@ -134,7 +109,7 @@ function CourseContent({ editMode, course, setCourse, selectPlace, initPlace, lo
             </Text>
           </AddButton>
           <View style={{width:20, height:"100%"}} />
-          <AddButton onPress={()=>{text!=''?setCourse({...course, memos:[...course.memos, {text, type:'check', isChecked:false}]}):null;setText('')}}>
+          <AddButton onPress={()=>{text!=''?setCourse({...course, memos:[...course.memos, {text, type:0}]}):null;setText('')}}>
             <Text
               style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
             >
@@ -154,13 +129,13 @@ function CourseContent({ editMode, course, setCourse, selectPlace, initPlace, lo
             height: "100%",
             justifyContent: "right",
           }}
-          onPress={()=>{setCourse({...course, sharing:!course.sharing})}}
+          onPress={()=>{setCourse({...course, shareType:course.shareType=="PUBLIC"?"PRIVATE":"PUBLIC"})}}
         >
-          <Image style={{width:14, height:14}} source={{uri: require(course.sharing?"../assets/CheckFull(pink).png":"../assets/UnCheck(AAA).png")}} />
+          <Image style={{width:14, height:14}} source={{uri: require(course.shareType=="PUBLIC"?"../assets/CheckFull(pink).png":"../assets/UnCheck(AAA).png")}} />
           <Text
             style={{
               fontSize: 12,
-              color: course.sharing ? theme.PRIMARY_COLOR : "#AAAAAA",
+              color: course.shareType=="PUBLIC" ? theme.PRIMARY_COLOR : "#AAAAAA",
               marginLeft: 5,
             }}
           >
@@ -192,7 +167,7 @@ function CourseContent({ editMode, course, setCourse, selectPlace, initPlace, lo
               "courseName": course.courseName,
               "memos": course.memos.map(memo=>JSON.stringify(memo)),
               "places": selectedPlaces,
-              "shareType": course.sharing?"PUBLIC":"PRIVATE"
+              "shareType": course.shareType
             }
             requestSaveCourse("", finalCourse);
           }}
@@ -202,6 +177,34 @@ function CourseContent({ editMode, course, setCourse, selectPlace, initPlace, lo
       </Content>
     </Container>
   );
+}
+
+function PlaceItem({title, index, price, type}){
+  return (
+    <TouchableOpacity style={{flexDirection:"row", marginBottom:20, boxShadow:"1px 1px 5px #00000040", height:40, borderRadius:10, padding:8, alignItems:"center"}}>
+      <Text style={{borderRadius:"50%", width:20, height:20, color:"#ffffff", backgroundColor:theme.PRIMARY_COLOR, textAlign:"center"}}>{index + 1}</Text>
+      <View style={{width:1, height:25, backgroundColor:"#e3e3e3", marginLeft:7, marginRight:7}}/>
+      {/*<Image />*/}
+      <Text style={{color:"#3c3c3c", flex:1}}>{title}</Text>
+      <Text style={{borderRadius:4, paddingLeft:5, paddingRight:5, paddingTop:2, paddingBottom:2, backgroundColor:"#e5e5e5", color:"#3c3c3c"}}>₩ {price}</Text>
+    </TouchableOpacity>
+  );
+}
+
+function Memo({text, type, checkHandler}) {
+  return (
+    <View style={{flexDirection:'row', padding:12, boxShadow:"1px 1px 5px #00000040", borderRadius:10, alignItems:'center', marginBottom:15}}>
+      {type!==3?(
+        <>
+        <TouchableOpacity style={{borderRadius:"25%"}} onPress={checkHandler}>
+            <Image style={{width:16, height:16}} source={{uri: require(type?"../assets/CheckFull(pink).png":"../assets/UnCheck(pink).png")}} />
+          </TouchableOpacity>
+          <View style={{width:1, height:20, backgroundColor:"#e3e3e3", marginLeft:7, marginRight:7}}/>
+        </>
+      ):null}
+      <Text style={{flex:1, color:"#3c3c3c"}}>{text}</Text>
+    </View>
+  )
 }
 
 export default connect(

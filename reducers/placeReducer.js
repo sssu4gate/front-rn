@@ -9,7 +9,7 @@ export const types = {
   PLACE_SELECT: "PLACE_SELECT",
 };
 
-export function requestPlace(token, keyword, pageArray=[1,2]) {
+export function requestPlace(token, keyword, pageArray=[1]) {
   return (dispatch) => {
     dispatch(searchPlaceRequest());
     return Promise.all(pageArray.map(page=>api.searchPlace(token, keyword, page)))

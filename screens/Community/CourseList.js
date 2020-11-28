@@ -220,10 +220,8 @@ function Loco() {
   );
 }
 
-export default function CourseList({ navigation, route, initalScreen }) {
-  console.log(initalScreen);
-  console.log(route.params?.initalScreen);
-  console.log(route.params?.title);
+export default function CourseList({ navigation, route}) {
+  console.log(navigation, route)
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -232,7 +230,7 @@ export default function CourseList({ navigation, route, initalScreen }) {
         indicatorStyle: { backgroundColor: "white" },
         style: { backgroundColor: "#FF6DA0" },
       }}
-      initialRouteName={route.params?.initalScreen}
+      initialRouteName={route.params?.screen}
     >
       <Tab.Screen name="Popularity" component={Popularity} />
       <Tab.Screen name="Trend" component={Trend} />

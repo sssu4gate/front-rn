@@ -9,7 +9,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, TabActions } from "@react-navigation/native";
 
 export default function Recommand() {
   const navigation = useNavigation();
@@ -41,8 +41,7 @@ export default function Recommand() {
         <TouchableOpacity
           style={styles.more}
           onPress={() => {
-            console.log("asdasd");
-            navigation.navigate("Community", { initalScreen: "Loco" });
+            navigation.navigate("Community", {screen:"Loco"})
           }}
         >
           <Text style={styles.more}>더보기</Text>
