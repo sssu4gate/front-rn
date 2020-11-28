@@ -1,10 +1,9 @@
 import * as React from "react";
 import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
-import styled from "styled-components/native";
-import * as theme from "../assets/theme";
+import * as theme from "../../assets/theme";
 
 import {connect} from "react-redux";
-import {setCourse} from "../reducers/courseReducer";
+import {setCourse} from "../../reducers/courseReducer";
 
 const Container=({children, style})=>(
   <View style={{

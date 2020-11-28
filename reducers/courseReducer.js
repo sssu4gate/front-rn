@@ -1,17 +1,12 @@
 import * as api from "../api/api.js";
+import {setPost} from "./PostReducer";
 
 export const types = {
-  COURSE_SEARCH_REQUEST: "COURSE_SEARCH_REQUEST",
-  COURSE_SEARCH_SUCCESS: "COURSE_SEARCH_SUCCESS",
-  COURSE_SEARCH_ERROR: "COURSE_SEARCH_ERROR",
-  COURSE_LOAD_REQUEST: "COURSE_LOAD_REQUEST",
-  COURSE_LOAD_SUCCESS: "COURSE_LOAD_SUCCESS",
-  COURSE_LOAD_ERROR: "COURSE_LOAD_ERROR",
   COURSE_INIT: "COURSE_INIT",
+  COURSE_SET: "COURSE_SET",
   COURSE_SAVE_REQUEST: "COURSE_SAVE_REQUEST",
   COURSE_SAVE_SUCCESS: "COURSE_SAVE_SUCCESS",
   COURSE_SAVE_ERROR: "COURSE_SAVE_ERROR",
-  COURSE_SET: "COURSE_SET",
 };
 
 export function setCourse(course) {
@@ -21,39 +16,14 @@ export function setCourse(course) {
   }
 }
 
-export function requestLoadCourse(token, id) {
-  return dispatch => {
-    dispatch({type:types.COURSE_LOAD_REQUEST});
-    return api
-      .loadCourse(token, id)
-      .then(json => {
-        dispatch(loadCourseSuccess(json));
-      })
-      .catch(error => dispatch(loadCourseError(error)));
-  }
-}
-
-export function loadCourseSuccess(course){
-  return {
-    type:types.COURSE_LOAD_SUCCESS,
-    course
-  }
-}
-
-export function loadCourseError(error){
-  return {
-    type:types.COURSE_LOAD_ERROR,
-    error
-  }
-}
-
 export function requestSaveCourse(token, course) {
   return dispatch => {
     dispatch({type:types.COURSE_SAVE_REQUEST});
     return api
       .saveCourse(token, course)
       .then(json => {
-        dispatch(saveCourseSuccess(json));
+        dispatch(setPost(json)); // warning
+        dispatch(saveCourseSuccess());
       })
       .catch(error => dispatch(saveCourseError(error)));
   }
@@ -79,6 +49,7 @@ export function initCourse() {
   }
 }
 
+
 const defaultState =  {
   course:{
     nickName:"",
@@ -86,7 +57,7 @@ const defaultState =  {
     commentNum:0,
     viewCount: 0,
     backgroundImg: null,
-    courseName: "",
+    postName: "",
     title:"",
     id: null,
     date: null,
@@ -95,6 +66,7 @@ const defaultState =  {
     places: [],
     memos: [],
     content:"",
+    totalCost:0,
   },
   loading: false,
   error: null,
@@ -117,7 +89,6 @@ export default (state = defaultState, action) => {
     case types.COURSE_SAVE_SUCCESS:
       return {
         ...state,
-        course: action.course,
         loading: false,
         uploaded: true,
         error: null,

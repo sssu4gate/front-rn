@@ -27,7 +27,7 @@ export const saveCourse = async (token, course) => {
   return fetch(COURSE_URL, OPTIONS('post', TOKEN, course)).then(res=>res.json()).then(course=>({...course, memos:course.memos.map(memo=>JSON.parse(memo))})).then(json=>{console.log(json);return json}).catch(err=>console.log("API ",err, err.status));
 }
 
-export const loadCourse = (token, id) => {
+export const loadPost = (token, id) => {
   const URL = `https://capstone-4gate.herokuapp.com/course/${id}`;
   console.log('Start fetch', URL)
   return fetch(URL, OPTIONS('get', TOKEN, id)).then(res=>res.json()).then(json=>{console.log(json);return json}).catch(err=>console.log("API ",err, err.status));

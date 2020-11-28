@@ -1,11 +1,14 @@
 import * as React from "react";
 import { View, Text, Button, TextInput, TouchableOpacity, ScrollView, Image } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import * as theme from "../assets/theme";
 import {useNavigation, TabActions} from "@react-navigation/native";
 import {connect} from "react-redux";
-import {loadSelectedPlace, selectPlace, initPlace} from "../reducers/placeReducer";
-import {setCourse, initCourse, requestSaveCourse} from "../reducers/courseReducer";
+import * as theme from "../../assets/theme";
+import {loadSelectedPlace, selectPlace, initPlace} from "../../reducers/placeReducer";
+import {setCourse, initCourse, requestSaveCourse} from "../../reducers/courseReducer";
+import CheckFullPinkImage from "../../assets/CheckFull(pink).png"
+import UnCheckPinkImage from "../../assets/UnCheck(pink).png"
+import UnCheckAAAImage from "../../assets/UnCheck(AAA).png"
 
 const Content = ({children, style})=>(
   <View style={{flexDirection:"row", paddingTop:10, paddingBottom:10, paddingLeft:30, paddingRight:30, width:"100%", ...style}}>
@@ -29,12 +32,12 @@ const Temp=(props)=>{
   console.log(props);
   return <View />
 }
-function CourseContent({editMode, course, setCourse, selectPlace, initPlace, loadSelectedPlace, selectedPlaces, initCourse, requestSaveCourse, uploaded}) {
+function CourseContent({course, setCourse, selectPlace, initPlace, loadSelectedPlace, selectedPlaces, initCourse, requestSaveCourse, uploaded}) {
   const [text, setText] = React.useState("");
   const navigation = useNavigation();
 
   React.useEffect(()=>{
-    if(editMode & uploaded) {
+    if(uploaded) {
       navigation.dispatch(TabActions.jumpTo('Community', {screen:"CourseDetail"}))
       initCourse();
       initPlace();
@@ -133,7 +136,7 @@ function CourseContent({editMode, course, setCourse, selectPlace, initPlace, loa
           }}
           onPress={()=>{setCourse({...course, shareType:course.shareType=="PUBLIC"?"PRIVATE":"PUBLIC"})}}
         >
-          <Image style={{width:14, height:14}} source={{uri: require(course.shareType=="PUBLIC"?"../assets/CheckFull(pink).png":"../assets/UnCheck(AAA).png")}} />
+          <Image style={{width:14, height:14}} source={{uri:course.shareType=="PUBLIC"?CheckFullPinkImage:UnCheckAAAImage }} />
           <Text
             style={{
               fontSize: 12,
@@ -199,7 +202,7 @@ function Memo({text, type, checkHandler}) {
       {type!==3?(
         <>
         <TouchableOpacity style={{borderRadius:"25%"}} onPress={checkHandler}>
-            <Image style={{width:16, height:16}} source={{uri: require(type?"../assets/CheckFull(pink).png":"../assets/UnCheck(pink).png")}} />
+            <Image style={{width:16, height:16}} source={{uri: type?CheckFullPinkImage:UnCheckPinkImage}} />
           </TouchableOpacity>
           <View style={{width:1, height:20, backgroundColor:"#e3e3e3", marginLeft:7, marginRight:7}}/>
         </>

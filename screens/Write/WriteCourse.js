@@ -6,8 +6,8 @@ import {
 import {Image, View, Text, Button, TouchableOpacity, ScrollView} from "react-native";
 import { Calendar} from "react-native-calendars";
 import * as theme from "../../assets/theme";
-import CourseContent from "../../components/CourseContent";
-import CourseTitle from "../../components/CourseTitle";
+import CourseContent from "./CourseContent";
+import CourseTitle from "./CourseTitle";
 
 import {connect} from "react-redux";
 import {setCourse} from "../../reducers/courseReducer";
@@ -28,8 +28,8 @@ function WriteCourse({course, loading, error, setCourse}) {
       }}
     >
       <ScrollView>
-        <CourseTitle editMode setCalendarVisible={setCalendarVisible}/>
-        <CourseContent editMode/>
+        <CourseTitle setCalendarVisible={setCalendarVisible}/>
+        <CourseContent />
         <View style={{
           position: "absolute",
           width: "80vw",
