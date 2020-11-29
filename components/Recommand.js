@@ -8,32 +8,58 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import { useNavigation, TabActions } from "@react-navigation/native";
+import Carousel from "react-native-snap-carousel";
+import { scrollInterpolator, animatedStyles } from "./animations";
 
 export default function Recommand() {
   const navigation = useNavigation();
+  const [index, setIndex] = React.useState(0);
+  const SLIDER_WIDTH = Dimensions.get("window").width;
+  const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
+  const ITEM_HEIGHT = Math.round((ITEM_WIDTH * 3) / 5);
+
   var imgList = [
     {
-      uri: "https://image.bugsm.co.kr/artist/images/1000/800491/80049126.jpg",
+      uri: require("../assets/아이유1.jpg"),
       text: "도심속 한적한 아이유",
       like: 11,
+      ITEM_HEIGHT: ITEM_HEIGHT,
+      ITEM_WIDTH: ITEM_WIDTH,
     },
     {
-      uri: "https://image.bugsm.co.kr/artist/images/1000/800491/80049126.jpg",
+      uri: require("../assets/아이유2.jpg"),
       text: "test2",
       like: 22,
+      ITEM_HEIGHT: ITEM_HEIGHT,
+      ITEM_WIDTH: ITEM_WIDTH,
+    },
+    {
+      uri: require("../assets/아이유3.jpg"),
+      text: "test3",
+      like: 22,
+      ITEM_HEIGHT: ITEM_HEIGHT,
+      ITEM_WIDTH: ITEM_WIDTH,
+    },
+    {
+      uri: require("../assets/아이유4.jpg"),
+      text: "test4",
+      like: 22,
+      ITEM_HEIGHT: ITEM_HEIGHT,
+      ITEM_WIDTH: ITEM_WIDTH,
     },
   ];
-  var id = 0;
 
   return (
-    <>
+    <View>
       <View
         style={{
           flexDirection: "row",
-          width: "90%",
+          width: "100%",
           alignSelf: "center",
+          marginBottom: -40,
         }}
       >
         <Text style={{ flex: 0.2 }}> </Text>
@@ -47,73 +73,58 @@ export default function Recommand() {
           <Text style={styles.more}>더보기</Text>
         </TouchableOpacity>
       </View>
-      {/* <ScrollView horizontal={true}>
-        {imgList.map((imgList) => {
-          return (
-            <ImgList
-              key={id++}
-              uri={imgList.uri}
-              text={imgList.text}
-              like={imgList.like}
-            />
-          );
-        })}
-      </ScrollView> */}
-    </>
+      <Carousel
+        data={imgList}
+        renderItem={_lenderItem}
+        sliderWidth={SLIDER_WIDTH}
+        itemWidth={ITEM_WIDTH}
+        containerCustomStyle={styles.carouselContainer}
+        inactiveSlideShift={0}
+        onSnapToItem={(index) => setIndex({ index })}
+        scrollInterpolator={scrollInterpolator}
+        slideInterpolatedStyle={animatedStyles}
+        useScrollView={true}
+      />
+    </View>
   );
 }
 
-function ImgList({ uri, text, like }) {
+function _lenderItem({ item, index }) {
   return (
-    <View style={styles.slide}>
+    <View>
+      <ImgList
+        uri={item.uri}
+        like={item.like}
+        ITEM_WIDTH={item.ITEM_WIDTH}
+        ITEM_HEIGHT={item.ITEM_HEIGHT}
+      />
+      <Text style={styles.text}>{item.text}</Text>
+    </View>
+  );
+}
+
+function ImgList({ uri, like, ITEM_WIDTH, ITEM_HEIGHT }) {
+  return (
+    <View
+      style={{
+        width: "100%",
+        height: ITEM_HEIGHT,
+      }}
+    >
       <Image
         source={uri}
         style={{
-          width: "80%",
-          height: "80%",
+          width: "90%",
+          height: "90%",
           alignSelf: "center",
           borderRadius: 20,
         }}
       />
-      <View
-        style={{
-          flexDirection: "row",
-          width: "90%",
-          alignItems: "center",
-          alignSelf: "center",
-        }}
-      >
-        <Text style={{ flex: 0.2 }}></Text>
-        <Text style={styles.text}>{text}</Text>
-        <View
-          style={{
-            alignSelf: "center",
-            padding: 3,
-            flexDirection: "row",
-            alignItems: "center",
-            flex: 0.2,
-          }}
-        >
-          <Image
-            source={require("../assets/Heart(gray).png")}
-            style={{ width: 24, height: 24 }}
-          />
-          <Text style={styles.more}>{like}</Text>
-        </View>
-      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: {},
-  slide: {
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    backgroundColor: "white",
-    alignSelf: "center",
-  },
   text: {
     color: "#000",
     fontSize: 16,
@@ -139,5 +150,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     padding: 10,
     flex: 0.2,
+  },
+  carouselContainer: {
+    marginTop: 50,
+  },
+  itemLabel: {
+    color: "white",
+    fontSize: 24,
+  },
+  counter: {
+    marginTop: 25,
+    fontSize: 30,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
