@@ -26,7 +26,7 @@ export default function ProfileSummary({ navigation }) {
       <View style={styles.area1}>
         <View style={styles.area1_1}>
           <Image
-            source={{ uri: userInfo.imgUri }}
+            source={userInfo.imgUri}
             style={{
               width: 70,
               height: 70,
