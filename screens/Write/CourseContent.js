@@ -2,11 +2,10 @@ import * as React from "react";
 import {
   View,
   Text,
-  Button,
   TextInput,
   TouchableOpacity,
-  ScrollView,
   Image,
+  Dimensions,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useNavigation, TabActions } from "@react-navigation/native";
@@ -22,9 +21,6 @@ import {
   initCourse,
   requestSaveCourse,
 } from "../../reducers/courseReducer";
-import CheckFullPinkImage from "../../assets/CheckFull(pink).png";
-import UnCheckPinkImage from "../../assets/UnCheck(pink).png";
-import UnCheckAAAImage from "../../assets/UnCheck(AAA).png";
 
 const Content = ({ children, style }) => (
   <View
@@ -65,7 +61,15 @@ const AddButton = ({ children, style, onPress }) => (
       justifyContent: "center",
       alignItems: "center",
       borderRadius: 10,
-      boxShadow: "1px 1px 5px #00000040",
+      backgroundColor:"#fff",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 1,
+        height: 1,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3,
+      elevation: 5,
       ...style,
     }}
   >
@@ -105,8 +109,8 @@ function CourseContent({
     <View
       style={{
         flex: 1,
-        width: "100vw",
-        justifyContent: "left",
+        width: Dimensions.get("window").width,
+        justifyContent: "flex-start",
         alignItems: "center",
         backgroundColor: "#fff",
       }}
@@ -132,7 +136,7 @@ function CourseContent({
             }}
           >
             <Text
-              style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
+              style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
             >
               코스 추가
             </Text>
@@ -171,7 +175,7 @@ function CourseContent({
           style={{
             height: 100,
             borderColor: "#e3e3e3",
-            borderWidth: 0.1,
+            borderWidth: 1,
             borderRadius: 10,
             flex: 1,
             padding: 5,
@@ -225,7 +229,7 @@ function CourseContent({
             flexDirection: "row",
             alignItems: "center",
             height: "100%",
-            justifyContent: "right",
+            justifyContent: "flex-end",
           }}
           onPress={() => {
             setCourse({
@@ -238,8 +242,8 @@ function CourseContent({
             style={{ width: 14, height: 14 }}
             source={
               course.shareType == "PUBLIC"
-                ? CheckFullPinkImage
-                : UnCheckAAAImage
+                ? require("../../assets/CheckFull(pink).png")
+                : require("../../assets/UnCheck(AAA).png")
             }
           />
           <Text
@@ -259,7 +263,7 @@ function CourseContent({
           style={{
             height: 100,
             borderColor: "#e3e3e3",
-            borderWidth: 0.1,
+            borderWidth: 1,
             borderRadius: 10,
             flex: 1,
             padding: 5,
@@ -275,7 +279,15 @@ function CourseContent({
           style={{
             flex: 1,
             height: 40,
-            boxShadow: "1px 1px 5px #00000040",
+            backgroundColor:"#fff",
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 1,
+              height: 1,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3,
+            elevation: 5,
             borderRadius: 10,
             justifyContent: "center",
             alignItems: "center",
@@ -294,7 +306,15 @@ function CourseContent({
           style={{
             flex: 1,
             height: 40,
-            boxShadow: "1px 1px 5px #00000040",
+            backgroundColor:"#fff",
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 1,
+              height: 1,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3,
+            elevation: 5,
             backgroundColor: theme.PRIMARY_COLOR,
             borderRadius: 10,
             justifyContent: "center",
@@ -327,7 +347,15 @@ function PlaceItem({ title, index, price, type }) {
       style={{
         flexDirection: "row",
         marginBottom: 20,
-        boxShadow: "1px 1px 5px #00000040",
+        backgroundColor:"#fff",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 1,
+          height: 1,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3,
+        elevation: 5,
         height: 40,
         borderRadius: 10,
         padding: 8,
@@ -380,7 +408,15 @@ function Memo({ text, type, checkHandler }) {
       style={{
         flexDirection: "row",
         padding: 12,
-        boxShadow: "1px 1px 5px #00000040",
+        backgroundColor:"#fff",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 1,
+          height: 1,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3,
+        elevation: 5,
         borderRadius: 10,
         alignItems: "center",
         marginBottom: 15,
@@ -392,7 +428,7 @@ function Memo({ text, type, checkHandler }) {
             style={{ borderRadius: "25%" }}
             onPress={checkHandler}
           >
-            {/* <Image style={{width:16, height:16}} source={{uri: type?CheckFullPinkImage:UnCheckPinkImage}} /> */}
+            <Image style={{width:16, height:16}} source={type?require("../../assets/CheckFull(pink).png"):require("../../assets/UnCheck(pink).png")} /> 
           </TouchableOpacity>
           <View
             style={{

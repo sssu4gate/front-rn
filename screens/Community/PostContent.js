@@ -1,13 +1,5 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  Button,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-} from "react-native";
+import { View, Text, TouchableOpacity, Dimensions } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useNavigation, TabActions } from "@react-navigation/native";
 import { connect } from "react-redux";
@@ -102,7 +94,7 @@ function PostContent({
     <View
       style={{
         flex: 1,
-        width: "100vw",
+        width: Dimensions.get("window").width,
         justifyContent: "left",
         alignItems: "center",
         backgroundColor: "#fff",

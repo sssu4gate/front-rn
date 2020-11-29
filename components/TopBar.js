@@ -23,7 +23,6 @@ import { setOption, initOption } from "../reducers/topBarReducer";
 
 function TopBar({ route, option, setOption, initOption }) {
   React.useEffect(() => {
-    console.log(route);
     if (route.state?.index == 2) {
       let leftButton = "none";
       if (route.state.routes[2].state?.index == 1) leftButton = "back";
