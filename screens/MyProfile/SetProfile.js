@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,8 +10,17 @@ import {
   ScrollView,
 } from "react-native";
 import Modal from "react-native-modal";
+import { connect } from "react-redux";
+import { saveProfileSuccess, loadProfile } from "../../reducers/profileReducer";
 
-export default function SetProfile({ navigation }) {
+export function SetProfile({
+  navigation,
+  profile,
+  loading,
+  error,
+  saveProfileSuccess,
+  loadProfile,
+}) {
   const [isModalVisible, setModalVisible] = useState(false);
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -21,6 +30,25 @@ export default function SetProfile({ navigation }) {
   const interestArea = "동작구, 서초구, 강남구";
   const birth = "971224";
   const sex = "남자";
+  var localProfile = {
+    id: 1,
+    nickname: "",
+    birth: "",
+    gender: "M",
+    interestArea: "동작구",
+  };
+
+  React.useEffect(() => {
+    saveProfileSuccess({
+      ...profile,
+      id: 1,
+      nickname: "태바준보",
+      birth: "19971224",
+      gender: "M",
+      interestArea: "동작구, 관악구, 서초구",
+    });
+  }, []);
+  console.log(profile);
   return (
     <>
       <ScrollView style={style.background}>
@@ -52,6 +80,17 @@ export default function SetProfile({ navigation }) {
             onPress={() => {
               toggleModal();
               setModal("name");
+
+              saveProfileSuccess({
+                ...profile,
+                id: localStorage.id,
+                nickname: localStorage.nickname,
+                birth: localStorage.birth,
+                gender: localStorage.gender,
+                interestArea: localStorage.interestArea,
+              });
+              localProfile = loadProfile();
+              console.log("in onPress", localProfile);
             }}
             style={style.btnExte}
           >
@@ -338,3 +377,12 @@ const style = StyleSheet.create({
     color: "#777777",
   },
 });
+
+export default connect(
+  (state) => ({
+    profile: state.profile,
+    loading: state.loading,
+    error: state.error,
+  }),
+  { saveProfileSuccess, loadProfile }
+)(SetProfile);
