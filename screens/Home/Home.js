@@ -7,29 +7,26 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 import { NavigationContainer, useScrollToTop } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Recommand from "../../components/Recommand";
 import Search from "../../components/SearchInHome";
 import Hot5 from "../../components/HotCourse";
-
+import Constants from "expo-constants";
 
 export default function Home() {
-  const ref = React.useRef(null);
-  useScrollToTop(ref);
   return (
-    <View style={{flex:1, backgroundColor:"#fff"}}>
-      <ScrollView>
-        <View style={styles.recommand}>
-          <Recommand />
-        </View>
-        <View style={styles.container}>
-          <Search />
-          <Hot5 />
-        </View>
-      </ScrollView>
-    </View>
+    <ScrollView style={{ backgroundColor: "#ffffff" }}>
+      <View style={styles.recommand}>
+        <Recommand />
+      </View>
+      <View style={styles.container}>
+        <Search />
+        <Hot5 />
+      </View>
+    </ScrollView>
   );
 }
 
@@ -53,9 +50,9 @@ const styles = StyleSheet.create({
     height: "45%",
     width: "100%",
     alignSelf: "center",
+    flex: 1,
   },
   hot: {
-    height: "50%",
     width: "100%",
     alignSelf: "center",
     flexDirection: "row",

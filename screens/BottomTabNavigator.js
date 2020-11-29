@@ -24,6 +24,7 @@ export default function Main({ route, navigation }) {
       barStyle={{
         backgroundColor: "#fff",
       }}
+      tabBarOptions={{ showLabel: false }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           if (route.name === "Home") {

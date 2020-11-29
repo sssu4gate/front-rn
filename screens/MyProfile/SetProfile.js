@@ -61,12 +61,12 @@ export function SetProfile({
               <View style={{ height: 18, width: 24 }} />
 
               <Image
-                source={{ uri: require("../../assets/아이유1.jpg") }}
+                source={require("../../assets/아이유1.jpg")}
                 style={style.profileImg}
               />
               <TouchableOpacity style={{ alignSelf: "flex-end" }}>
                 <Image
-                  source={{ uri: require("../../assets/camera.png") }}
+                  source={require("../../assets/camera.png")}
                   style={style.cameraIcon}
                 />
               </TouchableOpacity>

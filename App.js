@@ -8,7 +8,11 @@ import {
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LocaleConfig } from "react-native-calendars";
-import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import * as theme from "./assets/theme";
 import {
   createDrawerNavigator,
@@ -78,7 +82,6 @@ const Theme = {
     text: "#777",
   },
 };
-
 const Drawer = createDrawerNavigator();
 const store = initStore();
 // { headerTitle: props => <TopBar {...props, route} />}
@@ -86,7 +89,7 @@ const store = initStore();
 export default function App() {
   return (
     <Provider store={store}>
-      <SafeAreaProvider>
+      <SafeAreaProvider style={styles.container}>
         <NavigationContainer theme={Theme}>
           <Drawer.Navigator
             initialRouteName="BottomTabNavigator"
@@ -184,5 +187,8 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: "#888888",
+  },
+  container: {
+    flex: 1,
   },
 });

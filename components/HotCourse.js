@@ -19,35 +19,35 @@ export default function HotCourse() {
       title: "롯데타워, 석촌호수 힐링 데이트~",
       rank: 1,
       like: 1,
-      id: 6,
+      id: 1,
     },
     {
       uri: "test2",
       title: "title2",
       rank: 2,
       like: 3,
-      id: 6,
+      id: 2,
     },
     {
       uri: "test3",
       title: "title3",
       rank: 3,
       like: 5,
-      id: 6,
+      id: 3,
     },
     {
       uri: "test4",
       title: "title4",
       rank: 4,
       like: 7,
-      id: 6,
+      id: 4,
     },
     {
       uri: "test5",
       title: "title5",
       rank: 5,
       like: 9,
-      id: 6,
+      id: 5,
     },
   ];
 
@@ -65,11 +65,11 @@ export default function HotCourse() {
           <Text style={styles.more}>더보기</Text>
         </TouchableOpacity>
       </View>
-      <View style={{ width: "90%", alignSelf: "center" }}>
+      <View style={{ width: "90%", alignSelf: "center", flexGrow: 1 }}>
         {courses.map((course) => {
           return (
             <Hot5
-              key={course.uri}
+              key={course.id}
               uri={course.uri}
               title={course.title}
               rank={course.rank}
@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     alignSelf: "center",
+    flexGrow: 1,
   },
   title: {
     color: "#000",
