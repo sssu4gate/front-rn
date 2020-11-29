@@ -40,41 +40,52 @@ export default function MyPost() {
       title: "title4",
       like: 3,
     },
+    {
+      id: 6,
+      imgUri: require("../../assets/아이유5.jpg"),
+      title: "title4",
+      like: 3,
+    },
+    {
+      id: 7,
+      imgUri: require("../../assets/아이유4.jpg"),
+      title: "title4",
+      like: 3,
+    },
   ];
   return (
-    <>
-      <ScrollView style={{ backgroundColor: "#ffffff" }} alwaysBounceVertical>
-        {dummy.map((post) => {
-          return (
-            <Post
-              key={post.id}
-              id={post.id}
-              imgUri={post.imgUri}
-              title={post.title}
-              like={post.like}
-            />
-          );
-        })}
-      </ScrollView>
-    </>
+    <View>
+      {dummy.map((post) => {
+        return (
+          <Post
+            key={post.id}
+            id={post.id}
+            imgUri={post.imgUri}
+            title={post.title}
+            like={post.like}
+          />
+        );
+      })}
+    </View>
   );
 }
 
 function Post({ id, imgUri, title, like }) {
   return (
-    <>
-      <TouchableOpacity style={styles.postArea}>
-        <Image source={{ uri: imgUri }} style={styles.img} />
-        <View style={styles.titleLine}>
-          <Text style={{ flex: 0.2 }} />
-          <Text style={styles.titleText}>{title}</Text>
-          <View style={styles.like}>
-            <Image style={{width:24, height:24}} source={{uri: require("../../assets/Heart(pink).png")}} />
-            <Text>{like}</Text>
-          </View>
+    <TouchableOpacity style={styles.postArea}>
+      <Image source={imgUri} style={styles.img} />
+      <View style={styles.titleLine}>
+        <Text style={{ flex: 0.2 }} />
+        <Text style={styles.titleText}>{title}</Text>
+        <View style={styles.like}>
+          <Image
+            style={{ width: 24, height: 24 }}
+            source={require("../../assets/Heart(pink).png")}
+          />
+          <Text>{like}</Text>
         </View>
-      </TouchableOpacity>
-    </>
+      </View>
+    </TouchableOpacity>
   );
 }
 

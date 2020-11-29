@@ -6,6 +6,7 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import MyLike from "./MyLike";
 import MyPost from "./MyPost";
@@ -22,11 +23,11 @@ export default function ProfileSummary({ navigation }) {
   const [isShowingPost, setIsShowingPost] = useState(true);
 
   return (
-    <>
+    <ScrollView style={{ backgroundColor: "#ffffff" }}>
       <View style={styles.area1}>
         <View style={styles.area1_1}>
           <Image
-            source={{ uri: userInfo.imgUri }}
+            source={userInfo.imgUri}
             style={{
               width: 70,
               height: 70,
@@ -71,9 +72,9 @@ export default function ProfileSummary({ navigation }) {
             <Text style={styles.like_post}>좋아요</Text>
           </TouchableOpacity>
         </View>
-        <View>{isShowingPost ? <MyPost /> : <MyLike />}</View>
       </View>
-    </>
+      {isShowingPost ? <MyPost /> : <MyLike />}
+    </ScrollView>
   );
 }
 

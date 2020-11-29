@@ -13,9 +13,9 @@ import { useNavigation, TabActions } from "@react-navigation/native";
 
 export default function Recommand() {
   const navigation = useNavigation();
-  var imgList2 = [
+  var imgList = [
     {
-      uri: "",
+      uri: "https://image.bugsm.co.kr/artist/images/1000/800491/80049126.jpg",
       text: "도심속 한적한 아이유",
       like: 11,
     },
@@ -41,14 +41,14 @@ export default function Recommand() {
         <TouchableOpacity
           style={styles.more}
           onPress={() => {
-            navigation.navigate("Community", {screen:"Loco"})
+            navigation.navigate("Community", { screen: "Loco" });
           }}
         >
           <Text style={styles.more}>더보기</Text>
         </TouchableOpacity>
       </View>
-
-      {/*imgList.map((imgList) => {
+      {/* <ScrollView horizontal={true}>
+        {imgList.map((imgList) => {
           return (
             <ImgList
               key={id++}
@@ -57,7 +57,8 @@ export default function Recommand() {
               like={imgList.like}
             />
           );
-        })*/}
+        })}
+      </ScrollView> */}
     </>
   );
 }
@@ -66,7 +67,7 @@ function ImgList({ uri, text, like }) {
   return (
     <View style={styles.slide}>
       <Image
-        source={{ uri: uri }}
+        source={uri}
         style={{
           width: "80%",
           height: "80%",
@@ -93,7 +94,10 @@ function ImgList({ uri, text, like }) {
             flex: 0.2,
           }}
         >
-          <HeartIcon length="14px" color="gray" />
+          <Image
+            source={require("../assets/Heart(gray).png")}
+            style={{ width: 24, height: 24 }}
+          />
           <Text style={styles.more}>{like}</Text>
         </View>
       </View>

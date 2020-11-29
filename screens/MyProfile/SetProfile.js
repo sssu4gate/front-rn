@@ -61,12 +61,12 @@ export function SetProfile({
               <View style={{ height: 18, width: 24 }} />
 
               <Image
-                source={{ uri: require("../../assets/아이유1.jpg") }}
+                source={require("../../assets/아이유1.jpg")}
                 style={style.profileImg}
               />
               <TouchableOpacity style={{ alignSelf: "flex-end" }}>
                 <Image
-                  source={{ uri: require("../../assets/camera.png") }}
+                  source={require("../../assets/camera.png")}
                   style={style.cameraIcon}
                 />
               </TouchableOpacity>
@@ -172,7 +172,7 @@ function ChangeName({ name, setQueryString, toggleModal }) {
             color: "#000000",
             width: "50%",
             fontSize: 16,
-            weight: "bold",
+            fontWeight: "bold",
             alignSelf: "center",
             borderWidth: 1,
             borderColor: "#e3e3e3",

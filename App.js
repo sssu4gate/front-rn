@@ -8,7 +8,11 @@ import {
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LocaleConfig } from "react-native-calendars";
-import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import * as theme from "./assets/theme";
 import {
   createDrawerNavigator,
@@ -78,38 +82,42 @@ const Theme = {
     text: "#777",
   },
 };
-
 const Drawer = createDrawerNavigator();
 const store = initStore();
 // { headerTitle: props => <TopBar {...props, route} />}
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <SafeAreaProvider>
+    <SafeAreaProvider>
+      <Provider store={store}>
         <NavigationContainer theme={Theme}>
           <Drawer.Navigator
             initialRouteName="BottomTabNavigator"
-            drawerContent={props => {
+            drawerContent={(props) => {
               return <CustomDrawerContent {...props} />;
             }}
           >
-            <Drawer.Screen name="BottomTabNavigator" component={BottomTabNavigator} options={({route})=>({header: props => <TopBar {...props} route={route} />, 
-              headerStyle: {
-                backgroundColor: '#f4511e',
-                height:40
-              }
-            })} />
+            <Drawer.Screen
+              name="BottomTabNavigator"
+              component={BottomTabNavigator}
+              options={({ route }) => ({
+                header: (props) => <TopBar {...props} route={route} />,
+                headerStyle: {
+                  backgroundColor: "#f4511e",
+                  height: 40,
+                },
+              })}
+            />
             <Drawer.Screen
               name="Settings"
               component={Settings}
               options={{ title: "Settings" }}
             />
-          {/* <Stack.Screen name="Kakao" component={Kakao} options={{headerShown:false}} /> */}
+            {/* <Stack.Screen name="Kakao" component={Kakao} options={{headerShown:false}} /> */}
           </Drawer.Navigator>
         </NavigationContainer>
-      </SafeAreaProvider>
-    </Provider>
+      </Provider>
+    </SafeAreaProvider>
   );
 }
 
@@ -125,10 +133,7 @@ function CustomDrawerContent(props) {
             }
             style={{ justifyContent: "center" }}
           >
-            <Image
-              source={{ uri: require("./assets/xBtn.png") }}
-              style={styles.btn}
-            />
+            <Image source={require("./assets/xBtn.png")} style={styles.btn} />
           </TouchableOpacity>
         </View>
 
@@ -182,5 +187,8 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: "#888888",
+  },
+  container: {
+    flex: 1,
   },
 });

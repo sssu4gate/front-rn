@@ -12,7 +12,7 @@ export default function MyLike() {
   const dummy = [
     {
       id: 3,
-      imgUri: require("../../assets/아이유3.jpg"),
+      imgUri: require("../../assets/아이유5.jpg"),
       title: "title3",
       like: 3,
     },
@@ -69,7 +69,10 @@ function Post({ id, imgUri, title, like }) {
           <Text style={{ flex: 0.2 }} />
           <Text style={styles.titleText}>{title}</Text>
           <View style={styles.like}>
-            <Image style={{width:24, height:24}} source={{uri: require("../../assets/Heart(pink).png")}} />
+            <Image
+              style={{ width: 24, height: 24 }}
+              source={{ uri: require("../../assets/Heart(pink).png") }}
+            />
             <Text>{like}</Text>
           </View>
         </View>

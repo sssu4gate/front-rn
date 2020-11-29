@@ -22,7 +22,10 @@ function Post({ title, course, text, writer, profile, like, time, view }) {
         <View style={styles.titleView}>
           <Text style={styles.titleText}>{title}</Text>
           <TouchableOpacity style={styles.heartView}>
-            <Image style={{width:24, height:24}} source={{uri: require("../../assets/Heart(pink).png")}} />
+            <Image
+              style={{ width: 24, height: 24 }}
+              source={require("../../assets/Heart(pink).png")}
+            />
             <Text style={styles.heartText}>{like}</Text>
           </TouchableOpacity>
         </View>
@@ -220,8 +223,8 @@ function Loco() {
   );
 }
 
-export default function CourseList({ navigation, route}) {
-  console.log(navigation, route)
+export default function CourseList({ navigation, route }) {
+  console.log(navigation, route);
   return (
     <Tab.Navigator
       tabBarOptions={{
