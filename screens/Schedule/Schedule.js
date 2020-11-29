@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { View, Text , Button, TouchableOpacity} from 'react-native';
+import { View, Text , Button, TouchableOpacity, Image} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import { FlatList } from "react-native-gesture-handler";
 import * as theme from "../../assets/theme";
-import LeftArrow from "../../assets/images/LeftArrow";
-import RightArrow from "../../assets/images/RightArrow";
 
 export default function Schedule({navigation, route, course}){
   let todayDate = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`;
@@ -28,8 +26,8 @@ export default function Schedule({navigation, route, course}){
           }
           monthFormat={"yyyy년 MMM"}
           renderArrow={(direction) => (
-            <View style={{width:20, height:20}}>
-              {direction == "left" ? <LeftArrow /> : <RightArrow />}
+            <View>
+              <Image style={{width:20, height:20}} source={{uri: require(direction=="left"?"../../assets/LeftArrow(pink).png":"../../assets/RightArrow(pink).png")}} />
             </View>
           )}
         />

@@ -7,7 +7,6 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import HeartIcon from "../../assets/images/Heart";
 
 export default function MyPost() {
   const dummy = [
@@ -70,7 +69,7 @@ function Post({ id, imgUri, title, like }) {
           <Text style={{ flex: 0.2 }} />
           <Text style={styles.titleText}>{title}</Text>
           <View style={styles.like}>
-            <HeartIcon />
+            <Image style={{width:24, height:24}} source={{uri: require("../../assets/Heart(pink).png")}} />
             <Text>{like}</Text>
           </View>
         </View>

@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import HeartIcon from "../../assets/images/Heart";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -23,7 +22,7 @@ function Post({ title, course, text, writer, profile, like, time, view }) {
         <View style={styles.titleView}>
           <Text style={styles.titleText}>{title}</Text>
           <TouchableOpacity style={styles.heartView}>
-            <HeartIcon length="24" />
+            <Image style={{width:24, height:24}} source={{uri: require("../../assets/Heart(pink).png")}} />
             <Text style={styles.heartText}>{like}</Text>
           </TouchableOpacity>
         </View>
@@ -221,10 +220,8 @@ function Loco() {
   );
 }
 
-export default function CourseList({ navigation, route, initalScreen }) {
-  console.log(initalScreen);
-  console.log(route.params?.initalScreen);
-  console.log(route.params?.title);
+export default function CourseList({ navigation, route}) {
+  console.log(navigation, route)
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -233,7 +230,7 @@ export default function CourseList({ navigation, route, initalScreen }) {
         indicatorStyle: { backgroundColor: "white" },
         style: { backgroundColor: "#FF6DA0" },
       }}
-      initialRouteName={route.params?.initalScreen}
+      initialRouteName={route.params?.screen}
     >
       <Tab.Screen name="Popularity" component={Popularity} />
       <Tab.Screen name="Trend" component={Trend} />

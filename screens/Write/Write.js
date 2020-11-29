@@ -5,8 +5,7 @@ import AddCourse from "./AddCourse";
 
 const Stack = createStackNavigator();
 
-export default function Write({ navigation, route }) {
-  console.log(route)
+export default function Write({ navigation, route, option, setOption}) {
   return (
     <Stack.Navigator
       initialRouteName="InitialWrite"
@@ -19,6 +18,4 @@ export default function Write({ navigation, route }) {
       <Stack.Screen name="AddCourse" component={AddCourse}/>
     </Stack.Navigator>
   );
-}
-
-
+} 

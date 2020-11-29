@@ -19,6 +19,7 @@ import {
 import BottomTabNavigator from "./screens/BottomTabNavigator";
 import Settings from "./screens/MyProfile/SetProfile";
 import initStore from "./store";
+import TopBar from "./components/TopBar";
 import { setStatusBarBackgroundColor } from "expo-status-bar";
 
 /* 
@@ -80,6 +81,7 @@ const Theme = {
 
 const Drawer = createDrawerNavigator();
 const store = initStore();
+// { headerTitle: props => <TopBar {...props, route} />}
 
 export default function App() {
   return (
@@ -88,22 +90,22 @@ export default function App() {
         <NavigationContainer theme={Theme}>
           <Drawer.Navigator
             initialRouteName="BottomTabNavigator"
-            drawerContent={(props) => {
-              console.log(props);
+            drawerContent={props => {
               return <CustomDrawerContent {...props} />;
             }}
           >
-            <Drawer.Screen
-              name="BottomTabNavigator"
-              component={BottomTabNavigator}
-              options={{ title: "LoCo" }}
-            />
+            <Drawer.Screen name="BottomTabNavigator" component={BottomTabNavigator} options={({route})=>({header: props => <TopBar {...props} route={route} />, 
+              headerStyle: {
+                backgroundColor: '#f4511e',
+                height:40
+              }
+            })} />
             <Drawer.Screen
               name="Settings"
               component={Settings}
               options={{ title: "Settings" }}
             />
-            {/* <Stack.Screen name="Kakao" component={Kakao} options={{headerShown:false}} /> */}
+          {/* <Stack.Screen name="Kakao" component={Kakao} options={{headerShown:false}} /> */}
           </Drawer.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>
