@@ -42,7 +42,7 @@ export default function SearchInHome() {
       <TouchableOpacity onPress={() => console.log(queryString)}>
         <Image
           style={{ width: 24, height: 24 }}
-          source={{ uri: require("../assets/Search.png") }}
+          source={require("../assets/Search.png")}
         />
       </TouchableOpacity>
     </Container>

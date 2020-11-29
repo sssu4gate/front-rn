@@ -90,22 +90,27 @@ export default function App() {
         <NavigationContainer theme={Theme}>
           <Drawer.Navigator
             initialRouteName="BottomTabNavigator"
-            drawerContent={props => {
+            drawerContent={(props) => {
               return <CustomDrawerContent {...props} />;
             }}
           >
-            <Drawer.Screen name="BottomTabNavigator" component={BottomTabNavigator} options={({route})=>({header: props => <TopBar {...props} route={route} />, 
-              headerStyle: {
-                backgroundColor: '#f4511e',
-                height:40
-              }
-            })} />
+            <Drawer.Screen
+              name="BottomTabNavigator"
+              component={BottomTabNavigator}
+              options={({ route }) => ({
+                header: (props) => <TopBar {...props} route={route} />,
+                headerStyle: {
+                  backgroundColor: "#f4511e",
+                  height: 40,
+                },
+              })}
+            />
             <Drawer.Screen
               name="Settings"
               component={Settings}
               options={{ title: "Settings" }}
             />
-          {/* <Stack.Screen name="Kakao" component={Kakao} options={{headerShown:false}} /> */}
+            {/* <Stack.Screen name="Kakao" component={Kakao} options={{headerShown:false}} /> */}
           </Drawer.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>
@@ -125,10 +130,7 @@ function CustomDrawerContent(props) {
             }
             style={{ justifyContent: "center" }}
           >
-            <Image
-              source={{ uri: require("./assets/xBtn.png") }}
-              style={styles.btn}
-            />
+            <Image source={require("./assets/xBtn.png")} style={styles.btn} />
           </TouchableOpacity>
         </View>
 
