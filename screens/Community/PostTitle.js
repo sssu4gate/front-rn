@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity, Dimensions } from "react-native";
 import { connect } from "react-redux";
 import { setPost } from "../../reducers/postReducer";
 import * as theme from "../../assets/theme";
@@ -11,7 +11,7 @@ const Container = ({ children, style }) => (
   <View
     style={{
       height: 100,
-      width: "100vw",
+      width: Dimensions.get('window').width,
       justifyContent: "center",
       alignItems: "center",
       borderBottomWidth: 1,
@@ -28,7 +28,7 @@ const Row = ({ children, style, flex, paddingTop, paddingBottom }) => (
   <View
     style={{
       flex: flex ? flex : 1,
-      width: "100vw",
+      width: Dimensions.get('window').width,
       paddingLeft: 25,
       paddingRight: 25,
       flexDirection: "row",
@@ -85,7 +85,7 @@ function PostTitle({ editMode, post, setPost, setCalendarVisible }) {
         <IconContainer style={{ justifyContent: "right", alignItems: "right" }}>
           <Image
             style={{ width: 20, height: 20, marginTop: 2, marginRight: 5 }}
-            source={{ uri: HeartPinkImage }}
+            source={HeartPinkImage }
           />
           <Text
             style={{
@@ -101,15 +101,26 @@ function PostTitle({ editMode, post, setPost, setCalendarVisible }) {
       </Row>
       <Row style={{ minHeight: 50 }}>
         <IconContainer style={{ flex: 8 }}>
-          <Image
+          <View
             style={{
-              boxShadow: "1px 1px 3px #00000040",
+              backgroundColor:"#f5f5f5",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 1,
+                height: 1,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3,
+              elevation: 5,
               borderRadius: "50%",
               width: 28,
               height: 28,
             }}
-            source={{ uri: "" }}
-          />
+          >
+            <Image 
+              style={{}}
+            />
+          </View>
           <Text
             style={{
               color: theme.SECOND_TEXT_COLOR,
