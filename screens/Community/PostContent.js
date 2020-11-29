@@ -44,6 +44,8 @@ function PostContent({post, setPost, selectPlace, initPlace, loadSelectedPlace, 
     }
   }, [uploaded])
 
+  console.log(post);
+
   return (
     <View
       style={{
@@ -61,22 +63,13 @@ function PostContent({post, setPost, selectPlace, initPlace, loadSelectedPlace, 
       <Content style={{ flexDirection: "column" }}>
         <FlatList 
           style={{width:"100%", overflow:"visible"}}
-          data={selectedPlaces}
+          data={post.places}
           renderItem={
             ({item, index})=>{
-              return <PlaceItem price={0} title={item.place_name} index={index}/>;
+              return <PlaceItem key={index} price={item.cost} title={item.placeDto.place_name} index={index}/>;
             }
           }
         />
-        <View style={{ height:40 }}>
-          <AddButton onPress={()=>{navigation.navigate("AddPost")}}>
-            <Text
-              style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
-            >
-              코스 추가
-            </Text>
-          </AddButton>
-        </View>
       </Content>
       <Content>
         <Text style={{ fontSize: 12, color: "#AAAAAA" }}>메모</Text>
@@ -98,87 +91,29 @@ function PostContent({post, setPost, selectPlace, initPlace, loadSelectedPlace, 
           }
         />
       </Content>
-      <Content style={{ flexDirection: "column" }}>
-        <TextInput 
-          style={{height: 100, borderColor: "#e3e3e3" , borderWidth: 0.1, borderRadius:10, flex:1, padding:5, marginBottom:15 }}
-          multiline
-          numberOfLines={4}
-          onChangeText={setText}
-          value={text}/>
-        <Content style={{ padding: "0" }}>
-          <AddButton onPress={()=>{text!=''?setPost({...post, memos:[...post.memos, {text, type:3}]}):null;setText('')}}>
-            <Text
-              style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
-            >
-              메모 추가
-            </Text>
-          </AddButton>
-          <View style={{width:20, height:"100%"}} />
-          <AddButton onPress={()=>{text!=''?setPost({...post, memos:[...post.memos, {text, type:0}]}):null;setText('')}}>
-            <Text
-              style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
-            >
-              체크리스트 추가
-            </Text>
-          </AddButton>
-        </Content>
-      </Content>
       <Content>
         <Text style={{ fontSize: 12, color: "#AAAAAA" }}>본문</Text>
         <Line />
-        <TouchableOpacity
-          style={{
-            marginLeft: 15,
-            flexDirection: "row",
-            alignItems: "center",
-            height: "100%",
-            justifyContent: "right",
-          }}
-          onPress={()=>{setPost({...post, shareType:post.shareType=="PUBLIC"?"PRIVATE":"PUBLIC"})}}
-        >
-          <Image style={{width:14, height:14}} source={{uri:post.shareType=="PUBLIC"?CheckFullPinkImage:UnCheckAAAImage }} />
-          <Text
-            style={{
-              fontSize: 12,
-              color: post.shareType=="PUBLIC" ? theme.PRIMARY_COLOR : "#AAAAAA",
-              marginLeft: 5,
-            }}
-          >
-            공유
-          </Text>
-        </TouchableOpacity>
       </Content>
       <Content style={{ flexDirection: "column" }}>
-        <TextInput 
-          style={{height: 100, borderColor: "#e3e3e3" , borderWidth: 0.1, borderRadius:10, flex:1, padding:5}}
-          multiline
-          numberOfLines={10}
-          onChangeText={text=>setPost({...post, content:text})}
-          value={post.content}/>
+        <Text style={{color:"#777", fontSize:18, minHeight:100}}>
+          {post.content}
+        </Text>
       </Content>
-      <Content style={{ paddingTop:0 }}>
-        <TouchableOpacity 
-          style={{flex:1, height:40, boxShadow:"1px 1px 5px #00000040", borderRadius:10, justifyContent:"center", alignItems:"center", marginRight:10}}
-          onPress={()=>{setText("");initPost()}}
-        >
-          <Text style={{color:"#aaa", fontSize:16, fontWeight:"bold"}}>초기화 하기</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={{flex:1, height:40, boxShadow:"1px 1px 5px #00000040", backgroundColor:theme.PRIMARY_COLOR, borderRadius:10, justifyContent:"center", alignItems:"center"}}
-          onPress={()=>{
-            console.log(post);
-            const finalPost = {
-              "content": post.content,
-              "postName": post.postName,
-              "memos": post.memos.map(memo=>JSON.stringify(memo)),
-              "places": selectedPlaces,
-              "shareType": post.shareType
+      <Content>
+        <FlatList 
+          style={{width:"100%", overflow:"visible"}}
+          data={post.tags}
+          renderItem={
+            ({item, index})=>{
+              return <View />;
             }
-            requestSavePost("", finalPost);
-          }}
-        >
-          <Text style={{color:"#ffffff", fontSize:16, fontWeight:"bold"}}>작성 하기</Text>
-        </TouchableOpacity>
+          }
+        />
+      </Content>
+      <Content>
+        <Text style={{ fontSize: 12, color: "#AAAAAA" }}>댓글</Text>
+        <Line />
       </Content>
     </View>
   );
