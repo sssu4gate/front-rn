@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Text, View, Image } from "react-native";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Community from "./Community/Community";
 import Home from "./Home/Home";
 import MyProfile from "./MyProfile/MyProfile";
@@ -15,7 +15,7 @@ import * as theme from "../assets/theme";
 
 const Tab = createBottomTabNavigator();
 
-export default function Main({route, navigation}) {
+export default function Main({ route, navigation }) {
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -83,8 +83,8 @@ export default function Main({route, navigation}) {
               <Image
                 source={
                   focused
-                    ? require("../assets/MyProfile(p).png")
-                    : require("../assets/MyProfile.png")
+                    ? require("../assets/Schedule(p).png")
+                    : require("../assets/Schedule.png")
                 }
                 style={{
                   width: 20,
