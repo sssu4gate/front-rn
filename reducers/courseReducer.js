@@ -1,5 +1,5 @@
 import * as api from "../api/api.js";
-import {setPost} from "./PostReducer";
+import {setPost} from "./postReducer";
 
 export const types = {
   COURSE_INIT: "COURSE_INIT",
