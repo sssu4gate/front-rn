@@ -16,12 +16,14 @@ import {
 } from "@react-navigation/native";
 import { connect } from "react-redux";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as theme from "../assets/theme";
 import BackWhiteImage from "../assets/back(white).png";
 import MenuBlackImage from "../assets/menu(black).png";
 import { setOption, initOption } from "../reducers/topBarReducer";
 
 function TopBar({ route, option, setOption, initOption }) {
+  const insets = useSafeAreaInsets();
   React.useEffect(() => {
     if (route.state?.index == 2) {
       let leftButton = "none";
@@ -62,11 +64,11 @@ function TopBar({ route, option, setOption, initOption }) {
   return (
     <View
       style={{
-        height: 40,
         flexDirection: "row", // row
         backgroundColor: "white",
         alignItems: "center",
         justifyContent: "space-between", // center, space-around
+        paddingTop:insets.top,
         paddingLeft: 10,
         paddingRight: 10,
         backgroundColor: option.backgroundColor,

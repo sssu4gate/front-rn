@@ -85,8 +85,8 @@ const store = initStore();
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <SafeAreaProvider>
+    <SafeAreaProvider>
+      <Provider store={store}>
         <NavigationContainer theme={Theme}>
           <Drawer.Navigator
             initialRouteName="BottomTabNavigator"
@@ -113,8 +113,8 @@ export default function App() {
             {/* <Stack.Screen name="Kakao" component={Kakao} options={{headerShown:false}} /> */}
           </Drawer.Navigator>
         </NavigationContainer>
-      </SafeAreaProvider>
-    </Provider>
+      </Provider>
+    </SafeAreaProvider>
   );
 }
 
