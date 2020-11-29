@@ -172,7 +172,7 @@ function ChangeName({ name, setQueryString, toggleModal }) {
             color: "#000000",
             width: "50%",
             fontSize: 16,
-            weight: "bold",
+            fontWeight: "bold",
             alignSelf: "center",
             borderWidth: 1,
             borderColor: "#e3e3e3",

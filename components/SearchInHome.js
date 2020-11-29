@@ -35,12 +35,15 @@ export default function SearchInHome() {
           width: "100%",
           height: "100%",
           fontSize: 20,
-          weight: "bold",
+          fontWeight: "bold",
         }}
         onFocus={() => Stretch()}
       />
       <TouchableOpacity onPress={() => console.log(queryString)}>
-        <Image style={{width:24, height:24}} source={{uri: require("../assets/Search.png")}}/>
+        <Image
+          style={{ width: 24, height: 24 }}
+          source={{ uri: require("../assets/Search.png") }}
+        />
       </TouchableOpacity>
     </Container>
   );
