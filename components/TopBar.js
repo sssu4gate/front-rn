@@ -10,14 +10,41 @@ import {
 import {
   NavigationContainer,
   DrawerActions,
+  StackActions,
   useNavigation,
 } from "@react-navigation/native";
-import {StackActions} from "@react-navigation/native";
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import * as theme from "../assets/theme";
+import BackWhiteImage from "../assets/back(white).png";
+import MenuBlackImage from "../assets/menu(black).png";
 
-function TopBar({route:{state}}) {
+export default function TopBar({route}) {
   const navigation = useNavigation();
+  const buttonHandlerMap={
+    "menu": ()=>navigation.dispatch(DrawerActions.toggleDrawer()),
+    "back": ()=>navigation.dispatch(StackActions.pop()),
+    "none": ()=>null,
+  };
+
+  const defaultOption={
+    backgroundColor:"#fff",
+    titleColor: theme.PRIMARY_COLOR,
+    leftButton:"menu",
+  };
+
+  let option={...defaultOption};
+  if(route.state?.index==2){
+    let leftButton="none";
+    if(route.state.routes[route.state.index].state?.index==1) 
+      leftButton="back";
+    option={...option, backgroundColor:theme.PRIMARY_COLOR, titleColor:"#fff", leftButton}
+  }
+  else if(route.state?.index==1){
+    if(route.state.routes[route.state.index].params?.screen=="PostDetail")
+      option={...option, backgroundColor:theme.PRIMARY_COLOR, titleColor:"#fff", leftButton:"back"}
+  } else {
+    option={...defaultOption};
+  }
 
   return (
     <View style={{
@@ -28,27 +55,22 @@ function TopBar({route:{state}}) {
       justifyContent: "space-between", // center, space-around
       paddingLeft: 10,
       paddingRight: 10,
-      backgroundColor:state?.index==2?theme.PRIMARY_COLOR:"#fff"
+      backgroundColor:option.backgroundColor
     }}>
       <TouchableOpacity
         style={{width:30, height:30, justifyContent:"center", alignItems:"center"}}
-        onPress={() => {
-          navigation.navigate("Write", {screen:"InitialWrite"}, StackActions.pop());
-        }}
+        onPress={buttonHandlerMap[option.leftButton]}
       >
       {
-        state?.index==2?(
-          state.routes[state.index].state?.index>0?
-            <Image
-              style={{
-                width: 20,
-                height: 20,
-              }}
-              source={{uri: require("../assets/back(white).png")}}
-            />:
+        option.leftButton=="menu"?
+          <Image style={{width:20, height:20}} source={{uri: MenuBlackImage}}/>
+          :(
+          option.leftButton=="back"?
+            <Image style={{width: 20, height: 20}} source={{uri: BackWhiteImage}}/>
+            :
             <View style={{width:30, height:30}}/>
-          ):
-          <Image style={{width:20, height:20}} source={{uri: require("../assets/menu(black).png")}}/>
+          )
+          
       }
       </TouchableOpacity>
       <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
@@ -57,7 +79,7 @@ function TopBar({route:{state}}) {
             navigation.navigate("Home");
           }}
         >
-          <Text style={{textAlign:"center", fontSize:28, color:state?.index!=2?theme.PRIMARY_COLOR:"#fff", fontWeight:"bold", fontStyle:"italic" }}>LoCo</Text>
+          <Text style={{textAlign:"center", fontSize:28, color:option.titleColor, fontWeight:"bold", fontStyle:"italic" }}>LoCo</Text>
         </TouchableOpacity>
       </View>
       <TouchableOpacity >
@@ -71,5 +93,3 @@ function TopBar({route:{state}}) {
     </View>
   );
 }
-
-export default TopBar;

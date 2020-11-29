@@ -106,7 +106,7 @@ export default function App() {
               options={{ title: "Settings" }}
             />
           {/* <Stack.Screen name="Kakao" component={Kakao} options={{headerShown:false}} /> */}
-      </Drawer.Navigator>
+          </Drawer.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>
     </Provider>

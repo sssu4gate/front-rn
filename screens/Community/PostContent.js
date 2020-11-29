@@ -1,11 +1,14 @@
 import * as React from "react";
 import { View, Text, Button, TextInput, TouchableOpacity, ScrollView, Image } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import * as theme from "../assets/theme";
 import {useNavigation, TabActions} from "@react-navigation/native";
 import {connect} from "react-redux";
-import {loadSelectedPlace, selectPlace, initPlace} from "../reducers/placeReducer";
-import {setCourse, initCourse, requestSaveCourse} from "../reducers/courseReducer";
+import * as theme from "../../assets/theme";
+import {loadSelectedPlace, selectPlace, initPlace} from "../../reducers/placeReducer";
+import {setPost, initPost, requestSavePost} from "../../reducers/postReducer";
+import CheckFullPinkImage from "../../assets/CheckFull(pink).png"
+import UnCheckPinkImage from "../../assets/UnCheck(pink).png"
+import UnCheckAAAImage from "../../assets/UnCheck(AAA).png"
 
 const Content = ({children, style})=>(
   <View style={{flexDirection:"row", paddingTop:10, paddingBottom:10, paddingLeft:30, paddingRight:30, width:"100%", ...style}}>
@@ -29,14 +32,14 @@ const Temp=(props)=>{
   console.log(props);
   return <View />
 }
-function CourseContent({editMode, course, setCourse, selectPlace, initPlace, loadSelectedPlace, selectedPlaces, initCourse, requestSaveCourse, uploaded}) {
+function PostContent({post, setPost, selectPlace, initPlace, loadSelectedPlace, selectedPlaces, initPost, requestSavePost, uploaded}) {
   const [text, setText] = React.useState("");
   const navigation = useNavigation();
 
   React.useEffect(()=>{
-    if(editMode & uploaded) {
-      navigation.dispatch(TabActions.jumpTo('Community', {screen:"CourseDetail"}))
-      initCourse();
+    if(uploaded) {
+      navigation.dispatch(TabActions.jumpTo('Community', {screen:"PostDetail"}))
+      initPost();
       initPlace();
     }
   }, [uploaded])
@@ -66,7 +69,7 @@ function CourseContent({editMode, course, setCourse, selectPlace, initPlace, loa
           }
         />
         <View style={{ height:40 }}>
-          <AddButton onPress={()=>{navigation.navigate("AddCourse")}}>
+          <AddButton onPress={()=>{navigation.navigate("AddPost")}}>
             <Text
               style={{ color: "#aaa", fontSize: "16px", fontWeight: "bold" }}
             >
@@ -82,12 +85,12 @@ function CourseContent({editMode, course, setCourse, selectPlace, initPlace, loa
       <Content style={{paddingBottom:0}}>
         <FlatList 
           style={{width:"100%", overflow:"visible"}}
-          data={course.memos}
+          data={post.memos}
           renderItem={
             ({item, index})=>{
               return <Memo {...item} checkHandler={
                 ()=>{
-                  setCourse({...course, memos:[...course.memos.slice(0, index), {text:item.text, type:Number(!item.type)}, ...course.memos.slice(index+1, course.memos.length)]});
+                  setPost({...post, memos:[...post.memos.slice(0, index), {text:item.text, type:Number(!item.type)}, ...post.memos.slice(index+1, post.memos.length)]});
                 }
               }
               />;
@@ -103,7 +106,7 @@ function CourseContent({editMode, course, setCourse, selectPlace, initPlace, loa
           onChangeText={setText}
           value={text}/>
         <Content style={{ padding: "0" }}>
-          <AddButton onPress={()=>{text!=''?setCourse({...course, memos:[...course.memos, {text, type:3}]}):null;setText('')}}>
+          <AddButton onPress={()=>{text!=''?setPost({...post, memos:[...post.memos, {text, type:3}]}):null;setText('')}}>
             <Text
               style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
             >
@@ -111,7 +114,7 @@ function CourseContent({editMode, course, setCourse, selectPlace, initPlace, loa
             </Text>
           </AddButton>
           <View style={{width:20, height:"100%"}} />
-          <AddButton onPress={()=>{text!=''?setCourse({...course, memos:[...course.memos, {text, type:0}]}):null;setText('')}}>
+          <AddButton onPress={()=>{text!=''?setPost({...post, memos:[...post.memos, {text, type:0}]}):null;setText('')}}>
             <Text
               style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
             >
@@ -131,13 +134,13 @@ function CourseContent({editMode, course, setCourse, selectPlace, initPlace, loa
             height: "100%",
             justifyContent: "right",
           }}
-          onPress={()=>{setCourse({...course, shareType:course.shareType=="PUBLIC"?"PRIVATE":"PUBLIC"})}}
+          onPress={()=>{setPost({...post, shareType:post.shareType=="PUBLIC"?"PRIVATE":"PUBLIC"})}}
         >
-          <Image style={{width:14, height:14}} source={{uri: require(course.shareType=="PUBLIC"?"../assets/CheckFull(pink).png":"../assets/UnCheck(AAA).png")}} />
+          <Image style={{width:14, height:14}} source={{uri:post.shareType=="PUBLIC"?CheckFullPinkImage:UnCheckAAAImage }} />
           <Text
             style={{
               fontSize: 12,
-              color: course.shareType=="PUBLIC" ? theme.PRIMARY_COLOR : "#AAAAAA",
+              color: post.shareType=="PUBLIC" ? theme.PRIMARY_COLOR : "#AAAAAA",
               marginLeft: 5,
             }}
           >
@@ -150,28 +153,28 @@ function CourseContent({editMode, course, setCourse, selectPlace, initPlace, loa
           style={{height: 100, borderColor: "#e3e3e3" , borderWidth: 0.1, borderRadius:10, flex:1, padding:5}}
           multiline
           numberOfLines={10}
-          onChangeText={text=>setCourse({...course, content:text})}
-          value={course.content}/>
+          onChangeText={text=>setPost({...post, content:text})}
+          value={post.content}/>
       </Content>
       <Content style={{ paddingTop:0 }}>
         <TouchableOpacity 
           style={{flex:1, height:40, boxShadow:"1px 1px 5px #00000040", borderRadius:10, justifyContent:"center", alignItems:"center", marginRight:10}}
-          onPress={()=>{setText("");initCourse()}}
+          onPress={()=>{setText("");initPost()}}
         >
           <Text style={{color:"#aaa", fontSize:16, fontWeight:"bold"}}>초기화 하기</Text>
         </TouchableOpacity>
         <TouchableOpacity 
           style={{flex:1, height:40, boxShadow:"1px 1px 5px #00000040", backgroundColor:theme.PRIMARY_COLOR, borderRadius:10, justifyContent:"center", alignItems:"center"}}
           onPress={()=>{
-            console.log(course);
-            const finalCourse = {
-              "content": course.content,
-              "courseName": course.courseName,
-              "memos": course.memos.map(memo=>JSON.stringify(memo)),
+            console.log(post);
+            const finalPost = {
+              "content": post.content,
+              "postName": post.postName,
+              "memos": post.memos.map(memo=>JSON.stringify(memo)),
               "places": selectedPlaces,
-              "shareType": course.shareType
+              "shareType": post.shareType
             }
-            requestSaveCourse("", finalCourse);
+            requestSavePost("", finalPost);
           }}
         >
           <Text style={{color:"#ffffff", fontSize:16, fontWeight:"bold"}}>작성 하기</Text>
@@ -199,7 +202,7 @@ function Memo({text, type, checkHandler}) {
       {type!==3?(
         <>
         <TouchableOpacity style={{borderRadius:"25%"}} onPress={checkHandler}>
-            <Image style={{width:16, height:16}} source={{uri: require(type?"../assets/CheckFull(pink).png":"../assets/UnCheck(pink).png")}} />
+            <Image style={{width:16, height:16}} source={{uri: type?CheckFullPinkImage:UnCheckPinkImage}} />
           </TouchableOpacity>
           <View style={{width:1, height:20, backgroundColor:"#e3e3e3", marginLeft:7, marginRight:7}}/>
         </>
@@ -212,8 +215,8 @@ function Memo({text, type, checkHandler}) {
 export default connect(
   state=>({
     selectedPlaces: state.place.selectedPlaces,
-    course: state.course.course,
-    uploaded: state.course.uploaded
+    post: state.post.post,
+    uploaded: state.post.uploaded
   }),
-  {loadSelectedPlace, selectPlace, initPlace, setCourse, initCourse, requestSaveCourse}
-)(CourseContent);
+  {loadSelectedPlace, selectPlace, initPlace, setPost, initPost, requestSavePost}
+)(PostContent);

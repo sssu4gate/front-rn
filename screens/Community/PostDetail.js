@@ -3,19 +3,19 @@ import {useNavigation} from "@react-navigation/native";
 import {Image, View, Text, Button, TouchableOpacity, ScrollView} from "react-native";
 import { Calendar} from "react-native-calendars";
 import * as theme from "../../assets/theme";
-import CourseContent from "../../components/CourseContent";
-import CourseTitle from "../../components/CourseTitle";
-import {requestLoadCourse} from "../../reducers/courseReducer";
+import PostContent from "./PostContent";
+import PostTitle from "./PostTitle";
+import {requestLoadPost} from "../../reducers/postReducer";
 
 import {connect} from "react-redux";
 
-function CommunityDetail({id, course, loading, error, requestLoadCourse}) {
-  console.log(id, course);
+function PostDetail({navigation, route, loading, error, requestLoadPost}) {
 
   React.useEffect(()=>{
-    if(id)
-      requestLoadCourse("", id);
-  }, [id]);
+    if(route.params.id){
+      requestLoadPost("", route.params.id);
+    }
+  }, [route.params.id]);
 
   return (
     <View
@@ -28,19 +28,16 @@ function CommunityDetail({id, course, loading, error, requestLoadCourse}) {
       }}
     >
       <ScrollView>
-        {/*
-        <CourseTitle/>
-        <CourseContent/>
-        */}
+        <PostTitle/>
+        <PostContent/>
       </ScrollView>
     </View>
   );
 }
 export default connect(
   state=>({
-    course: state.course.course, 
-    error:state.course.error, 
-    loading:state.course.loading,
+    error:state.post.error, 
+    loading:state.post.loading,
   }),
-  {requestLoadCourse}
-)(CommunityDetail)
+  {requestLoadPost}
+)(PostDetail)

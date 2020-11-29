@@ -7,15 +7,14 @@ export const types = {
   POST_LOAD_REQUEST: "POST_LOAD_REQUEST",
   POST_LOAD_SUCCESS: "POST_LOAD_SUCCESS",
   POST_LOAD_ERROR: "POST_LOAD_ERROR",
-  POST_INIT: "POST_INIT",
   POST_SAVE_REQUEST: "POST_SAVE_REQUEST",
   POST_SAVE_SUCCESS: "POST_SAVE_SUCCESS",
   POST_SAVE_ERROR: "POST_SAVE_ERROR",
   POST_SET: "POST_SET",
+  POST_INIT: "POST_INIT",
 };
 
 export function setPost(post) {
-  console.log(post);
   return {
     type: types.POST_SET,
     post

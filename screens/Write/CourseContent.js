@@ -22,8 +22,8 @@ const Line = ({children, style})=>(
   </View>
 );
 
-const AddButton = ({children, style})=>(
-  <TouchableOpacity style={{flex:1, height:40, justifyContent:"center", alignItems:"center", borderRadius:10, boxShadow:"1px 1px 5px #00000040", ...style}}>
+const AddButton = ({children, style, onPress})=>(
+  <TouchableOpacity onPress={onPress} style={{flex:1, height:40, justifyContent:"center", alignItems:"center", borderRadius:10, boxShadow:"1px 1px 5px #00000040", ...style}}>
     {children}
   </TouchableOpacity>
 );
@@ -38,7 +38,7 @@ function CourseContent({course, setCourse, selectPlace, initPlace, loadSelectedP
 
   React.useEffect(()=>{
     if(uploaded) {
-      navigation.dispatch(TabActions.jumpTo('Community', {screen:"CourseDetail"}))
+      navigation.dispatch(TabActions.jumpTo('Community', {screen:"PostDetail"}))
       initCourse();
       initPlace();
     }
@@ -105,7 +105,7 @@ function CourseContent({course, setCourse, selectPlace, initPlace, loadSelectedP
           numberOfLines={4}
           onChangeText={setText}
           value={text}/>
-        <Content style={{ padding: "0" }}>
+        <Content style={{ paddingLeft: 0, paddingRight:0 }}>
           <AddButton onPress={()=>{text!=''?setCourse({...course, memos:[...course.memos, {text, type:3}]}):null;setText('')}}>
             <Text
               style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}

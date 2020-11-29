@@ -8,7 +8,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, TabActions } from "@react-navigation/native";
 import styled from "styled-components/native";
 
 export default function HotCourse() {
@@ -19,30 +19,35 @@ export default function HotCourse() {
       title: "롯데타워, 석촌호수 힐링 데이트~",
       rank: 1,
       like: 1,
+      id:6,
     },
     {
       uri: "test2",
       title: "title2",
       rank: 2,
       like: 3,
+      id:6,
     },
     {
       uri: "test3",
       title: "title3",
       rank: 3,
       like: 5,
+      id:6,
     },
     {
       uri: "test4",
       title: "title4",
       rank: 4,
       like: 7,
+      id:6,
     },
     {
       uri: "test5",
       title: "title5",
       rank: 5,
       like: 9,
+      id:6,
     },
   ];
 
@@ -69,6 +74,7 @@ export default function HotCourse() {
               title={course.title}
               rank={course.rank}
               like={course.like}
+              id={course.id}
             />
           );
         })}
@@ -77,39 +83,37 @@ export default function HotCourse() {
   );
 }
 
-function Hot5({ uri, title, like, rank }) {
+function Hot5({ uri, title, like, rank, id }) {
+  const navigation = useNavigation();
   return (
-    <>
-      <View style={styles.row}>
-        <View
-          style={{
-            flex: 0.1,
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "row",
-          }}
-        >
-          <Text style={styles.text}>{rank}</Text>
-          <View style={{width:1, height:"100%", backgroundColor:"#eee"}}/>
-        </View>
-
-        <TouchableOpacity
-          style={{ flex: 0.7, alignItems: "center" }}
-          onPress={() => {}}
-        >
-          <Text style={styles.hot5Title}>{title}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{ flexDirection: "row", flex: 0.2, alignItems: "center" }}
-          onPress={() => {
-            console.log("Like");
-          }}
-        >
-          <Image style={{width:14, height:14}} source={{uri: require("../assets/Heart(gray).png")}}/>
-          <Text style={styles.more}>{like}</Text>
-        </TouchableOpacity>
+    <View style={styles.row}>
+      <View
+        style={{
+          flex: 0.1,
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "row",
+        }}
+      >
+        <Text style={styles.text}>{rank}</Text>
+        <View style={{width:1, height:"100%", backgroundColor:"#eee"}}/>
       </View>
-    </>
+      <TouchableOpacity
+        style={{ flex: 0.7, alignItems: "center" }}
+        onPress={() => navigation.dispatch(TabActions.jumpTo('Community', {screen:"PostDetail", id}))}
+      >
+        <Text style={styles.hot5Title}>{title}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{ flexDirection: "row", flex: 0.2, alignItems: "center" }}
+        onPress={() => {
+          console.log("Like");
+        }}
+      >
+        <Image style={{width:14, height:14}} source={{uri: require("../assets/Heart(gray).png")}}/>
+        <Text style={styles.more}>{like}</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 

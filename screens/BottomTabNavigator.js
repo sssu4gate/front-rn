@@ -15,7 +15,7 @@ import * as theme from "../assets/theme";
 
 const Tab = createBottomTabNavigator();
 
-export default function Main() {
+export default function Main({route, navigation}) {
   return (
     <Tab.Navigator
       initialRouteName="Home"
