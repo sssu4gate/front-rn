@@ -83,8 +83,8 @@ export default function Main({ route, navigation }) {
               <Image
                 source={
                   focused
-                    ? require("../assets/Schedule(p).png")
-                    : require("../assets/Schedule.png")
+                    ? require("../assets/Myprofile(p).png")
+                    : require("../assets/Myprofile.png")
                 }
                 style={{
                   width: 20,
