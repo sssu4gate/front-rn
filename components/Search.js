@@ -1,8 +1,6 @@
 import * as React from "react";
 import styled from "styled-components/native";
-import { TextInput, View } from "react-native";
-import Filter from "../assets/images/Filter";
-import Search from "../assets/images/Search";
+import { TextInput, View, Image } from "react-native";
 
 const Container = styled.View`
   width: 100%;
@@ -26,7 +24,7 @@ const Indicator = styled.View`
   margin-right: 10px;
 `;
 
-export default function Write() {
+export default function Search() {
   const [queryString, setQueryString] = React.useState("");
   return (
     <Container>
@@ -44,9 +42,11 @@ export default function Write() {
         }}
       />
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Search length={24}></Search>
+        {/*
+        <Image style={{width:24, height:24}} source={{uri: require("../assets/Search.png")}}/>
         <Indicator />
-        <Filter length={24}></Filter>
+        <Image style={{width:24, height:24}} source={{uri: require("../assets/Filter.png")}}/>
+        */}
       </View>
     </Container>
   );

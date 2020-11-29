@@ -1,17 +1,12 @@
 import * as api from "../api/api.js";
+import {setPost} from "./PostReducer";
 
 export const types = {
-  COURSE_SEARCH_REQUEST: "COURSE_SEARCH_REQUEST",
-  COURSE_SEARCH_SUCCESS: "COURSE_SEARCH_SUCCESS",
-  COURSE_SEARCH_ERROR: "COURSE_SEARCH_ERROR",
-  COURSE_UPLOAD_REQUEST: "COURSE_UPLOAD_REQUEST",
-  COURSE_UPLOAD_SUCCESS: "COURSE_UPLOAD_SUCCESS",
-  COURSE_UPLOAD_ERROR: "COURSE_UPLOAD_ERROR",
-  COURSE_FETCH_REQUEST: "COURSE_FETCH_REQUEST",
-  COURSE_FETCH_SUCCESS: "COURSE_FETCH_SUCCESS",
-  COURSE_FETCH_ERROR: "COURSE_FETCH_ERROR",
+  COURSE_INIT: "COURSE_INIT",
   COURSE_SET: "COURSE_SET",
-  COURSE_LOAD: "COURSE_LOAD",
+  COURSE_SAVE_REQUEST: "COURSE_SAVE_REQUEST",
+  COURSE_SAVE_SUCCESS: "COURSE_SAVE_SUCCESS",
+  COURSE_SAVE_ERROR: "COURSE_SAVE_ERROR",
 };
 
 export function setCourse(course) {
@@ -21,25 +16,61 @@ export function setCourse(course) {
   }
 }
 
+export function requestSaveCourse(token, course) {
+  return dispatch => {
+    dispatch({type:types.COURSE_SAVE_REQUEST});
+    return api
+      .saveCourse(token, course)
+      .then(json => {
+        dispatch(setPost(json)); // warning
+        dispatch(saveCourseSuccess());
+      })
+      .catch(error => dispatch(saveCourseError(error)));
+  }
+}
+
+export function saveCourseSuccess(course){
+  return {
+    type:types.COURSE_SAVE_SUCCESS,
+    course
+  }
+}
+
+export function saveCourseError(error){
+  return {
+    type:types.COURSE_SAVE_ERROR,
+    error
+  }
+}
+
+export function initCourse() {
+  return {
+    type: types.COURSE_INIT,
+  }
+}
+
+
 const defaultState =  {
   course:{
-    user: {
-      img: null,
-      name: null,
-    },
-    heartCount: 0,
+    nickName:"",
+    likeNum: 0,
+    commentNum:0,
     viewCount: 0,
     backgroundImg: null,
-    courseName: "코스",
+    postName: "",
+    title:"",
     id: null,
     date: null,
     createdAt:null,
-    sharing: true,
+    shareType:"PUBLIC",
     places: [],
     memos: [],
+    content:"",
+    totalCost:0,
   },
   loading: false,
   error: null,
+  uploaded:false,
 }
 
 export default (state = defaultState, action) => {
@@ -48,6 +79,50 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         course:action.course
+      }
+    case types.COURSE_SAVE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      }
+    case types.COURSE_SAVE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        uploaded: true,
+        error: null,
+      }
+    case types.COURSE_SAVE_ERROR:
+      return {
+        ...state,
+        loading: false,
+        uploaded: true,
+        error: action.error,
+      }
+    case types.COURSE_INIT:
+      return {
+        ...defaultState
+      }
+    case types.COURSE_LOAD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      }
+    case types.COURSE_LOAD_SUCCESS:
+      return {
+        ...state,
+        course: action.course,
+        loading: false,
+        error: null,
+      }
+    case types.COURSE_LOAD_ERROR:
+      return {
+        ...state,
+        loading: false,
+        uploaded: true,
+        error: action.error,
       }
     default:
       return state;

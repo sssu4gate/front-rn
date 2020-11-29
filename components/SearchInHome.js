@@ -1,8 +1,6 @@
 import * as React from "react";
 import styled from "styled-components/native";
-import { TextInput, View, TouchableOpacity } from "react-native";
-import Filter from "../assets/images/Filter";
-import Search from "../assets/images/Search";
+import { TextInput, View, TouchableOpacity, Image } from "react-native";
 
 const Container = styled.View`
   width: 90%;
@@ -42,7 +40,7 @@ export default function SearchInHome() {
         onFocus={() => Stretch()}
       />
       <TouchableOpacity onPress={() => console.log(queryString)}>
-        <Search length="24" />
+        <Image style={{width:24, height:24}} source={{uri: require("../assets/Search.png")}}/>
       </TouchableOpacity>
     </Container>
   );
