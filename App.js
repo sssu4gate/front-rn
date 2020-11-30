@@ -8,11 +8,7 @@ import {
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LocaleConfig } from "react-native-calendars";
-import {
-  SafeAreaView,
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as theme from "./assets/theme";
 import {
   createDrawerNavigator,
@@ -22,9 +18,9 @@ import {
 } from "@react-navigation/drawer";
 import BottomTabNavigator from "./screens/BottomTabNavigator";
 import Settings from "./screens/MyProfile/SetProfile";
+import Login from "./screens/Login";
 import initStore from "./store";
 import TopBar from "./components/TopBar";
-import { setStatusBarBackgroundColor } from "expo-status-bar";
 
 /* 
  Navigation Theme Reference 
@@ -92,11 +88,17 @@ export default function App() {
       <Provider store={store}>
         <NavigationContainer theme={Theme}>
           <Drawer.Navigator
-            initialRouteName="BottomTabNavigator"
+            mode={"modal"}
+            initialRouteName="Login"
             drawerContent={(props) => {
               return <CustomDrawerContent {...props} />;
             }}
           >
+            <Drawer.Screen 
+              name="Login" 
+              component={Login} 
+              options={{headerShown:false}} 
+            />
             <Drawer.Screen
               name="BottomTabNavigator"
               component={BottomTabNavigator}
@@ -113,7 +115,6 @@ export default function App() {
               component={Settings}
               options={{ title: "Settings" }}
             />
-            {/* <Stack.Screen name="Kakao" component={Kakao} options={{headerShown:false}} /> */}
           </Drawer.Navigator>
         </NavigationContainer>
       </Provider>
