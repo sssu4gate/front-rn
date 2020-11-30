@@ -34,8 +34,14 @@ export const loginUser = async ({accessToken, refreshToken}) => {
   if(resultJson?.statusCode == 404)
     return fetch('https://kapi.kakao.com/v2/user/me', OPTIONS('post', `Bearer ${accessToken}`)).then(res=>res.json()).then(json=>({...json, ...resultJson, accessToken, refreshToken}));
   else
-    return resultJson
+    return profileUser(resultJson.accessToken).then(json=>({...json, ...resultJson}));
 };
+
+export const profileUser = (token)=>{
+  const URL = `https://capstone-4gate.herokuapp.com/user/info/profile`;
+  console.log('Start fetch', URL);
+  return fetch(URL, OPTIONS('get', token)).then(res=>res.json()).then(json=>({id:json.userInfo.id, nickName:json.nickName, birth:json.birth, gender:json.gender, likeNum:json.likeNum, profileImageUrl:json.userInfo.properties.profile_image, thumbnailImageUrl:json.userInfo.properties.thumbnail_image}));
+}
 
 export const namechkUser = (nickName) => {
   const URL = `https://capstone-4gate.herokuapp.com/auth/exist?nickName=${nickName}`;

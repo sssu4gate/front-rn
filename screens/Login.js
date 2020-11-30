@@ -110,8 +110,8 @@ const Signup = connect(
 
 function Login({navigation, route, user, requestLoginUser, handleUserRequest}){
   React.useEffect(()=>{
+    console.log("Login", user);
     if(user.isSigned=='signed') {
-      // check storage
       navigation.navigate('BottomTabNavigator');
     }
   }, [user]);

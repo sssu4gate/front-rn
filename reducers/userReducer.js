@@ -60,7 +60,13 @@ export function loginUserSuccess(user) {
   return {
     type: types.USER_LOGIN_SUCCESS,
     ...user,
-    isSigned:user?.statusCode==404?'unsigned':'signed'
+    isSigned:user?.statusCode==404?'unsigned':'signed',
+    birth:user.birth?user.birth:'',
+    gender:user.gender?user.gender:'',
+    likeNum:user.likeNum?user.likeNum:0, 
+    nickName:user.nickName?user.nickName:user.properties.nickname,
+    thumbnailImageUrl:user.thumbnailImageUrl?user.thumbnailImageUrl:user.properties.thumbnail_image,
+    profileImageUrl:user.profileImageUrl?user.profileImageUrl:user.properties.profile_image,
   };
 }
 
@@ -146,10 +152,10 @@ export function profileUserSuccess(user) {
 const defaultState = {
   accessToken:'',
   refreshToken:'',
-  jwtToken:'',
   birth:'',
   gender:'',
   id:0,
+  likeNum:0,
   nickName:'',
   thumbnailImageUrl:'',
   profileImageUrl:'',
@@ -191,6 +197,7 @@ export default (state = defaultState, action) => {
         error: null,
       };
     case types.USER_LOGIN_SUCCESS:
+      console.log('LOGIN Success', action);
       return {
         ...state,
         loading: false,
@@ -198,11 +205,13 @@ export default (state = defaultState, action) => {
         accessToken:action.accessToken,
         refreshToken:action.refreshToken,
         isSigned:action.isSigned, 
-
-        id:action?.id, 
-        nickName:action.kakao_account?.profile.nickname,
-        thumbnailImageUrl:action.kakao_account?.profile.thumbnail_image_url,
-        profileImageUrl:action.kakao_account?.profile.profile_image_url,
+        id:action.id, 
+        birth:action.birth,
+        gender:action.gender,
+        likeNum:action.likeNum, 
+        nickName:action.nickName,
+        thumbnailImageUrl:action.thumbnailImageUrl,
+        profileImageUrl:action.profileImageUrl,
       };
     case types.USER_LOGIN_ERROR:
       return {
