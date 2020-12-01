@@ -1,3 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const OPTIONS =(method, token, data) => ({
     method: method, // *GET, POST, PUT, DELETE, etc.
     headers: {
@@ -33,7 +35,7 @@ export const loginUser = async ({accessToken, refreshToken}) => {
   if(resultJson?.statusCode == 404)
     return fetch('https://kapi.kakao.com/v2/user/me', OPTIONS('post', `Bearer ${accessToken}`)).then(res=>res.json()).then(json=>({...json, ...resultJson, accessToken, refreshToken}));
   else
-    return profileUser(resultJson.accessToken).then(json=>({...json, ...resultJson}));
+    return profileUser(resultJson.accessToken).then(json=>({...json, ...resultJson})).then(json=>{AsyncStorage.setItem('user', JSON.stringify(json));return json;});
 };
 
 export const profileUser = (token)=>{
@@ -57,3 +59,11 @@ export const signupUser = async ({id, accessToken, birth, gender, nickName, refr
   else 
     return {};
 };
+
+export const checkLoginedUser = async ()=>{
+  try {
+    return JSON.parse(await AsyncStorage.getItem('user'));
+  } catch (err) {
+    console.log(err)
+  }
+}

@@ -6,7 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { DrawerActions } from '@react-navigation/native';
 import {connect} from "react-redux";
 import * as theme from "../assets/theme";
-import {handleUserRequest, requestLoginUser, requestSignupUser, requestNamechkUser, setUser} from "../reducers/userReducer";
+import {handleUserRequest, requestLoginUser, requestSignupUser, requestNamechkUser, setUser, requestCheckLoginedUser} from "../reducers/userReducer";
 
 const Stack = createStackNavigator();
 
@@ -117,8 +117,11 @@ export default connect(
   state=>({
     user:state.user
   }),
-  {}
-)(function Login({navigation, route, user}){
+  {requestCheckLoginedUser}
+)(function Login({navigation, route, user, requestCheckLoginedUser}){
+  React.useEffect(()=>{
+    requestCheckLoginedUser();
+  }, []);
   React.useEffect(()=>{
     console.log("Login", user);
     if(user.isSigned=='signed') {
