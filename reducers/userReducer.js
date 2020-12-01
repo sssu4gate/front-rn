@@ -174,8 +174,8 @@ export function profileUserSuccess(user) {
 }
 
 const defaultState = {
-  accessToken:TOKEN,
   accessToken:'',
+  accessToken:TOKEN,
   refreshToken:'',
   birth:'',
   gender:'',
@@ -186,8 +186,8 @@ const defaultState = {
   profileImageUrl:'',
   loading: false,
   error: null,
-  isSigned:'signed', // unsigned, singed
   isSigned:'unsigned', // unsigned, singed
+  isSigned:'signed', // unsigned, singed
   nameChecked:false,
 };
 

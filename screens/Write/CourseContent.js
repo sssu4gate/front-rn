@@ -115,7 +115,9 @@ function CourseContent({
       <Content style={{ flexDirection: "column" }}>
         <TextInput
           style={{
-            height: 200,
+            textAlignVertical:'top',
+            minHeight:100,
+            maxHeight: 100,
             borderColor: "#e3e3e3",
             borderWidth: 1,
             borderRadius: 10,
@@ -134,7 +136,7 @@ function CourseContent({
               text != ""
                 ? setCourse({
                     ...course,
-                    memos: [...course.memos, { text, type: 3 }],
+                    memos: [...course.memos, { text, type: 2 }],
                   })
                 : null;
               setText("");
@@ -202,13 +204,16 @@ function CourseContent({
       </Content>
       <Content style={{ flexDirection: "column" }}>
         <TextInput
-          style={{
-            height: 100,
+         style={{
+            textAlignVertical:'top',
+            minHeight:100,
+            maxHeight: 100,
             borderColor: "#e3e3e3",
             borderWidth: 1,
             borderRadius: 10,
             flex: 1,
             padding: 5,
+            marginBottom: 15,
           }}
           multiline
           numberOfLines={10}
@@ -264,11 +269,14 @@ function CourseContent({
           }}
           onPress={() => {
             console.log(course);
+            const memoTypeMap={0:"CHECKOFF", 1:"CHECKON", 2:"MEMO"}
             const finalCourse = {
               content: course.content,
               courseName: course.courseName,
-              memos: course.memos.map((memo) => JSON.stringify(memo)),
-              places: selectedPlaces,
+              dateDay:course.date,
+              memos: course.memos.map(memo => ({content:memo.text, type:memoTypeMap[memo.type]})),
+              places: selectedPlaces.map(place=>({cost:0, time:"0", id:place.id})),
+              savePlaces:selectedPlaces,
               shareType: course.shareType,
             };
             requestSaveCourse(token, finalCourse);
@@ -364,10 +372,10 @@ function Memo({ text, type, checkHandler }) {
         marginBottom: 15,
       }}
     >
-      {type !== 3 ? (
+      {type !== 2 ? (
         <>
           <TouchableOpacity
-            style={{ borderRadius: "25%" }}
+            style={{ borderRadius: 4 }}
             onPress={checkHandler}
           >
             <Image style={{width:16, height:16}} source={type?require("../../assets/CheckFull(pink).png"):require("../../assets/UnCheck(pink).png")} /> 

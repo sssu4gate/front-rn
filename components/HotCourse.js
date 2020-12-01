@@ -10,10 +10,16 @@ import {
 } from "react-native";
 import { useNavigation, TabActions } from "@react-navigation/native";
 import styled from "styled-components/native";
-import {moveCommunityTab, moveCommunityPost} from "../reducers/communityReducer";
+import {moveCommunityTab, moveCommunityPost, requestPostListCommunity} from "../reducers/communityReducer";
 import {connect} from "react-redux";
 
-function HotCourse({moveCommunityTab, moveCommunityPost}) {
+function HotCourse({moveCommunityTab, moveCommunityPost, requestPostListCommunity, postList, page, offset, option, token, loading}) {
+  React.useEffect(()=>{
+    // 서버 바뀌면 수정해야하
+    if(!(page==0 && offset==5 && option=="LIKE"))
+      requestPostListCommunity(token, 0, 5, "LIKE");
+  }, [postList, page, offset, option])
+
   const navigation = useNavigation();
   var courses = [
     {
@@ -88,8 +94,15 @@ function HotCourse({moveCommunityTab, moveCommunityPost}) {
 }
 
 export default connect(
-  state=>({}),
-  {moveCommunityTab, moveCommunityPost}
+  state=>({
+    postList:state.community.postList,
+    page:state.community.page,
+    offset:state.community.offset,
+    option:state.community.option,
+    loading:state.community.loading,
+    token:state.user.accessToken,
+  }),
+  {moveCommunityTab, moveCommunityPost, requestPostListCommunity}
 )(HotCourse)
 
 function Hot5({ uri, title, like, rank, id, moveCommunityPost }) {

@@ -51,16 +51,16 @@ function AddCourse({
       <FlatList
         style={{
           width: "100%",
-          height: 50,
-          maxHeight:50, 
+          height: 60,
+          maxHeight:60, 
           backgroundColor: "#f5f5f5",
           padding: 15,
         }}
         data={selectedPlaces}
+        keyExtractor={item=>item.id}
         renderItem={({ item, index }) => {
           return (
             <TouchableOpacity
-              key={item.id}
               style={{ height: 20, flexDirection: "row", marginRight: 15 }}
               onPress={() => {
                 const idx = selectedPlaces.findIndex((e) => e.id == item.id);
@@ -107,10 +107,10 @@ function AddCourse({
         )}
         style={{ width: "100%", marginBottom:60 }}
         data={places}
+        keyExtractor={item=>item.id}
         renderItem={({ item, index }) => {
           return (
             <TouchableOpacity
-              key={item.id}
               style={{
                 height: 60,
                 paddingRight: 20,

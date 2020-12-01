@@ -18,8 +18,14 @@ export const searchPlace = (token, keyword, page=1, offset=10) => {
 export const saveCourse = async (token, course) => {
   const COURSE_URL = `https://capstone-4gate.herokuapp.com/course/save`;
   const PLACE_URL = `https://capstone-4gate.herokuapp.com/place/save`;
-  await fetch(PLACE_URL, OPTIONS('post', token, course.places)).then(res=>res.status).then(status=>{console.log(status);return status})
-  return fetch(COURSE_URL, OPTIONS('post', token, course)).then(res=>res.json()).then(course=>({...course, memos:course.memos.map(memo=>JSON.parse(memo))})).then(json=>{console.log(json);return json});
+  const memoTypeMap={"CHECKOFF":0, "CHECKON":1, "MEMO":2}
+  const parseCourse=course=>({
+    ...course,
+    date:course.dateDay,
+    memos:course.memos.map(memo=>({text:memo.content, type:memoTypeMap[memo.type]}))
+  });
+  await fetch(PLACE_URL, OPTIONS('post', token, course.savePlaces)).then(res=>res.status);
+  return fetch(COURSE_URL, OPTIONS('post', token, course)).then(res=>res.json()).then(json=>{console.log(json);return json}).then(parseCourse);
 }
 
 export const loadPost = (token, id) => {
@@ -66,4 +72,10 @@ export const checkLoginedUser = async ()=>{
   } catch (err) {
     console.log(err)
   }
+}
+
+export const requestPostList = (token, page=1, offset=10, option="LATEST")=>{
+  const URL = `https://capstone-4gate.herokuapp.com/course/list?offset=${offset}&page=${page}&type=${option}`;
+  console.log('Start fetch', URL);
+  return fetch(URL, OPTIONS('get', token)).then(res=>res.json());
 }
