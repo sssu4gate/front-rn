@@ -252,7 +252,7 @@ export default connect(
       }}
     >
       <Stack.Navigator
-        initialRouteName="SwitchLogin"
+        initialRouteName="Settings"
         screenOptions={({ route, navigation }) => ({
           headerShown: false,
         })}
@@ -260,7 +260,7 @@ export default connect(
       >
         <Stack.Screen name="SwitchLogin" component={SwitchLogin} />
         <Stack.Screen name="OAuthLogin" component={OAuthLogin} />
-        <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="Settings" component={Settings} />
       </Stack.Navigator>
     </SafeAreaView>
   );

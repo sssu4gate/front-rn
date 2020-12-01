@@ -10,13 +10,20 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import { useNavigation, CommonActions, TabActions } from "@react-navigation/native";
-import {moveCommunityTab, moveCommunityPost} from "../reducers/communityReducer";
-import {connect} from "react-redux";
+import {
+  useNavigation,
+  CommonActions,
+  TabActions,
+} from "@react-navigation/native";
+import {
+  moveCommunityTab,
+  moveCommunityPost,
+} from "../reducers/communityReducer";
+import { connect } from "react-redux";
 import Carousel from "react-native-snap-carousel";
 import { scrollInterpolator, animatedStyles } from "./animations";
 
-function Recommand({moveCommunityTab, moveCommunityPost}) {
+function Recommand({ moveCommunityTab, moveCommunityPost }) {
   const navigation = useNavigation();
   const [index, setIndex] = React.useState(0);
   const SLIDER_WIDTH = Dimensions.get("window").width;
@@ -92,13 +99,12 @@ function Recommand({moveCommunityTab, moveCommunityPost}) {
   );
 }
 
-export default connect(
-  state=>({}),
-  {moveCommunityTab, moveCommunityPost}
-)(Recommand);
+export default connect((state) => ({}), {
+  moveCommunityTab,
+  moveCommunityPost,
+})(Recommand);
 
 function _lenderItem({ item, index }) {
-
   return (
     <View>
       <ImgList

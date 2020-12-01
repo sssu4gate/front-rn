@@ -18,7 +18,7 @@ import {
   DrawerItem,
 } from "@react-navigation/drawer";
 import BottomTabNavigator from "./screens/BottomTabNavigator";
-import Settings from "./screens/MyProfile/SetProfile";
+import Settings from "./screens/MyProfile/Settings";
 import Login from "./screens/Login";
 import initStore from "./store";
 import TopBar from "./components/TopBar";
@@ -89,7 +89,7 @@ export default function App() {
         <NavigationContainer theme={Theme}>
           <Drawer.Navigator
             mode={"modal"}
-            initialRouteName="Login"
+            initialRouteName="BottomTabNavigator"
             drawerContent={(props) => {
               return <CustomDrawerContent {...props} />;
             }}
@@ -103,7 +103,9 @@ export default function App() {
               name="BottomTabNavigator"
               component={BottomTabNavigator}
               options={({ navigation }) => ({
-                header: (props) => <TopBar {...props} navigation={navigation} />,
+                header: (props) => (
+                  <TopBar {...props} navigation={navigation} />
+                ),
                 headerStyle: {
                   backgroundColor: "#f4511e",
                   height: 40,
@@ -135,11 +137,9 @@ function CustomDrawerContent(props) {
 
         <DrawerItem
           label="계정 설정"
-          onPress={() =>
-            props.navigation.dispatch(
-              TabActions.jumpTo("MyProfile", { screen: "Settings" })
-            )
-          }
+          onPress={() => {
+            props.navigation.navigate("Settings");
+          }}
           style={styles.borderLine}
         />
         <View />
