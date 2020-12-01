@@ -1,4 +1,5 @@
 import * as api from "../api/api.js";
+import {TOKEN} from "../environment";
 
 export const types = {
   USER_SET: "USER_SET",
@@ -151,6 +152,7 @@ export function profileUserSuccess(user) {
 
 const defaultState = {
   accessToken:'',
+  accessToken:TOKEN,
   refreshToken:'',
   birth:'',
   gender:'',
@@ -162,6 +164,7 @@ const defaultState = {
   loading: false,
   error: null,
   isSigned:'unsigned', // unsigned, singed
+  isSigned:'signed', // unsigned, singed
   nameChecked:false,
 };
 

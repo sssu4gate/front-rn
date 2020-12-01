@@ -21,6 +21,7 @@ import {
   initCourse,
   requestSaveCourse,
 } from "../../reducers/courseReducer";
+import {moveCommunityPost} from "../../reducers/communityReducer";
 
 const Content = ({ children, style }) => (
   <View
@@ -97,9 +98,8 @@ function CourseContent({
 
   React.useEffect(() => {
     if (uploaded) {
-      navigation.dispatch(
-        TabActions.jumpTo("Community", { screen: "PostDetail" })
-      );
+      moveCommunityPost(course.id, "Trend");
+      navigation.dispatch(TabActions.jumpTo("Community"));
       initCourse();
       initPlace();
     }
@@ -173,7 +173,7 @@ function CourseContent({
       <Content style={{ flexDirection: "column" }}>
         <TextInput
           style={{
-            height: 100,
+            height: 200,
             borderColor: "#e3e3e3",
             borderWidth: 1,
             borderRadius: 10,
@@ -459,5 +459,6 @@ export default connect(
     setCourse,
     initCourse,
     requestSaveCourse,
+    moveCommunityPost,
   }
 )(CourseContent);

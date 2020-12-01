@@ -4,8 +4,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ScrollView,
   Dimensions,
+  ScrollView,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import Modal from 'react-native-modal';
@@ -94,9 +94,6 @@ function WriteCourse({ course, loading, error, setCourse }) {
         </Modal>
         <CourseTitle setCalendarVisible={setCalendarVisible} />
         <CourseContent />
-        {/*
-        
-        */}
       </ScrollView>
     </View>
   );

@@ -76,7 +76,7 @@ function PostTitle({ editMode, post, setPost, setCalendarVisible }) {
           style={{
             fontSize: 28,
             color: "#777",
-            fontWeight: "bolder",
+            fontWeight: "800",
             flex: 1,
           }}
         >

@@ -11,8 +11,7 @@ import {
   NavigationContainer,
   DrawerActions,
   StackActions,
-  CommonActions,
-  useNavigation,
+  TabActions,
 } from "@react-navigation/native";
 import { connect } from "react-redux";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
@@ -22,8 +21,9 @@ import BackWhiteImage from "../assets/back(white).png";
 import MenuBlackImage from "../assets/menu(black).png";
 import { setOption, initOption } from "../reducers/topBarReducer";
 
-function TopBar({ route, option, setOption, initOption }) {
+function TopBar({ option, setOption, initOption, navigation}) {
   const insets = useSafeAreaInsets();
+  const route = navigation.dangerouslyGetState().routes[1];
   React.useEffect(() => {
     if (route.state?.index == 2) {
       let leftButton = "none";
@@ -54,7 +54,6 @@ function TopBar({ route, option, setOption, initOption }) {
     }
   }, [route]);
 
-  const navigation = useNavigation();
   const buttonHandlerMap = {
     menu: () => navigation.dispatch(DrawerActions.toggleDrawer()),
     back: () => navigation.dispatch(StackActions.pop()),
@@ -68,7 +67,8 @@ function TopBar({ route, option, setOption, initOption }) {
         backgroundColor: "white",
         alignItems: "center",
         justifyContent: "space-between", // center, space-around
-        paddingTop:insets.top,
+        paddingTop:insets.top+5,
+        paddingBottom:5,
         paddingLeft: 10,
         paddingRight: 10,
         backgroundColor: option.backgroundColor,
@@ -95,10 +95,10 @@ function TopBar({ route, option, setOption, initOption }) {
         ) : option.leftButton == "back" ? (
           <Image
             style={{ width: 20, height: 20 }}
-            source={"../assets/back(white).png"}
+            source={require("../assets/back(white).png")}
           />
         ) : (
-          <View style={{ width: 30, height: 30 }} />
+          <View style={{ width: 20, height: 20 }} />
         )}
       </TouchableOpacity>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -112,7 +112,7 @@ function TopBar({ route, option, setOption, initOption }) {
               textAlign: "center",
               fontSize: 28,
               color: option.titleColor,
-              fontWeight: "bold",
+              fontWeight: "700",
               fontStyle: "italic",
             }}
           >

@@ -9,9 +9,11 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { useNavigation, TabActions } from "@react-navigation/native";
+import { useNavigation, CommonActions, TabActions } from "@react-navigation/native";
+import {moveCommunityTab, moveCommunityPost} from "../reducers/communityReducer";
+import {connect} from "react-redux";
 
-export default function Recommand() {
+function Recommand({moveCommunityTab, moveCommunityPost}) {
   const navigation = useNavigation();
   var imgList = [
     {
@@ -41,7 +43,8 @@ export default function Recommand() {
         <TouchableOpacity
           style={styles.more}
           onPress={() => {
-            navigation.navigate("Community", { screen: "Loco" });
+            moveCommunityTab("Loco");
+            navigation.navigate("Community");
           }}
         >
           <Text style={styles.more}>더보기</Text>
@@ -62,6 +65,11 @@ export default function Recommand() {
     </>
   );
 }
+
+export default connect(
+  state=>({}),
+  {moveCommunityTab, moveCommunityPost}
+)(Recommand);
 
 function ImgList({ uri, text, like }) {
   return (
