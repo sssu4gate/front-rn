@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import MyLike from "./MyLike";
 import MyPost from "./MyPost";
-import SetProfile from "./SetProfile";
+import Settings from "./Settings";
 
 export default function ProfileSummary({ navigation }) {
   var userInfo = {
@@ -42,7 +42,7 @@ export default function ProfileSummary({ navigation }) {
           <TouchableOpacity
             style={styles.btn}
             onPress={() => {
-              navigation.navigate("SetProfile");
+              navigation.navigate("Settings");
             }}
           >
             <Text style={styles.textBtn}>개인 설정</Text>
