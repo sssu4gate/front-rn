@@ -29,7 +29,13 @@ const SwitchLogin = ({navigation})=>(
   </>
 );
 
-const OAuthLogin = ({route: {params}, navigation})=>{
+
+
+const OAuthLogin = connect(
+  state=>({
+  }),
+  {requestLoginUser}
+)(({route: {params}, navigation, requestLoginUser})=>{
   return (
     <View style={{
       width:'100%',
@@ -47,14 +53,14 @@ const OAuthLogin = ({route: {params}, navigation})=>{
         onMessage={(data)=>{
           const bodyData=JSON.parse(data.nativeEvent.data);
           if(bodyData?.access_token){
-            params.requestLoginUser({accessToken:bodyData.access_token, refreshToken:bodyData.refresh_token})
+            requestLoginUser({accessToken:bodyData.access_token, refreshToken:bodyData.refresh_token})
           }
         }}
         source={{uri: params?.uri}}
       />
     </View>
   );
-}
+});
 
 
 const Signup = connect(
@@ -63,7 +69,6 @@ const Signup = connect(
   }),
   { requestSignupUser, requestNamechkUser, setUser }
 )(({navigation, route, user, requestSignupUser, requestNamechkUser, setUser})=> {
-
   // save info when signup success
   return (
     <View style={{
@@ -108,7 +113,12 @@ const Signup = connect(
 })
 
 
-function Login({navigation, route, user, requestLoginUser, handleUserRequest}){
+export default connect(
+  state=>({
+    user:state.user
+  }),
+  {}
+)(function Login({navigation, route, user}){
   React.useEffect(()=>{
     console.log("Login", user);
     if(user.isSigned=='signed') {
@@ -131,16 +141,11 @@ function Login({navigation, route, user, requestLoginUser, handleUserRequest}){
         mode="modal"
       >
         <Stack.Screen name="SwitchLogin" component={SwitchLogin}/>
-        <Stack.Screen name="OAuthLogin" component={OAuthLogin} initialParams={{requestLoginUser, handleUserRequest}}/>
+        <Stack.Screen name="OAuthLogin" component={OAuthLogin}/>
         <Stack.Screen name="Signup" component={Signup}/>
       </Stack.Navigator>
     </SafeAreaView>
   );
-}
+})
 
-export default connect(
-  state=>({
-    user:state.user
-  }),
-  {requestLoginUser, requestSignupUser, requestNamechkUser, handleUserRequest}
-)(Login);
+
