@@ -105,7 +105,7 @@ function AddCourse({
             }}
           />
         )}
-        style={{ width: "100%", marginBottom:80 }}
+        style={{ width: "100%", marginBottom:60 }}
         data={places}
         renderItem={({ item, index }) => {
           return (
@@ -140,7 +140,7 @@ function AddCourse({
           );
         }}
       />
-      <TouchableOpacity style={{position:"fixed", bottom:70, left:Dimensions.get('window').width*0.05, width:Dimensions.get('window').width*0.9, height:40, backgroundColor:theme.PRIMARY_COLOR, borderRadius:10, justifyContent:"center", alignItems:"center"}}
+      <TouchableOpacity style={{position:"absolute", bottom:10, left:"auto", right:"auto", width:Dimensions.get('window').width*0.9, height:40, backgroundColor:theme.PRIMARY_COLOR, borderRadius:10, justifyContent:"center", alignItems:"center"}}
         onPress={()=>navigation.goBack()}
       >
         <Text style={{fontSize:16, fontWeight:"bold", color:"#fff", backgroundColor:theme.PRIMARY_COLOR}}>장소 추가하기</Text>

@@ -306,7 +306,7 @@ function PlaceItem({ title, index, price, type }) {
     >
       <Text
         style={{
-          borderRadius: "50%",
+          borderRadius: 10,
           width: 20,
           height: 20,
           color: "#ffffff",
