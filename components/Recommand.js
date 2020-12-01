@@ -10,11 +10,13 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import { useNavigation, TabActions } from "@react-navigation/native";
+import { useNavigation, CommonActions, TabActions } from "@react-navigation/native";
+import {moveCommunityTab, moveCommunityPost} from "../reducers/communityReducer";
+import {connect} from "react-redux";
 import Carousel from "react-native-snap-carousel";
 import { scrollInterpolator, animatedStyles } from "./animations";
 
-export default function Recommand() {
+function Recommand({moveCommunityTab, moveCommunityPost}) {
   const navigation = useNavigation();
   const [index, setIndex] = React.useState(0);
   const SLIDER_WIDTH = Dimensions.get("window").width;
@@ -67,7 +69,8 @@ export default function Recommand() {
         <TouchableOpacity
           style={styles.more}
           onPress={() => {
-            navigation.navigate("Community", { screen: "Loco" });
+            moveCommunityTab("Loco");
+            navigation.navigate("Community");
           }}
         >
           <Text style={styles.more}>더보기</Text>
@@ -89,7 +92,13 @@ export default function Recommand() {
   );
 }
 
+export default connect(
+  state=>({}),
+  {moveCommunityTab, moveCommunityPost}
+)(Recommand);
+
 function _lenderItem({ item, index }) {
+
   return (
     <View>
       <ImgList

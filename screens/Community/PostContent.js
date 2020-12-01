@@ -188,7 +188,7 @@ function PlaceItem({ title, index, price, type }) {
     >
       <Text
         style={{
-          borderRadius: "50%",
+          borderRadius: 10,
           width: 20,
           height: 20,
           color: "#ffffff",
@@ -241,7 +241,7 @@ function Memo({ text, type, checkHandler }) {
       {type !== 3 ? (
         <>
           <TouchableOpacity
-            style={{ borderRadius: "25%" }}
+            style={{ borderRadius: 5 }}
             onPress={checkHandler}
           >
             {/* <Image style={{width:16, height:16}} source={{uri: type?CheckFullPinkImage:UnCheckPinkImage}} /> */}

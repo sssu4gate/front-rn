@@ -34,11 +34,11 @@ export default function Search() {
         placeholderTextColor="#aaa"
         underlineColorAndroid="transparent"
         style={{
-          flex: "1",
+          flex: 1,
           color: "#777777",
           height: "100%",
           fontSize: 20,
-          weight: "bold",
+          fontWeight: "bold",
         }}
       />
       <View style={{ flexDirection: "row", alignItems: "center" }}>

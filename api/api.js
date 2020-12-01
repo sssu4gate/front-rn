@@ -1,4 +1,5 @@
-import {TOKEN} from "../environment";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const OPTIONS =(method, token, data) => ({
     method: method, // *GET, POST, PUT, DELETE, etc.
     headers: {
@@ -11,20 +12,20 @@ const OPTIONS =(method, token, data) => ({
 export const searchPlace = (token, keyword, page=1, offset=10) => {
   const URL = `https://capstone-4gate.herokuapp.com/search/place?keyword=${encodeURI(keyword)}&page=${page}&offset=${offset}`
   console.log('Start fetch', URL)
-  return fetch(URL, OPTIONS('get', TOKEN)).then(res=>res.json()).then(json=>{console.log(json);return json});
+  return fetch(URL, OPTIONS('get', token)).then(res=>res.json()).then(json=>{console.log(json);return json});
 };
 
 export const saveCourse = async (token, course) => {
   const COURSE_URL = `https://capstone-4gate.herokuapp.com/course/save`;
   const PLACE_URL = `https://capstone-4gate.herokuapp.com/place/save`;
-  await fetch(PLACE_URL, OPTIONS('post', TOKEN, course.places)).then(res=>res.status).then(status=>{console.log(status);return status})
-  return fetch(COURSE_URL, OPTIONS('post', TOKEN, course)).then(res=>res.json()).then(course=>({...course, memos:course.memos.map(memo=>JSON.parse(memo))})).then(json=>{console.log(json);return json});
+  await fetch(PLACE_URL, OPTIONS('post', token, course.places)).then(res=>res.status).then(status=>{console.log(status);return status})
+  return fetch(COURSE_URL, OPTIONS('post', token, course)).then(res=>res.json()).then(course=>({...course, memos:course.memos.map(memo=>JSON.parse(memo))})).then(json=>{console.log(json);return json});
 }
 
 export const loadPost = (token, id) => {
   const URL = `https://capstone-4gate.herokuapp.com/course/${id}`;
   console.log('Start fetch', URL)
-  return fetch(URL, OPTIONS('get', TOKEN)).then(res=>res.json()).then(json=>{console.log(json);return json});
+  return fetch(URL, OPTIONS('get', token)).then(res=>res.json()).then(json=>{console.log(json);return json});
 };
 
 export const loginUser = async ({accessToken, refreshToken}) => {
@@ -34,7 +35,7 @@ export const loginUser = async ({accessToken, refreshToken}) => {
   if(resultJson?.statusCode == 404)
     return fetch('https://kapi.kakao.com/v2/user/me', OPTIONS('post', `Bearer ${accessToken}`)).then(res=>res.json()).then(json=>({...json, ...resultJson, accessToken, refreshToken}));
   else
-    return profileUser(resultJson.accessToken).then(json=>({...json, ...resultJson}));
+    return profileUser(resultJson.accessToken).then(json=>({...json, ...resultJson})).then(json=>{AsyncStorage.setItem('user', JSON.stringify(json));return json;});
 };
 
 export const profileUser = (token)=>{
@@ -58,3 +59,11 @@ export const signupUser = async ({id, accessToken, birth, gender, nickName, refr
   else 
     return {};
 };
+
+export const checkLoginedUser = async ()=>{
+  try {
+    return JSON.parse(await AsyncStorage.getItem('user'));
+  } catch (err) {
+    console.log(err)
+  }
+}

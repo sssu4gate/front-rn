@@ -230,9 +230,12 @@ export default connect(
   (state) => ({
     user: state.user,
   }),
-  {}
-)(function Login({ navigation, route, user }) {
-  React.useEffect(() => {
+  {requestCheckLoginedUser}
+)(function Login({navigation, route, user, requestCheckLoginedUser}){
+  React.useEffect(()=>{
+    requestCheckLoginedUser();
+  }, []);
+  React.useEffect(()=>{
     console.log("Login", user);
     navigation.navigate("BottomTabNavigator");
     if (user.isSigned == "signed") {

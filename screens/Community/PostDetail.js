@@ -6,16 +6,14 @@ import * as theme from "../../assets/theme";
 import PostContent from "./PostContent";
 import PostTitle from "./PostTitle";
 import {requestLoadPost} from "../../reducers/postReducer";
-
 import {connect} from "react-redux";
 
-function PostDetail({navigation, route, loading, error, requestLoadPost}) {
-
+function PostDetail({navigation, route:{params}, loading, error, token, requestLoadPost}) {
   React.useEffect(()=>{
-    if(route.params.id){
-      requestLoadPost("", route.params.id);
+    if(params?.id){
+      requestLoadPost(token, params.id);
     }
-  }, [route.params.id]);
+  }, [params]);
 
   return (
     <View
@@ -34,10 +32,12 @@ function PostDetail({navigation, route, loading, error, requestLoadPost}) {
     </View>
   );
 }
+
 export default connect(
   state=>({
     error:state.post.error, 
     loading:state.post.loading,
+    token:state.user.accessToken
   }),
   {requestLoadPost}
 )(PostDetail)

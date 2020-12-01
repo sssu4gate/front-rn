@@ -81,7 +81,6 @@ const Theme = {
 };
 const Drawer = createDrawerNavigator();
 const store = initStore();
-// { headerTitle: props => <TopBar {...props, route} />}
 
 export default function App() {
   return (
@@ -103,8 +102,8 @@ export default function App() {
             <Drawer.Screen
               name="BottomTabNavigator"
               component={BottomTabNavigator}
-              options={({ route }) => ({
-                header: (props) => <TopBar {...props} route={route} />,
+              options={({ navigation }) => ({
+                header: (props) => <TopBar {...props} navigation={navigation} />,
                 headerStyle: {
                   backgroundColor: "#f4511e",
                   height: 40,

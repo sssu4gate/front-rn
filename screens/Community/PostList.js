@@ -8,8 +8,27 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { TabActions } from "@react-navigation/native";
 
 const Tab = createMaterialTopTabNavigator();
+
+export default function PostList({ navigation, route }) {
+  return (
+    <Tab.Navigator
+      tabBarOptions={{
+        activeTintiColor: "white",
+        inactiveTintColor: "white",
+        indicatorStyle: { backgroundColor: "white" },
+        style: { backgroundColor: "#FF6DA0" },
+      }}
+      initialRouteName={route.params?.screen}
+    >
+      <Tab.Screen name="Popularity" component={Popularity} />
+      <Tab.Screen name="Trend" component={Trend} />
+      <Tab.Screen name="Loco" component={Loco} />
+    </Tab.Navigator>
+  );
+}
 
 function Post({ title, course, text, writer, profile, like, time, view }) {
   return (
@@ -220,25 +239,6 @@ function Loco() {
         );
       })}
     </ScrollView>
-  );
-}
-
-export default function CourseList({ navigation, route }) {
-  console.log(navigation, route);
-  return (
-    <Tab.Navigator
-      tabBarOptions={{
-        activeTintiColor: "white",
-        inactiveTintColor: "white",
-        indicatorStyle: { backgroundColor: "white" },
-        style: { backgroundColor: "#FF6DA0" },
-      }}
-      initialRouteName={route.params?.screen}
-    >
-      <Tab.Screen name="Popularity" component={Popularity} />
-      <Tab.Screen name="Trend" component={Trend} />
-      <Tab.Screen name="Loco" component={Loco} />
-    </Tab.Navigator>
   );
 }
 

@@ -21,66 +21,8 @@ import {
   initCourse,
   requestSaveCourse,
 } from "../../reducers/courseReducer";
+import {moveCommunityPost} from "../../reducers/communityReducer";
 
-const Content = ({ children, style }) => (
-  <View
-    style={{
-      flexDirection: "row",
-      paddingTop: 10,
-      paddingBottom: 10,
-      paddingLeft: 30,
-      paddingRight: 30,
-      width: "100%",
-      ...style,
-    }}
-  >
-    {children}
-  </View>
-);
-
-const Line = ({ children, style }) => (
-  <View
-    style={{
-      marginLeft: 10,
-      flex: 1,
-      borderBottomWidth: 1,
-      borderBottomColor: "#e3e3e3",
-      ...style,
-    }}
-  >
-    {children}
-  </View>
-);
-
-const AddButton = ({ children, style, onPress }) => (
-  <TouchableOpacity
-    onPress={onPress}
-    style={{
-      flex: 1,
-      height: 40,
-      justifyContent: "center",
-      alignItems: "center",
-      borderRadius: 10,
-      backgroundColor:"#fff",
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 1,
-        height: 1,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3,
-      elevation: 5,
-      ...style,
-    }}
-  >
-    {children}
-  </TouchableOpacity>
-);
-
-const Temp = (props) => {
-  console.log(props);
-  return <View />;
-};
 function CourseContent({
   course,
   setCourse,
@@ -91,15 +33,15 @@ function CourseContent({
   initCourse,
   requestSaveCourse,
   uploaded,
+  token,
 }) {
   const [text, setText] = React.useState("");
   const navigation = useNavigation();
 
   React.useEffect(() => {
     if (uploaded) {
-      navigation.dispatch(
-        TabActions.jumpTo("Community", { screen: "PostDetail" })
-      );
+      moveCommunityPost(course.id, "Trend");
+      navigation.dispatch(TabActions.jumpTo("Community"));
       initCourse();
       initPlace();
     }
@@ -173,7 +115,7 @@ function CourseContent({
       <Content style={{ flexDirection: "column" }}>
         <TextInput
           style={{
-            height: 100,
+            height: 200,
             borderColor: "#e3e3e3",
             borderWidth: 1,
             borderRadius: 10,
@@ -329,7 +271,7 @@ function CourseContent({
               places: selectedPlaces,
               shareType: course.shareType,
             };
-            requestSaveCourse("", finalCourse);
+            requestSaveCourse(token, finalCourse);
           }}
         >
           <Text style={{ color: "#ffffff", fontSize: 16, fontWeight: "bold" }}>
@@ -364,7 +306,7 @@ function PlaceItem({ title, index, price, type }) {
     >
       <Text
         style={{
-          borderRadius: "50%",
+          borderRadius: 10,
           width: 20,
           height: 20,
           color: "#ffffff",
@@ -446,11 +388,67 @@ function Memo({ text, type, checkHandler }) {
   );
 }
 
+const Content = ({ children, style }) => (
+  <View
+    style={{
+      flexDirection: "row",
+      paddingTop: 10,
+      paddingBottom: 10,
+      paddingLeft: 30,
+      paddingRight: 30,
+      width: "100%",
+      ...style,
+    }}
+  >
+    {children}
+  </View>
+);
+
+const Line = ({ children, style }) => (
+  <View
+    style={{
+      marginLeft: 10,
+      flex: 1,
+      borderBottomWidth: 1,
+      borderBottomColor: "#e3e3e3",
+      ...style,
+    }}
+  >
+    {children}
+  </View>
+);
+
+const AddButton = ({ children, style, onPress }) => (
+  <TouchableOpacity
+    onPress={onPress}
+    style={{
+      flex: 1,
+      height: 40,
+      justifyContent: "center",
+      alignItems: "center",
+      borderRadius: 10,
+      backgroundColor:"#fff",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 1,
+        height: 1,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3,
+      elevation: 5,
+      ...style,
+    }}
+  >
+    {children}
+  </TouchableOpacity>
+);
+
 export default connect(
   (state) => ({
     selectedPlaces: state.place.selectedPlaces,
     course: state.course.course,
     uploaded: state.course.uploaded,
+    token: state.user.accessToken
   }),
   {
     loadSelectedPlace,
@@ -459,5 +457,6 @@ export default connect(
     setCourse,
     initCourse,
     requestSaveCourse,
+    moveCommunityPost,
   }
 )(CourseContent);
