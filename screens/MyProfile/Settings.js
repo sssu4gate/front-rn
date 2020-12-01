@@ -37,7 +37,7 @@ export default connect(
   const toggleAreaEdit = () => {
     setAreaEdit(!isAreaEdit);
   };
-  const [name, setName] = useState(user.nickname);
+  const [name, setName] = useState(user.nickName);
   const userArea = user.area;
   const areaList = [
     "강남구",
@@ -91,7 +91,7 @@ export default connect(
             </TouchableOpacity>
           </View>
         </View>
-        <Text style={style.area2_text}>{user.nickname}</Text>
+        <Text style={style.area2_text}>{user.nickName}</Text>
       </View>
       <View style={style.area3}>
         <View style={[style.area3_box]}>
@@ -101,7 +101,7 @@ export default connect(
               style.area3_input,
               { color: user.nameChecked ? "green" : "red" },
             ]}
-            placeholder={user.nickname}
+            placeholder={user.nickName}
             onChangeText={(text) => {
               setName(text);
             }}
@@ -109,7 +109,7 @@ export default connect(
           <TouchableOpacity
             style={{ justifyContent: "center" }}
             onPress={() => {
-              setUser({ nickname: name });
+              setUser({ nickName: name });
               requestNamechkUser(user);
             }}
           >
@@ -228,7 +228,7 @@ export default connect(
             style={style.btnExte}
             onPress={() => {
               setUser({ ...user });
-              navigation.goback();
+              navigation.goBack();
             }}
           >
             <Text style={[style.btn, style.btnYes, style.shadowBox]}>완료</Text>

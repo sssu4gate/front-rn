@@ -231,12 +231,12 @@ export default connect(
   (state) => ({
     user: state.user,
   }),
-  {requestCheckLoginedUser}
-)(function Login({navigation, route, user, requestCheckLoginedUser}){
-  React.useEffect(()=>{
+  { requestCheckLoginedUser }
+)(function Login({ navigation, route, user, requestCheckLoginedUser }) {
+  React.useEffect(() => {
     requestCheckLoginedUser();
   }, []);
-  React.useEffect(()=>{
+  React.useEffect(() => {
     console.log("Login", user);
     navigation.navigate("BottomTabNavigator");
     if (user.isSigned == "signed") {
@@ -260,7 +260,7 @@ export default connect(
       >
         <Stack.Screen name="SwitchLogin" component={SwitchLogin} />
         <Stack.Screen name="OAuthLogin" component={OAuthLogin} />
-        <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="Signup" component={Signup} />
       </Stack.Navigator>
     </SafeAreaView>
   );
