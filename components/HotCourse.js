@@ -10,8 +10,10 @@ import {
 } from "react-native";
 import { useNavigation, TabActions } from "@react-navigation/native";
 import styled from "styled-components/native";
+import {moveCommunityTab, moveCommunityPost} from "../reducers/communityReducer";
+import {connect} from "react-redux";
 
-export default function HotCourse() {
+function HotCourse({moveCommunityTab, moveCommunityPost}) {
   const navigation = useNavigation();
   var courses = [
     {
@@ -59,7 +61,8 @@ export default function HotCourse() {
         <TouchableOpacity
           style={styles.more}
           onPress={() => {
-            navigation.navigate("Community", { screen: "Trend" });
+            moveCommunityTab("Popularity");
+            navigation.navigate("Community");
           }}
         >
           <Text style={styles.more}>더보기</Text>
@@ -75,6 +78,7 @@ export default function HotCourse() {
               rank={course.rank}
               like={course.like}
               id={course.id}
+              moveCommunityPost={moveCommunityPost}
             />
           );
         })}
@@ -83,7 +87,12 @@ export default function HotCourse() {
   );
 }
 
-function Hot5({ uri, title, like, rank, id }) {
+export default connect(
+  state=>({}),
+  {moveCommunityTab, moveCommunityPost}
+)(HotCourse)
+
+function Hot5({ uri, title, like, rank, id, moveCommunityPost }) {
   const navigation = useNavigation();
   return (
     <View style={styles.row}>
@@ -100,10 +109,10 @@ function Hot5({ uri, title, like, rank, id }) {
       </View>
       <TouchableOpacity
         style={{ flex: 0.7, alignItems: "center" }}
-        onPress={() =>
-          navigation.dispatch(
-            TabActions.jumpTo("Community", { screen: "PostDetail", id })
-          )
+        onPress={() =>{
+            moveCommunityPost(id, "Popularity");
+            navigation.navigate("Community");
+          }
         }
       >
         <Text style={styles.hot5Title}>{title}</Text>

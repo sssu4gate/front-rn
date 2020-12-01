@@ -37,7 +37,7 @@ function AddCourse({
   selectPlace,
   selectedPlaces,
   navigation,
-  token=""
+  token
 }) {
   // loading true 일경우 로딩중 표시
   React.useEffect(() => {
@@ -155,6 +155,7 @@ export default connect(
     error: state.place.error,
     loading: state.place.loading,
     selectedPlaces: state.place.selectedPlaces,
+    token:state.user.accessToken
   }),
   { requestPlace, initPlace, selectPlace }
 )(AddCourse);

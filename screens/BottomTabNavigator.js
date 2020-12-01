@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Text, View, Image } from "react-native";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Community from "./Community/Community";
 import Home from "./Home/Home";

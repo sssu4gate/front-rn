@@ -73,7 +73,7 @@ function CourseTitle({ course, setCourse, setCalendarVisible }) {
           style={{
             fontSize: 28,
             color: "#777",
-            fontWeight: "bolder",
+            fontWeight: "800",
             flex: 1,
           }}
           value={course.courseName}
