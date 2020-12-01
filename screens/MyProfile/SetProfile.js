@@ -50,114 +50,102 @@ export function SetProfile({
   }, []);
   console.log(profile);
   return (
-    <>
-      <ScrollView style={style.background}>
-        <View style={style.area1}>
-          <Text style={style.area1_text}>계정 설정</Text>
-        </View>
-        <View style={style.area2}>
-          <View style={{ alignSelf: "center" }}>
-            <View style={{ flexDirection: "row" }}>
-              <View style={{ height: 18, width: 24 }} />
-
-              <Image
-                source={require("../../assets/아이유1.jpg")}
-                style={style.profileImg}
-              />
-              <TouchableOpacity style={{ alignSelf: "flex-end" }}>
-                <Image
-                  source={require("../../assets/camera.png")}
-                  style={style.cameraIcon}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <Text style={style.area2_text}>asd</Text>
-        </View>
-        <View style={style.area3}>
-          <TouchableOpacity
-            onPress={() => {
-              toggleModal();
-              setModal("name");
-
-              saveProfileSuccess({
-                ...profile,
-                id: localStorage.id,
-                nickname: localStorage.nickname,
-                birth: localStorage.birth,
-                gender: localStorage.gender,
-                interestArea: localStorage.interestArea,
-              });
-              localProfile = loadProfile();
-              console.log("in onPress", localProfile);
-            }}
-            style={style.btnExte}
-          >
-            <Text style={[style.area3_text, style.shadowBox]}>
-              닉네임 : {queryString}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              toggleModal();
-              setModal("area");
-            }}
-            style={style.btnExte}
-          >
-            <Text style={[style.area3_text, style.shadowBox]}>
-              생일 : {birth}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              toggleModal();
-              setModal("area");
-            }}
-            style={style.btnExte}
-          >
-            <Text style={[style.area3_text, style.shadowBox]}>
-              성별 : {sex}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              toggleModal();
-              setModal("area");
-            }}
-            style={style.btnExte}
-          >
-            <Text style={[style.area3_text, style.shadowBox]}>
-              관심지역 : {interestArea}
-            </Text>
-          </TouchableOpacity>
-          <Modal isVisible={isModalVisible}>
-            {modal === "name" && (
-              <ChangeName
-                name={queryString}
-                setQueryString={setQueryString}
-                toggleModal={toggleModal}
-              />
-            )}
-            {modal === "area" && <ChangeArea toggleModal={toggleModal} />}
-          </Modal>
-        </View>
-        <View style={style.area4}>
+    <ScrollView style={style.background}>
+      <View style={style.area1}>
+        <Text style={style.area1_text}>계정 설정</Text>
+      </View>
+      <View style={style.area2}>
+        <View style={{ alignSelf: "center" }}>
           <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity style={style.btnExte}>
-              <Text style={[style.btn, style.btnYes, style.shadowBox]}>
-                저장
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={style.btnExte}>
-              <Text style={[style.btn, style.btnNo, style.shadowBox]}>
-                취소
-              </Text>
+            <View style={{ height: 18, width: 24 }} />
+            <Image
+              source={require("../../assets/아이유1.jpg")}
+              style={style.profileImg}
+            />
+            <TouchableOpacity style={{ alignSelf: "flex-end" }}>
+              <Image
+                source={require("../../assets/camera.png")}
+                style={style.cameraIcon}
+              />
             </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
-    </>
+        <Text style={style.area2_text}>asd</Text>
+      </View>
+      <View style={style.area3}>
+        <TouchableOpacity
+          onPress={() => {
+            toggleModal();
+            setModal("name");
+
+            saveProfileSuccess({
+              ...profile,
+              id: localStorage.id,
+              nickname: localStorage.nickname,
+              birth: localStorage.birth,
+              gender: localStorage.gender,
+              interestArea: localStorage.interestArea,
+            });
+          }}
+          style={style.btnExte}
+        >
+          <Text style={[style.area3_text, style.shadowBox]}>
+            닉네임 : {queryString}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            toggleModal();
+            setModal("area");
+          }}
+          style={style.btnExte}
+        >
+          <Text style={[style.area3_text, style.shadowBox]}>
+            생일 : {birth}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            toggleModal();
+            setModal("area");
+          }}
+          style={style.btnExte}
+        >
+          <Text style={[style.area3_text, style.shadowBox]}>성별 : {sex}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            toggleModal();
+            setModal("area");
+          }}
+          style={style.btnExte}
+        >
+          <Text style={[style.area3_text, style.shadowBox]}>
+            관심지역 : {interestArea}
+          </Text>
+        </TouchableOpacity>
+        <Modal isVisible={isModalVisible}>
+          {modal === "name" && (
+            <ChangeName
+              name={queryString}
+              setQueryString={setQueryString}
+              toggleModal={toggleModal}
+            />
+          )}
+          {modal === "area" && <ChangeArea toggleModal={toggleModal} />}
+        </Modal>
+      </View>
+      <View style={style.area4}>
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity style={style.btnExte}>
+            <Text style={[style.btn, style.btnYes, style.shadowBox]}>저장</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={style.btnExte}>
+            <Text style={[style.btn, style.btnNo, style.shadowBox]}>취소</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
@@ -194,7 +182,7 @@ function ChangeName({ name, setQueryString, toggleModal }) {
             }}
             style={style.btnExte}
           >
-            <Text style={[style.modalBtn, style.btnYes, style.shadowBox]}>
+            <Text style={[style.shadowBox, style.modalBtn, style.btnYes]}>
               변경
             </Text>
           </TouchableOpacity>
@@ -206,7 +194,7 @@ function ChangeName({ name, setQueryString, toggleModal }) {
             }}
             style={style.btnExte}
           >
-            <Text style={[style.modalBtn, style.btnNo, style.shadowBox]}>
+            <Text style={[style.shadowBox, style.modalBtn, style.btnNo]}>
               취소
             </Text>
           </TouchableOpacity>
@@ -271,8 +259,7 @@ function ChangeArea({ toggleModal }) {
 
 const style = StyleSheet.create({
   background: {
-    backgroundColor: "#ffffff",
-    flex: 1,
+    backgroundColor: "white",
   },
   area1: {
     padding: 20,
@@ -285,10 +272,11 @@ const style = StyleSheet.create({
     textAlign: "center",
     padding: 10,
     flex: 0.3,
-    padding: 20,
+    padding: 30,
   },
   area2_text: {
-    fontSize: 14,
+    textAlign: "center",
+    fontSize: 20,
     padding: 5,
     color: "#777777",
   },
@@ -299,12 +287,12 @@ const style = StyleSheet.create({
     padding: 20,
   },
   area3_text: {
-    fontSize: 16,
+    fontSize: 18,
     padding: 10,
     color: "#777777",
+    backgroundColor: "#ffffff",
   },
   area4: {
-    flex: 0.2,
     width: "90%",
     padding: 10,
     alignSelf: "center",
@@ -315,21 +303,19 @@ const style = StyleSheet.create({
     shadowOffset: { width: 1, height: 3 },
     shadowOpacity: 0.7,
     shadowRadius: 3,
-    elevation: 1,
+    elevation: 5,
     borderRadius: 10,
   },
   profileImg: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 140,
+    height: 140,
+    borderRadius: 100,
     alignSelf: "center",
     justifyContent: "center",
-    flex: 0.6,
   },
   cameraIcon: {
     width: 24,
     height: 18,
-    flex: 0.2,
   },
   modal: {
     alignSelf: "center",
