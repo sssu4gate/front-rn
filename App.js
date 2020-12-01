@@ -138,7 +138,7 @@ function CustomDrawerContent(props) {
           label="계정 설정"
           onPress={() =>
             props.navigation.dispatch(
-              TabActions.jumpTo("MyProfile", { screen: "SetProfile" })
+              TabActions.jumpTo("MyProfile", { screen: "Settings" })
             )
           }
           style={styles.borderLine}

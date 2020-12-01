@@ -30,19 +30,9 @@ export default connect(
   requestNamechkUser,
   requestProfileUser,
   requestLoginUser,
+  navigation,
 }) {
   console.log(user);
-  React.useEffect(() => {
-    console.log("settings", user);
-    setUser({
-      ...user,
-      accessToken: "Token123123",
-      nickname: "태바준보",
-      gender: "M",
-      birth: "2020-11-11",
-      area: ["강남구", "서초구"],
-    });
-  }, []);
   const [isAreaEdit, setAreaEdit] = useState(false);
   const toggleAreaEdit = () => {
     setAreaEdit(!isAreaEdit);
@@ -85,10 +75,14 @@ export default connect(
         <View style={{ alignSelf: "center" }}>
           <View style={{ flexDirection: "row" }}>
             <View style={{ height: 18, width: 24 }} />
-            <Image
-              source={require("../../assets/아이유1.jpg")}
-              style={style.profileImg}
-            />
+            {user.imgUrl ? (
+              <Image
+                source={require("../../assets/아이유1.jpg")}
+                style={style.profileImg}
+              />
+            ) : (
+              <Image source={{ uri: user.imgUrl }} style={style.profileImg} />
+            )}
             <TouchableOpacity style={{ alignSelf: "flex-end" }}>
               <Image
                 source={require("../../assets/camera.png")}
@@ -116,6 +110,7 @@ export default connect(
             style={{ justifyContent: "center" }}
             onPress={() => {
               setUser({ nickname: name });
+              requestNamechkUser(user);
             }}
           >
             <Text style={[style.area3_text, { fontSize: 14 }, style.btnEdit]}>
@@ -233,6 +228,7 @@ export default connect(
             style={style.btnExte}
             onPress={() => {
               setUser({ ...user });
+              navigation.goback();
             }}
           >
             <Text style={[style.btn, style.btnYes, style.shadowBox]}>완료</Text>

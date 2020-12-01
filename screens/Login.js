@@ -20,6 +20,7 @@ import {
   requestNamechkUser,
   setUser,
 } from "../reducers/userReducer";
+import Settings from "../screens/MyProfile/Settings";
 
 const Stack = createStackNavigator();
 
@@ -117,7 +118,7 @@ const OAuthLogin = connect((state) => ({}), { requestLoginUser })(
               ) == 0 &&
               loading
             )
-              navigation.navigate("Signup");
+              navigation.navigate("Settings");
           }}
           injectedJavaScript={`(function() {
             if(window.document.body.innerText.indexOf('access_token')==2)
@@ -233,6 +234,7 @@ export default connect(
 )(function Login({ navigation, route, user }) {
   React.useEffect(() => {
     console.log("Login", user);
+    navigation.navigate("BottomTabNavigator");
     if (user.isSigned == "signed") {
       navigation.navigate("BottomTabNavigator");
     }
@@ -254,7 +256,7 @@ export default connect(
       >
         <Stack.Screen name="SwitchLogin" component={SwitchLogin} />
         <Stack.Screen name="OAuthLogin" component={OAuthLogin} />
-        <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="Settings" component={Settings} />
       </Stack.Navigator>
     </SafeAreaView>
   );
