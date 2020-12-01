@@ -42,7 +42,7 @@ export default function ProfileSummary({ navigation }) {
           <TouchableOpacity
             style={styles.btn}
             onPress={() => {
-              navigation.navigate("SetProfile");
+              navigation.navigate("Settings");
             }}
           >
             <Text style={styles.textBtn}>개인 설정</Text>
