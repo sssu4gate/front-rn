@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { NavigationContainer, useScrollToTop } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Recommand from "../../components/Recommand";
+//import Recommand from "../../components/Recommand";
 import Search from "../../components/SearchInHome";
 import Hot5 from "../../components/HotCourse";
 import Constants from "expo-constants";
@@ -19,9 +19,7 @@ import Constants from "expo-constants";
 export default function Home() {
   return (
     <ScrollView style={{ backgroundColor: "#ffffff" }}>
-      <View style={styles.recommand}>
-        <Recommand />
-      </View>
+      <View style={styles.recommand}>{/* <Recommand /> */}</View>
       <View style={styles.container}>
         <Search />
         <Hot5 />
