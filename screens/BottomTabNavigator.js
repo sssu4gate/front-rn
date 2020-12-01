@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Text, View, Image } from "react-native";
+import {connect} from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Community from "./Community/Community";
 import Home from "./Home/Home";
@@ -15,7 +16,14 @@ import * as theme from "../assets/theme";
 
 const Tab = createBottomTabNavigator();
 
-export default function Main({ route, navigation }) {
+function BottomTabNavigator({ route, navigation, user }) {
+  React.useEffect(()=>{
+    console.log("BottomTabNavigator", user);
+    if(user.isSigned=='unsigned') {
+      navigation.navigate('Login');
+    }
+  }, [user]);
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -126,3 +134,10 @@ export default function Main({ route, navigation }) {
     </Tab.Navigator>
   );
 }
+
+export default connect(
+  state=>({
+    user:state.user
+  }),
+  {}
+)(BottomTabNavigator)

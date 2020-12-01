@@ -4,7 +4,7 @@ import PlaceReducer from "./placeReducer";
 import ProfileReducer from "./profileReducer";
 import PostReducer from "./postReducer";
 import TopBarReducer from "./topBarReducer";
-
+import UserReducer from "./userReducer";
 
 export default combineReducers({
   course: CourseReducer,
@@ -12,4 +12,5 @@ export default combineReducers({
   profile: ProfileReducer,
   post: PostReducer,
   topBar: TopBarReducer,
+  user:UserReducer,
 });

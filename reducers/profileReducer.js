@@ -49,7 +49,6 @@ const defaultState = {
 };
 
 export default (state = defaultState, action) => {
-  console.log(state, action);
   switch (action.type) {
     case types.PROFILE_INIT:
       return {
