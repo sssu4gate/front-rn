@@ -18,6 +18,7 @@ import {
   requestLoginUser,
   requestSignupUser,
   requestNamechkUser,
+  requestCheckLoginedUser,
   setUser,
 } from "../reducers/userReducer";
 import Settings from "../screens/MyProfile/Settings";
