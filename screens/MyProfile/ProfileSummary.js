@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import MyLike from "./MyLike";
 import MyPost from "./MyPost";
-import SetProfile from "./SetProfile";
+import Settings from "./Settings";
 
 export default function ProfileSummary({ navigation }) {
   var userInfo = {

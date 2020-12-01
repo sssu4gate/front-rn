@@ -5,7 +5,7 @@ import {
   NavigationContainer,
   DefaultTheme,
   DrawerActions,
-  TabActions
+  TabActions,
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LocaleConfig } from "react-native-calendars";
@@ -84,7 +84,6 @@ const store = initStore();
 // { headerTitle: props => <TopBar {...props, route} />}
 
 export default function App() {
-  
   return (
     <SafeAreaProvider>
       <Provider store={store}>
@@ -96,10 +95,10 @@ export default function App() {
               return <CustomDrawerContent {...props} />;
             }}
           >
-            <Drawer.Screen 
-              name="Login" 
-              component={Login} 
-              options={{headerShown:false}} 
+            <Drawer.Screen
+              name="Login"
+              component={Login}
+              options={{ headerShown: false }}
             />
             <Drawer.Screen
               name="BottomTabNavigator"
@@ -137,7 +136,11 @@ function CustomDrawerContent(props) {
 
         <DrawerItem
           label="계정 설정"
-          onPress={() => props.navigation.dispatch(TabActions.jumpTo("MyProfile", {screen:"SetProfile"}))}
+          onPress={() =>
+            props.navigation.dispatch(
+              TabActions.jumpTo("MyProfile", { screen: "SetProfile" })
+            )
+          }
           style={styles.borderLine}
         />
         <View />
