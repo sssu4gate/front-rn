@@ -4,6 +4,7 @@ import {TOKEN} from "../environment";
 export const types = {
   USER_SET: "USER_SET",
   USER_INIT: "USER_INIT",
+
   USER_HANDLE_ERROR:"USER_HANDLE_ERROR",
   USER_HANDLE_REQUEST:"USER_HANDLE_REQUEST",
 
@@ -42,6 +43,29 @@ export function handleUserError(error) {
 export function handleUserRequest() {
   return {
     type: types.USER_HANDLE_REQUEST,
+  };
+}
+
+export function loginCheckedSuccess(user){
+  return {
+    type:types.USER_LOGIN_SUCCESS,
+    ...user,
+    isSigned:'signed'
+  }
+}
+
+export function requestCheckLoginedUser() {
+  return (dispatch) => {
+    return api
+      .checkLoginedUser()
+      .then((json) => {
+        if(json){
+          dispatch(loginCheckedSuccess(json));
+        }
+        else
+          console.log("Not yet logined");
+      })
+      .catch((error) => console.log(error));
   };
 }
 
@@ -149,10 +173,9 @@ export function profileUserSuccess(user) {
   };
 }
 
-
 const defaultState = {
-  accessToken:'',
   accessToken:TOKEN,
+  accessToken:'',
   refreshToken:'',
   birth:'',
   gender:'',
@@ -163,8 +186,8 @@ const defaultState = {
   profileImageUrl:'',
   loading: false,
   error: null,
-  isSigned:'unsigned', // unsigned, singed
   isSigned:'signed', // unsigned, singed
+  isSigned:'unsigned', // unsigned, singed
   nameChecked:false,
 };
 
