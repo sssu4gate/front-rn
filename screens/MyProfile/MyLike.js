@@ -66,7 +66,6 @@ function Post({ id, imgUri, title, like }) {
       <TouchableOpacity style={styles.postArea}>
         <Image source={{ uri: imgUri }} style={styles.img} />
         <View style={styles.titleLine}>
-          <Text style={{ flex: 0.2 }} />
           <Text style={styles.titleText}>{title}</Text>
           <View style={styles.like}>
             <Image
@@ -95,12 +94,14 @@ const styles = StyleSheet.create({
   },
   titleLine: {
     flexDirection: "row",
+    color: "#777777",
   },
   like: {
     flexDirection: "row",
     flex: 0.2,
   },
   titleText: {
-    flex: 1,
+    color: "#777777",
+    fontSize: 20,
   },
 });

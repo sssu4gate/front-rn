@@ -1,17 +1,24 @@
 import * as React from "react";
-import { View, Text, Image, TextInput, TouchableOpacity, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { connect } from "react-redux";
 import { setPost } from "../../reducers/postReducer";
 import * as theme from "../../assets/theme";
 import PhotoImage from "../../assets/Photo.png";
-import CalendarImage from "../../assets/Calendar.png";
+import CalendarImage from "../../assets/Schedule.png";
 import HeartPinkImage from "../../assets/Heart(pink).png";
 
 const Container = ({ children, style }) => (
   <View
     style={{
       height: 110,
-      width: Dimensions.get('window').width,
+      width: Dimensions.get("window").width,
       justifyContent: "center",
       alignItems: "center",
       borderBottomWidth: 1,
@@ -28,7 +35,7 @@ const Row = ({ children, style, flex, paddingTop, paddingBottom }) => (
   <View
     style={{
       flex: flex ? flex : 1,
-      width: Dimensions.get('window').width,
+      width: Dimensions.get("window").width,
       paddingLeft: 25,
       paddingRight: 25,
       flexDirection: "row",
@@ -56,7 +63,13 @@ const IconContainer = ({ children, style }) => (
   </TouchableOpacity>
 );
 
-function PostTitle({thumbnailImageUrl, editMode, post, setPost, setCalendarVisible }) {
+function PostTitle({
+  thumbnailImageUrl,
+  editMode,
+  post,
+  setPost,
+  setCalendarVisible,
+}) {
   return (
     <Container>
       <Row paddingTop={14} style={{ minHeight: 60 }}>
@@ -73,7 +86,7 @@ function PostTitle({thumbnailImageUrl, editMode, post, setPost, setCalendarVisib
         <IconContainer style={{ justifyContent: "right" }}>
           <Image
             style={{ width: 20, height: 20, marginTop: 2, marginRight: 5 }}
-            source={HeartPinkImage }
+            source={HeartPinkImage}
           />
           <Text
             style={{
@@ -91,7 +104,7 @@ function PostTitle({thumbnailImageUrl, editMode, post, setPost, setCalendarVisib
         <IconContainer style={{ flex: 8 }}>
           <View
             style={{
-              backgroundColor:"#f5f5f5",
+              backgroundColor: "#f5f5f5",
               shadowColor: "#000",
               shadowOffset: {
                 width: 1,
@@ -105,9 +118,7 @@ function PostTitle({thumbnailImageUrl, editMode, post, setPost, setCalendarVisib
               height: 28,
             }}
           >
-            <Image 
-              style={{uri: thumbnailImageUrl}}
-            />
+            <Image style={{ uri: thumbnailImageUrl }} />
           </View>
           <Text
             style={{
@@ -142,7 +153,7 @@ function PostTitle({thumbnailImageUrl, editMode, post, setPost, setCalendarVisib
 export default connect(
   (state) => ({
     post: state.post.post,
-    thumbnailImageUrl:state.user.thumbnailImageUrl,
+    thumbnailImageUrl: state.user.thumbnailImageUrl,
   }),
   { setPost }
 )(PostTitle);

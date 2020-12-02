@@ -110,5 +110,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     flex: 1,
+    color: "#777777",
+    fontSize: 20,
   },
 });

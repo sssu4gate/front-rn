@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     padding: 5,
     height: 40,
+    color: "#777777",
   },
   btn: {
     width: 100,
@@ -126,11 +127,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
     justifyContent: "center",
+    color: "#777777",
   },
   like_post: {
     fontSize: 12,
     padding: 5,
-    color: "#333333",
+    color: "#777777",
   },
   profileImg: {
     width: 70,

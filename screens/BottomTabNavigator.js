@@ -17,9 +17,9 @@ import * as theme from "../assets/theme";
 const Tab = createBottomTabNavigator();
 
 function BottomTabNavigator({ route, navigation, user }) {
-  React.useEffect(()=>{
-    if(user.isSigned=='unsigned') {
-      navigation.navigate('Login');
+  React.useEffect(() => {
+    if (user.isSigned == "unsigned") {
+      navigation.navigate("Login");
     }
   }, [user]);
 
@@ -53,8 +53,8 @@ function BottomTabNavigator({ route, navigation, user }) {
               <Image
                 source={
                   focused
-                    ? require("../assets/Community(p).png")
-                    : require("../assets/Community.png")
+                    ? require("../assets/Heart(pink).png")
+                    : require("../assets/Heart(gray).png")
                 }
                 style={{
                   width: 20,
@@ -135,8 +135,8 @@ function BottomTabNavigator({ route, navigation, user }) {
 }
 
 export default connect(
-  state=>({
-    user:state.user
+  (state) => ({
+    user: state.user,
   }),
   {}
-)(BottomTabNavigator)
+)(BottomTabNavigator);
