@@ -70,7 +70,7 @@ function PostTitle({thumbnailImageUrl, editMode, post, setPost, setCalendarVisib
         >
           {post.title}
         </Text>
-        <IconContainer style={{ justifyContent: "right", alignItems: "right", paddingTop: 5 }}>
+        <IconContainer style={{ justifyContent: "right" }}>
           <Image
             style={{ width: 20, height: 20, marginTop: 2, marginRight: 5 }}
             source={HeartPinkImage }

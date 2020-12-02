@@ -25,7 +25,6 @@ function TopBar({ option, setOption, initOption, navigation}) {
   const insets = useSafeAreaInsets();
   const route = navigation.dangerouslyGetState().routes[1];
   React.useEffect(() => {
-    console.log(route);
     if (route.state?.index == 2) {
       let leftButton = "none";
       if (route.state.routes[2].state?.index == 1) leftButton = "back";

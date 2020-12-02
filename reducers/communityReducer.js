@@ -10,20 +10,21 @@ export const types = {
 
 export function requestPostListCommunity(token, page, offset, option) {
   return (dispatch) => {
-    dispatch({ type: types.COMMUNITY_POST_LIST_REQUEST, page, offset, option });
+    dispatch({ type: types.COMMUNITY_POST_LIST_REQUEST, option, page, offset });
     return api
       .requestPostList(token, page, offset, option)
-      .then((json) => {
-        dispatch(successPostListCommunity(json));
+      .then((postList) => {
+        dispatch(successPostListCommunity(option, postList));
       })
       .catch((error) => dispatch(errorPostListCommunity(error)));
   };
 }
 
-export function successPostListCommunity(postList) {
+export function successPostListCommunity(option, postList) {
   return {
     type:types.COMMUNITY_POST_LIST_SUCCESS,
-    postList
+    postList,
+    option,
   };
 }
 export function errorPostListCommunity(error) {
@@ -58,11 +59,20 @@ const defaultState = {
   tab:"Popularity", // Popularity, Trend, Loco
   id:0,
   moved:true,
-  postList:[],
-  page:1,
-  offset:10,
-  option:"LATEST",
-  loading:false,
+  postList:{
+    "LATEST":{
+      postList:[],
+      page:0,
+      offset:10,
+      loading:false,
+    },
+    "LIKE":{
+      postList:[],
+      page:0,
+      offset:10,
+      loading:false,
+    },
+  },
   error:null
 };
 
@@ -87,22 +97,35 @@ export default (state = defaultState, action) => {
         ...state,
         moved:true,
       };
+
     case types.COMMUNITY_POST_LIST_REQUEST:
       return{
         ...state,
-        page:action.page,
-        offset:action.offset,
-        option:action.option,
-        loading:true,
+        postList:{
+          ...state.postList,
+          [action.option]:{
+            postList: [],
+            page: action.page,
+            offset: action.offset,
+            loading: true,
+          }
+        },
         error:null
       }
     case types.COMMUNITY_POST_LIST_SUCCESS:
       return {
         ...state,
-        postList:action.postList,
-        loading:false,
+        postList:{
+          ...state.postList,
+          [action.option]:{
+            ...state.postList[action.option],
+            postList: action.postList,
+            loading: false,
+          }
+        },
         error:null
       }
+
     case types.COMMUNITY_POST_LIST_ERROR:
       return{
         ...state,

@@ -68,8 +68,6 @@ function PostContent({
     }
   }, [uploaded]);
 
-  console.log(post);
-
   return (
     <View
       style={{

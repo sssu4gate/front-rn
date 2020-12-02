@@ -137,7 +137,7 @@ export default (state = defaultState, action) => {
       }
     case types.POST_LOAD_REQUEST:
       return {
-        ...state,
+        ...defaultState,
         loading: true,
         error: null,
       }

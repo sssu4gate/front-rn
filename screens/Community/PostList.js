@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { TabActions } from "@react-navigation/native";
+import {moveCommunityTab, moveCommunityPost, requestPostListCommunity} from "../../reducers/communityReducer";
+import {connect} from "react-redux";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -16,33 +18,32 @@ export default function PostList({ navigation, route }) {
   return (
     <Tab.Navigator
       tabBarOptions={{
-        activeTintiColor: "white",
-        inactiveTintColor: "white",
-        indicatorStyle: { backgroundColor: "white" },
+        activeTintColor: "#fff",
+        inactiveTintColor:"#fff",
+        indicatorStyle: { backgroundColor: "#fff" },
         style: { backgroundColor: "#FF6DA0" },
+        labelStyle: {fontSize:18, fontWeight:"bold"}
       }}
       initialRouteName={route.params?.screen}
     >
-      <Tab.Screen name="Popularity" component={Popularity} />
-      <Tab.Screen name="Trend" component={Trend} />
-      <Tab.Screen name="Loco" component={Loco} />
+      <Tab.Screen name="Popularity" options={{tabBarLabel:"인기"}} component={PostListPreview} initialParams={{option:"LIKE"}}/>
+      <Tab.Screen name="Trend" options={{tabBarLabel:"최신"}} component={PostListPreview} initialParams={{option:"LATEST"}}/>
+      <Tab.Screen name="Loco" options={{tabBarLabel:"추천"}} component={PostListPreview} initialParams={{option:"LIKE"}}/>
     </Tab.Navigator>
   );
 }
 
-function Post({ title, course, text, writer, profile, like, time, view }) {
+function Post({ title, course, text, writer, profile, like, time, view, onPress }) {
   return (
     <TouchableOpacity
-      onPress={() => {
-        console.log("asd");
-      }}
+      onPress={onPress}
     >
       <View style={styles.postView}>
         <View style={styles.titleView}>
           <Text style={styles.titleText}>{title}</Text>
           <TouchableOpacity style={styles.heartView}>
             <Image
-              style={{ width: 24, height: 24 }}
+              style={{ width: 18, height: 18 }}
               source={require("../../assets/Heart(pink).png")}
             />
             <Text style={styles.heartText}>{like}</Text>
@@ -52,7 +53,7 @@ function Post({ title, course, text, writer, profile, like, time, view }) {
         <View style={styles.titleView}>
           <Image style={styles.profile} source={{ uri: profile }} />
           <Text style={styles.infoText}>{writer}</Text>
-          <Text style={styles.infoText}>조회 {view}</Text>
+          <Text style={styles.infoText}>댓글 {view}</Text>
           <Text style={styles.infoText}></Text>
           <Text style={styles.infoText}></Text>
           <Text style={styles.infoText2}>{time}</Text>
@@ -62,125 +63,39 @@ function Post({ title, course, text, writer, profile, like, time, view }) {
   );
 }
 
-function getPost(board) {
-  var Posts = [
-    {
-      title: "태바준보",
-      course: "a, b, c",
-      text: "나는 바보다 히히히히히히히",
-      writer: "김태준",
-      profile:
-        "https://mblogthumb-phinf.pstatic.net/MjAxOTExMjlfMjA3/MDAxNTc0OTc2Nzg1MzMy.WJhzcrbtitmAgLJDtqwebCR1hDQbxcQUPvAvdxpk5O8g.vCs9wsVGbokP2KX1LUkr4hXoeEkRZYTzGkSGmFNeZ7og.JPEG.pomon64/iumini5mvkbk_201.jpg?type=w800",
-      like: 119,
-      time: "2020-11-11",
-      view: 1000,
-      id: 0,
-    },
-    {
-      title: "title2",
-      course: "a, b, c",
-      text: "text",
-      writer: "b",
-      profile:
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.insight.co.kr%2Fnews%2F253785&psig=AOvVaw2zavZ7gKYonCsNL_ONdaDP&ust=1605170783455000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCODexKiN-uwCFQAAAAAdAAAAABAD",
-      like: 0,
-      time: "2020-11-11",
-      view: 0,
-      id: 1,
-    },
-    {
-      title: "title3",
-      course: "a, b, c",
-      text: "text",
-      writer: "c",
-      profile:
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.insight.co.kr%2Fnews%2F253785&psig=AOvVaw2zavZ7gKYonCsNL_ONdaDP&ust=1605170783455000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCODexKiN-uwCFQAAAAAdAAAAABAD",
-      like: 0,
-      time: "2020-11-11",
-      view: 0,
-      id: 2,
-    },
-    {
-      title: "title2",
-      course: "a, b, c",
-      text: "text",
-      writer: "b",
-      profile:
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.insight.co.kr%2Fnews%2F253785&psig=AOvVaw2zavZ7gKYonCsNL_ONdaDP&ust=1605170783455000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCODexKiN-uwCFQAAAAAdAAAAABAD",
-      like: 0,
-      time: "2020-11-11",
-      view: 0,
-      id: 3,
-    },
-    {
-      title: "title2",
-      course: "a, b, c",
-      text: "text",
-      writer: "b",
-      profile:
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.insight.co.kr%2Fnews%2F253785&psig=AOvVaw2zavZ7gKYonCsNL_ONdaDP&ust=1605170783455000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCODexKiN-uwCFQAAAAAdAAAAABAD",
-      like: 0,
-      time: "2020-11-11",
-      view: 0,
-      id: 4,
-    },
-    {
-      title: "title2",
-      course: "a, b, c",
-      text: "text",
-      writer: "b",
-      profile:
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.insight.co.kr%2Fnews%2F253785&psig=AOvVaw2zavZ7gKYonCsNL_ONdaDP&ust=1605170783455000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCODexKiN-uwCFQAAAAAdAAAAABAD",
-      like: 0,
-      time: "2020-11-11",
-      view: 0,
-      id: 5,
-    },
-    {
-      title: "title2",
-      course: "a, b, c",
-      text: "text",
-      writer: "b",
-      profile:
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.insight.co.kr%2Fnews%2F253785&psig=AOvVaw2zavZ7gKYonCsNL_ONdaDP&ust=1605170783455000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCODexKiN-uwCFQAAAAAdAAAAABAD",
-      like: 0,
-      time: "2020-11-11",
-      view: 0,
-      id: 6,
-    },
-    {
-      title: "title2",
-      course: "a, b, c",
-      text: "text",
-      writer: "b",
-      profile:
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.insight.co.kr%2Fnews%2F253785&psig=AOvVaw2zavZ7gKYonCsNL_ONdaDP&ust=1605170783455000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCODexKiN-uwCFQAAAAAdAAAAABAD",
-      like: 0,
-      time: "2020-11-11",
-      view: 0,
-      id: 7,
-    },
-  ];
-  return Posts;
-}
+const PostListPreview=connect(
+  state=>({
+    postList:state.community.postList,
+    token:state.user.accessToken,
+  }),
+  {requestPostListCommunity}
+)(({ route:{params:{option}}, navigation, requestPostListCommunity, postList, token}) => {
 
-function Popularity() {
-  var Posts = getPost("Popularity");
+  React.useEffect(()=>{
+    // 서버 바뀌면 수정해야하
+    if(!postList[option].loading && !(postList[option].page==0 && postList[option].offset==5  && postList[option].postList.length!=0))
+      requestPostListCommunity(token, 0, 5, option);
+  }, [postList])
+
   return (
     <ScrollView style={styles.scrollView}>
-      {Posts.map((post) => {
+      {postList[option].loading && postList[option].length==0?
+        <Text>loading</Text>
+        :
+        postList[option].postList.map((post) => {
         return (
           <>
             <Post
               key={post.id}
               title={post.title}
+              like={post.likeNum}
+              view={post.commentNum}
+              time={post.createdAt}
               course={post.course}
               text={post.text}
               writer={post.writer}
               profile={post.profile}
-              like={post.like}
-              time={post.time}
-              view={post.view}
+              onPress={()=>navigation.navigate("PostDetail", {id: post.id})}
             />
             <View style={styles.indicator} />
           </>
@@ -188,59 +103,7 @@ function Popularity() {
       })}
     </ScrollView>
   );
-}
-
-function Trend() {
-  var Posts = getPost("Trend");
-  return (
-    <ScrollView style={styles.scrollView}>
-      {Posts.map((post) => {
-        return (
-          <>
-            <Post
-              key={post.id}
-              title={post.title}
-              course={post.course}
-              text={post.text}
-              writer={post.writer}
-              profile={post.profile}
-              like={post.like}
-              time={post.time}
-              view={post.view}
-            />
-            <View style={styles.indicator} />
-          </>
-        );
-      })}
-    </ScrollView>
-  );
-}
-
-function Loco() {
-  var Posts = getPost("Loco");
-  return (
-    <ScrollView style={styles.scrollView}>
-      {Posts.map((post) => {
-        return (
-          <>
-            <Post
-              key={post.id}
-              title={post.title}
-              course={post.course}
-              text={post.text}
-              writer={post.writer}
-              profile={post.profile}
-              like={post.like}
-              time={post.time}
-              view={post.view}
-            />
-            <View style={styles.indicator} />
-          </>
-        );
-      })}
-    </ScrollView>
-  );
-}
+})
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -268,6 +131,7 @@ const styles = StyleSheet.create({
   },
   heartView: {
     flexDirection: "row",
+    alignItems:"center",
     flex: 0.3,
   },
   text: {

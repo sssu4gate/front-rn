@@ -13,14 +13,12 @@ import styled from "styled-components/native";
 import {moveCommunityTab, moveCommunityPost, requestPostListCommunity} from "../reducers/communityReducer";
 import {connect} from "react-redux";
 
-function HotCourse({moveCommunityTab, moveCommunityPost, requestPostListCommunity, postList, page, offset, option, token, loading}) {
+function HotCourse({moveCommunityTab, moveCommunityPost, requestPostListCommunity, postList, token}) {
   React.useEffect(()=>{
     // 서버 바뀌면 수정해야하
-    if(!loading && !(page==0 && offset==5 && option=="LIKE" && postList.length!=0))
+    if(!postList["LIKE"].loading && !(postList["LIKE"].page==0 && postList["LIKE"].offset==5  && postList["LIKE"].postList.length!=0))
       requestPostListCommunity(token, 0, 5, "LIKE");
-  }, [postList, page, offset, option, loading])
-
-  console.log(postList);
+  }, [postList])
 
   const navigation = useNavigation();
 
@@ -40,10 +38,10 @@ function HotCourse({moveCommunityTab, moveCommunityPost, requestPostListCommunit
         </TouchableOpacity>
       </View>
       <View style={{ width: "90%", alignSelf: "center", flexGrow: 1 }}>
-        {loading?
+        {postList["LIKE"].loading?
           <Text>loading</Text>
           :
-          postList?.map((course, index) => {
+          postList["LIKE"]?.postList.map((course, index) => {
           return (
             <Hot5
               key={course.id}
@@ -60,13 +58,10 @@ function HotCourse({moveCommunityTab, moveCommunityPost, requestPostListCommunit
   );
 }
 
+
 export default connect(
   state=>({
     postList:state.community.postList,
-    page:state.community.page,
-    offset:state.community.offset,
-    option:state.community.option,
-    loading:state.community.loading,
     token:state.user.accessToken,
   }),
   {moveCommunityTab, moveCommunityPost, requestPostListCommunity}
