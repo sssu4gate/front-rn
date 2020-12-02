@@ -16,9 +16,9 @@ import {connect} from "react-redux";
 function HotCourse({moveCommunityTab, moveCommunityPost, requestPostListCommunity, postList, token}) {
   React.useEffect(()=>{
     // 서버 바뀌면 수정해야하
-    if(!postList["LIKE"].loading && !(postList["LIKE"].page==0 && postList["LIKE"].offset==5  && postList["LIKE"].postList.length!=0))
+    if(token!='' && !postList["LIKE"].loading && !(postList["LIKE"].page==0 && postList["LIKE"].offset==5  && postList["LIKE"].postList.length!=0))
       requestPostListCommunity(token, 0, 5, "LIKE");
-  }, [postList])
+  }, [postList, token])
 
   const navigation = useNavigation();
 
@@ -38,7 +38,7 @@ function HotCourse({moveCommunityTab, moveCommunityPost, requestPostListCommunit
         </TouchableOpacity>
       </View>
       <View style={{ width: "90%", alignSelf: "center", flexGrow: 1 }}>
-        {postList["LIKE"].loading?
+        {postList["LIKE"].loading && postList["LIKE"].postList.length==0?
           <Text>loading</Text>
           :
           postList["LIKE"]?.postList.map((course, index) => {

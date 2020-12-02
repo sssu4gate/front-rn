@@ -84,9 +84,8 @@ const PostListPreview=connect(
         :
         postList[option].postList.map((post) => {
         return (
-          <>
+          <View key={post.id}>
             <Post
-              key={post.id}
               title={post.title}
               like={post.likeNum}
               view={post.commentNum}
@@ -98,7 +97,7 @@ const PostListPreview=connect(
               onPress={()=>navigation.navigate("PostDetail", {id: post.id})}
             />
             <View style={styles.indicator} />
-          </>
+          </View>
         );
       })}
     </ScrollView>
