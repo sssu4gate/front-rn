@@ -9300,7 +9300,6 @@ minipass-fetch@^1.2.1, minipass-fetch@^1.3.0:
   resolved "https://registry.yarnpkg.com/minipass-fetch/-/minipass-fetch-1.3.2.tgz#573766fb1ae86e30df916a6b060bc2e801bf8f37"
   integrity sha512-/i4fX1ss+Dtwyk++OsAI6SEV+eE1dvI6W+0hORdjfruQ7VD5uYTetJIHcEMjWiEiszWjn2aAtP1CB/Q4KfeoYA==
   dependencies:
-    encoding "^0.1.12"
     minipass "^3.1.0"
     minipass-sized "^1.0.3"
     minizlib "^2.0.0"
@@ -11433,10 +11432,10 @@ react-native-swipe-gestures@^1.0.5:
   resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.5.tgz#a172cb0f3e7478ccd681fd36b8bfbcdd098bde7c"
   integrity sha512-Ns7Bn9H/Tyw278+5SQx9oAblDZ7JixyzeOczcBK8dipQk2pD7Djkcfnf1nB/8RErAmMLL9iXgW0QHqiII8AhKw==
 
-react-native-swiper-flatlist@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/react-native-swiper-flatlist/-/react-native-swiper-flatlist-2.0.4.tgz#8bbd75595ff3e741ba5fe5262ef7f18996350d2b"
-  integrity sha512-APP5xovUGZhL6yNHLmQlZwBpTab7coMKI4z6kMFNhVoKOaIefei6vOkFeOAi61xU2a/eTbKIVAZJ6TyU6L0g8Q==
+react-native-swiper-flatlist@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-swiper-flatlist/-/react-native-swiper-flatlist-2.0.5.tgz#c488f8fdb79902d82ca741760a7c78f52f0ce623"
+  integrity sha512-VVmnspXNKZWlI2nzm1W8260KBoTwNFXsGf3RTIVtmTptWGJlFQ4iwJvk+9+bcmpmfTkb9CnFHaDPLUqV5cIeJg==
   dependencies:
     prop-types "^15.7.2"
 

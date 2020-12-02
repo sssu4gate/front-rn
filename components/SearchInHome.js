@@ -24,28 +24,44 @@ const Container = styled.View`
 export default function SearchInHome() {
   const [queryString, setQueryString] = React.useState("");
   return (
-    <Container>
+    <View
+      style={{
+        width: "90%",
+        height: 50,
+        justifyContent: "flex-start",
+        flexDirection: "row",
+        padding: 10,
+        borderWidth: 1,
+        borderColor: "#ff6da0",
+        borderRadius: 30,
+        flex: 1,
+        opacity: 0.7,
+      }}
+    >
       <TextInput
         onChangeText={setQueryString}
-        placeholder="테마"
+        placeholder="Search"
         placeholderTextColor="#aaa"
         underlineColorAndroid="transparent"
         style={{
           color: "#777777",
-          width: "100%",
-          height: "100%",
           fontSize: 20,
           fontWeight: "bold",
+          width: "85%",
+          paddingHorizontal: 10,
         }}
         onFocus={() => Stretch()}
       />
-      <TouchableOpacity onPress={() => console.log(queryString)}>
+      <TouchableOpacity
+        onPress={() => console.log(queryString)}
+        style={{ padding: 0 }}
+      >
         <Image
           style={{ width: 24, height: 24 }}
           source={require("../assets/Search.png")}
         />
       </TouchableOpacity>
-    </Container>
+    </View>
   );
 }
 

@@ -11,34 +11,38 @@ import {
 import MyLike from "./MyLike";
 import MyPost from "./MyPost";
 import Settings from "./Settings";
+import { connect } from "react-redux";
+import {
+  requestProfileUser,
+  requestNamechkUser,
+  requestLoginUser,
+  setUser,
+} from "../../reducers/userReducer";
 
-export default function ProfileSummary({ navigation }) {
-  var userInfo = {
-    imgUri: "",
-    name: "",
-  };
-  userInfo.imgUri = require("../../assets/아이유1.jpg");
-  userInfo.name = "이지금";
-  var PostOrLike = "Post";
-  const [isShowingPost, setIsShowingPost] = useState(true);
+export default connect(
+  (state) => ({
+    user: state.user,
+  }),
+  { setUser, requestNamechkUser, requestProfileUser }
+)(function ProfileSummary({ navigation, user }) {
+  const [board, setBoard] = useState("post");
 
   return (
     <ScrollView style={{ backgroundColor: "#ffffff" }}>
       <View style={styles.area1}>
         <View style={styles.area1_1}>
-          <Image
-            source={userInfo.imgUri}
-            style={{
-              width: 70,
-              height: 70,
-              borderRadius: 50,
-              alignSelf: "center",
-            }}
-          />
+          {user.imgUrl ? (
+            <Image source={{ uri: user.imgUrl }} style={styles.profileImg} />
+          ) : (
+            <Image
+              source={require("../../assets/아이유1.jpg")}
+              style={styles.profileImg}
+            />
+          )}
         </View>
 
         <View style={styles.area1_2}>
-          <Text style={styles.textName}> {userInfo.name}</Text>
+          <Text style={styles.textName}>{user.nickName}</Text>
           <TouchableOpacity
             style={styles.btn}
             onPress={() => {
@@ -59,24 +63,25 @@ export default function ProfileSummary({ navigation }) {
         <View style={{ flexDirection: "row", backgroundColor: "#ffffff" }}>
           <TouchableOpacity
             onPress={() => {
-              setIsShowingPost(!isShowingPost);
+              setBoard("post");
             }}
           >
             <Text style={styles.like_post}>게시글</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              setIsShowingPost(!isShowingPost);
+              setBoard("like");
             }}
           >
             <Text style={styles.like_post}>좋아요</Text>
           </TouchableOpacity>
         </View>
       </View>
-      {isShowingPost ? <MyPost /> : <MyLike />}
+      {board == "post" && <MyPost />}
+      {board == "like" && <MyLike />}
     </ScrollView>
   );
-}
+});
 
 const styles = StyleSheet.create({
   area1: {
@@ -126,5 +131,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     padding: 5,
     color: "#333333",
+  },
+  profileImg: {
+    width: 70,
+    height: 70,
+    borderRadius: 50,
+    alignSelf: "center",
   },
 });

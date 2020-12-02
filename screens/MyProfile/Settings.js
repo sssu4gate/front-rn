@@ -17,7 +17,7 @@ import {
   requestLoginUser,
   setUser,
 } from "../../reducers/userReducer";
-import ModalArea from "../../components/ModalArea";
+import ModalCalender from "../../components/ModalCalender";
 
 export default connect(
   (state) => ({
@@ -38,6 +38,11 @@ export default connect(
     setAreaEdit(!isAreaEdit);
   };
   const [name, setName] = useState(user.nickName);
+  const [calendarVisible, setCalendarVisible] = React.useState(false);
+  const [birth, setBirth] = useState(user.birth);
+  const [yyyy, setyyyy] = useState("0000");
+  const [mm, setmm] = useState("00");
+  const [dd, setdd] = useState("00");
   const userArea = user.area;
   const areaList = [
     "강남구",
@@ -76,12 +81,12 @@ export default connect(
           <View style={{ flexDirection: "row" }}>
             <View style={{ height: 18, width: 24 }} />
             {user.imgUrl ? (
+              <Image source={{ uri: user.imgUrl }} style={style.profileImg} />
+            ) : (
               <Image
                 source={require("../../assets/아이유1.jpg")}
                 style={style.profileImg}
               />
-            ) : (
-              <Image source={{ uri: user.imgUrl }} style={style.profileImg} />
             )}
             <TouchableOpacity style={{ alignSelf: "flex-end" }}>
               <Image
@@ -94,6 +99,16 @@ export default connect(
         <Text style={style.area2_text}>{user.nickName}</Text>
       </View>
       <View style={style.area3}>
+        <Modal
+          isVisible={calendarVisible}
+          onBackdropPress={() => setCalendarVisible(false)}
+        >
+          <ModalCalender
+            user={user}
+            setUser={setUser}
+            setCalendarVisible={setCalendarVisible}
+          />
+        </Modal>
         <View style={[style.area3_box]}>
           <Text style={style.area3_text}>닉네임 :</Text>
           <TextInput
@@ -121,15 +136,63 @@ export default connect(
 
         <View style={[style.area3_box]}>
           <Text style={style.area3_text}>생일 :</Text>
-          <Text style={[style.area3_text, { paddingHorizontal: 0 }]}>
-            {user.birth}
-          </Text>
+          <Text style={style.area3_text}>{user.birth}</Text>
+          <TouchableOpacity
+            style={{ justifyContent: "center" }}
+            onPress={() => setCalendarVisible(true)}
+          >
+            <Image
+              style={{ width: 12, height: 12 }}
+              source={require("../../assets/Calendar.png")}
+            />
+          </TouchableOpacity>
         </View>
         <View style={[style.area3_box]}>
           <Text style={style.area3_text}>성별 :</Text>
-          <Text style={[style.area3_text, { paddingHorizontal: 0 }]}>
-            {user.gender == "M" ? "남자" : "여자"}
-          </Text>
+          <View>
+            {console.log(user.gender)}
+            {user.gender ? (
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity
+                  onPress={() => setUser({ ...user, gender: "M" })}
+                >
+                  <Text
+                    style={[
+                      style.area3_text,
+                      { color: user.gender == "M" ? "#777777" : "#e3e3e3" },
+                    ]}
+                  >
+                    남자
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setUser({ ...user, gender: "W" })}
+                >
+                  <Text
+                    style={[
+                      style.area3_text,
+                      { color: user.gender == "W" ? "#777777" : "#e3e3e3" },
+                    ]}
+                  >
+                    여자
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity
+                  onPress={() => setUser({ ...user, gender: "M" })}
+                >
+                  <Text style={[style.area3_text]}>남자</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setUser({ ...user, gender: "W" })}
+                >
+                  <Text style={[style.area3_text]}>여자</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
         </View>
         <View style={[style.area3_box]}>
           <Text style={[style.area3_text, { minWidth: 84 }]}>관심지역 :</Text>
