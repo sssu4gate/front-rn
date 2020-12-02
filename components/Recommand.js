@@ -66,15 +66,15 @@ function Recommand({ moveCommunityTab, moveCommunityPost }) {
       <View
         style={{
           flexDirection: "row",
-          width: "100%",
-          alignSelf: "center",
           marginBottom: -40,
+          width: "90%",
+          alignSelf: "center",
         }}
       >
-        <Text style={{ flex: 0.2 }}> </Text>
+        <Text style={{ width: "20%" }}></Text>
         <Text style={styles.title}>추천코스</Text>
         <TouchableOpacity
-          style={styles.more}
+          style={[styles.more, { width: "20%", padding: 10 }]}
           onPress={() => {
             moveCommunityTab("Loco");
             navigation.navigate("Community");
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     padding: 10,
-    flex: 0.6,
+    width: "60%",
     textAlign: "center",
   },
   more: {
@@ -165,8 +165,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "bold",
     textAlign: "center",
-    padding: 10,
-    flex: 0.2,
+    paddingVertical: 10,
   },
   carouselContainer: {
     marginTop: 50,

@@ -25,36 +25,26 @@ function HotCourse({
   isSigned,
   token,
 }) {
-  const dummyPostList = [
-    {
-      uri: "",
-      title: "test1",
-      likeNum: 1,
-      rank: 1,
-      id: 1,
-    },
-    {
-      uri: "",
-      title: "test2 sasad",
-      likeNum: 2,
-      rank: 2,
-      id: 2,
-    },
-    {
-      uri: "",
-      title: "test3 asdasdsadasd",
-      likeNum: 3,
-      rank: 3,
-      id: 3,
-    },
-  ];
+  React.useEffect(() => {
+    // 서버 바뀌면 수정해야하
+    if (
+      isSigned == "signed" &&
+      !postList["LIKE"].loading &&
+      !(
+        postList["LIKE"].page == 0 &&
+        postList["LIKE"].offset == 5 &&
+        postList["LIKE"].postList.length != 0
+      )
+    )
+      requestPostListCommunity(token, 0, 5, "LIKE");
+  }, [postList, isSigned]);
 
   const navigation = useNavigation();
 
   return (
     <>
       <View style={styles.row}>
-        <Text style={{ width: "20%" }}> </Text>
+        <Text style={{ flex: 0.2 }}> </Text>
         <Text style={styles.title}>인기코스 TOP 5</Text>
         <TouchableOpacity
           style={styles.more}
@@ -67,18 +57,24 @@ function HotCourse({
         </TouchableOpacity>
       </View>
       <View style={{ width: "90%", alignSelf: "center", flexGrow: 1 }}>
-        {dummyPostList.map((course, index) => {
-          return (
-            <Hot5
-              key={course.id}
-              title={course.title}
-              rank={index + 1}
-              like={course.likeNum}
-              id={course.id}
-              moveCommunityPost={moveCommunityPost}
-            />
-          );
-        })}
+        {isSigned == "unsigned" ||
+        postList["LIKE"].loading ||
+        postList["LIKE"].postList.length == 0 ? (
+          <Text>loading</Text>
+        ) : (
+          postList["LIKE"]?.postList.map((course, index) => {
+            return (
+              <Hot5
+                key={course.id}
+                title={course.title}
+                rank={index + 1}
+                like={course.likeNum}
+                id={course.id}
+                moveCommunityPost={moveCommunityPost}
+              />
+            );
+          })
+        )}
       </View>
     </>
   );
@@ -99,25 +95,18 @@ function Hot5({ uri, title, like, rank, id, moveCommunityPost }) {
     <View style={styles.row}>
       <View
         style={{
-          width: "10%",
+          flex: 0.1,
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "row",
         }}
       >
-        <Text style={[styles.text, { marginRight: 12 }]}>{rank}</Text>
-        <View
-          style={{
-            height: "100%",
-            width: 1,
-            backgroundColor: "#eeeeee",
-          }}
-        >
-          <Text />
-        </View>
+        <Text style={styles.text}>{rank}</Text>
+        <View style={{ height: "80%" }} />
+        <View style={{ width: 1, height: "100%", backgroundColor: "#eee" }} />
       </View>
       <TouchableOpacity
-        style={{ width: "60%", alignItems: "center", marginLeft: 5 }}
+        style={{ flex: 0.7, alignItems: "center" }}
         onPress={() => {
           moveCommunityPost(id, "Popularity");
           navigation.navigate("Community");
@@ -126,7 +115,7 @@ function Hot5({ uri, title, like, rank, id, moveCommunityPost }) {
         <Text style={styles.hot5Title}>{title}</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={{ flexDirection: "row", width: "30%", alignItems: "center" }}
+        style={{ flexDirection: "row", flex: 0.2, alignItems: "center" }}
         onPress={() => {
           console.log("Like");
         }}
@@ -144,7 +133,7 @@ function Hot5({ uri, title, like, rank, id, moveCommunityPost }) {
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
-    width: "90%",
+    width: "100%",
     alignItems: "center",
     alignSelf: "center",
     flexGrow: 1,
@@ -155,7 +144,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     padding: 10,
-    width: "60%",
+    flex: 0.6,
     textAlign: "center",
   },
   more: {
@@ -164,6 +153,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     padding: 10,
+    flex: 0.2,
   },
   text: {
     color: "#000",

@@ -17,12 +17,13 @@ import * as theme from "../assets/theme";
 const Tab = createBottomTabNavigator();
 
 function BottomTabNavigator({ route, navigation, user }) {
+  /*
   React.useEffect(() => {
     if (user.isSigned == "unsigned") {
       navigation.navigate("Login");
     }
   }, [user]);
-
+*/
   return (
     <Tab.Navigator
       initialRouteName="Home"
