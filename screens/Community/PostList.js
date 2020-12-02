@@ -43,7 +43,7 @@ function Post({ title, course, text, writer, profile, like, time, view, onPress 
           <Text style={styles.titleText}>{title}</Text>
           <TouchableOpacity style={styles.heartView}>
             <Image
-              style={{ width: 18, height: 18 }}
+              style={{ width: 18, height: 18, marginRight:5 }}
               source={require("../../assets/Heart(pink).png")}
             />
             <Text style={styles.heartText}>{like}</Text>

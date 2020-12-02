@@ -31,8 +31,8 @@ export default connect(
     <ScrollView style={{ backgroundColor: "#ffffff" }}>
       <View style={styles.area1}>
         <View style={styles.area1_1}>
-          {user.imgUrl ? (
-            <Image source={{ uri: user.imgUrl }} style={styles.profileImg} />
+          {user.profileImageUrl ? (
+            <Image source={{ uri: user.profileImageUrl }} style={styles.profileImg} />
           ) : (
             <Image
               source={require("../../assets/아이유1.jpg")}
