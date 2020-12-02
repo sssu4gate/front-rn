@@ -4,11 +4,10 @@ import {TOKEN} from "../environment";
 export const types = {
   USER_SET: "USER_SET",
   USER_INIT: "USER_INIT",
-
   USER_HANDLE_ERROR:"USER_HANDLE_ERROR",
   USER_HANDLE_REQUEST:"USER_HANDLE_REQUEST",
 
-  USER_LOGIN_REQUEST:"USER_LOGIN_REQUEST",
+  USER_LOGIN_REQUEST: "USER_LOGIN_REQUEST",
   USER_LOGIN_SUCCESS: "USER_LOGIN_SUCCESS",
   USER_LOGIN_ERROR: "USER_LOGIN_ERROR",
 
@@ -17,7 +16,7 @@ export const types = {
   USER_NAMECHK_SUCCESS: "USER_NAMECHK_SUCCESS",
   USER_NAMECHK_ERROR: "USER_NAMECHK_ERROR",
 
-  USER_PROFILE_SUCCESS:"USER_PROFILE_SUCCESS",
+  USER_PROFILE_SUCCESS: "USER_PROFILE_SUCCESS",
 };
 
 export function setUser(user) {
@@ -71,7 +70,11 @@ export function requestCheckLoginedUser() {
 
 export function requestLoginUser(user) {
   return (dispatch) => {
-    dispatch({ type: types.USER_LOGIN_REQUEST, accessToken:user.accessToken, refreshToken:user.refreshToken });
+    dispatch({
+      type: types.USER_LOGIN_REQUEST,
+      accessToken: user.accessToken,
+      refreshToken: user.refreshToken,
+    });
     return api
       .loginUser(user)
       .then((json) => {
@@ -85,13 +88,17 @@ export function loginUserSuccess(user) {
   return {
     type: types.USER_LOGIN_SUCCESS,
     ...user,
-    isSigned:user?.statusCode==404?'unsigned':'signed',
-    birth:user.birth?user.birth:'',
-    gender:user.gender?user.gender:'',
-    likeNum:user.likeNum?user.likeNum:0, 
-    nickName:user.nickName?user.nickName:user.properties.nickname,
-    thumbnailImageUrl:user.thumbnailImageUrl?user.thumbnailImageUrl:user.properties.thumbnail_image,
-    profileImageUrl:user.profileImageUrl?user.profileImageUrl:user.properties.profile_image,
+    isSigned: user?.statusCode == 404 ? "unsigned" : "signed",
+    birth: user.birth ? user.birth : "",
+    gender: user.gender ? user.gender : "",
+    likeNum: user.likeNum ? user.likeNum : 0,
+    nickName: user.nickName ? user.nickName : user.properties.nickname,
+    thumbnailImageUrl: user.thumbnailImageUrl
+      ? user.thumbnailImageUrl
+      : user.properties.thumbnail_image,
+    profileImageUrl: user.profileImageUrl
+      ? user.profileImageUrl
+      : user.properties.profile_image,
   };
 }
 
@@ -99,7 +106,7 @@ export function loginUserError(error) {
   return {
     type: types.USER_LOGIN_ERROR,
     error,
-    isSigned:'unsigned'
+    isSigned: "unsigned",
   };
 }
 
@@ -109,21 +116,19 @@ export function requestSignupUser(user) {
     return api
       .signupUser(user)
       .then((json) => {
-        if(json?.accessToken)
-          dispatch(signupUserSuccess(json));
-        else
-          dispatch(handleUserError(error));
+        if (json?.accessToken) dispatch(signupUserSuccess(json));
+        else dispatch(handleUserError(error));
       })
       .catch((error) => dispatch(handleUserError(error)));
   };
 }
 
-export function signupUserSuccess({accessToken, refreshToken}) {
+export function signupUserSuccess({ accessToken, refreshToken }) {
   return {
     type: types.USER_SIGNUP_SUCCESS,
-    isSigned:'signed',
+    isSigned: "signed",
     accessToken,
-    refreshToken
+    refreshToken,
   };
 }
 
@@ -142,7 +147,7 @@ export function requestNamechkUser(nickName) {
 export function namechkUserSuccess(boolean) {
   return {
     type: types.USER_NAMECHK_SUCCESS,
-    nameChecked:boolean
+    nameChecked: boolean,
   };
 }
 
@@ -150,7 +155,7 @@ export function namechkUserError(error) {
   return {
     type: types.USER_NAMECHK_ERROR,
     error,
-    nameChecked:false,
+    nameChecked: false,
   };
 }
 
@@ -174,21 +179,20 @@ export function profileUserSuccess(user) {
 }
 
 const defaultState = {
-  accessToken:'',
-  accessToken:TOKEN,
-  refreshToken:'',
-  birth:'',
-  gender:'',
-  id:0,
-  likeNum:0,
-  nickName:'',
-  thumbnailImageUrl:'',
-  profileImageUrl:'',
+  accessToken: "",
+  refreshToken: "",
+  birth: "",
+  gender: "",
+  id: 0,
+  likeNum: 0,
+  nickName: "",
+  thumbnailImageUrl: "",
+  profileImageUrl: "",
   loading: false,
   error: null,
-  isSigned:'unsigned', // unsigned, singed
-  isSigned:'signed', // unsigned, singed
-  nameChecked:false,
+  isSigned: "unsigned", // unsigned, singed
+  nameChecked: false,
+  area: [],
 };
 
 export default (state = defaultState, action) => {
@@ -217,68 +221,69 @@ export default (state = defaultState, action) => {
     case types.USER_LOGIN_REQUEST:
       return {
         ...state,
-        refreshToken:action.refreshToken,
-        accessToken:action.accessToken,
+        refreshToken: action.refreshToken,
+        accessToken: action.accessToken,
         loading: true,
         error: null,
       };
     case types.USER_LOGIN_SUCCESS:
-      console.log('LOGIN Success', action);
+      console.log("LOGIN Success", action);
       return {
         ...state,
         loading: false,
         error: null,
-        accessToken:action.accessToken,
-        refreshToken:action.refreshToken,
-        isSigned:action.isSigned, 
-        id:action.id, 
-        birth:action.birth,
-        gender:action.gender,
-        likeNum:action.likeNum, 
-        nickName:action.nickName,
-        thumbnailImageUrl:action.thumbnailImageUrl,
-        profileImageUrl:action.profileImageUrl,
+        accessToken: action.accessToken,
+        refreshToken: action.refreshToken,
+        isSigned: action.isSigned,
+        id: action.id,
+        birth: action.birth,
+        gender: action.gender,
+        likeNum: action.likeNum,
+        nickName: action.nickName,
+        thumbnailImageUrl: action.thumbnailImageUrl,
+        profileImageUrl: action.profileImageUrl,
       };
     case types.USER_LOGIN_ERROR:
       return {
         ...state,
         loading: false,
         error: action.error,
-        isSigned:action.isSigned
+        isSigned: action.isSigned,
       };
     case types.USER_SIGNUP_SUCCESS:
       return {
         ...state,
         loading: false,
         error: null,
-        isSigned:action.isSigned,
-        accessToken:action.accessToken,
-        refreshToken:action.refreshToken
-      }
+        isSigned: action.isSigned,
+        accessToken: action.accessToken,
+        refreshToken: action.refreshToken,
+      };
     case types.USER_NAMECHK_SUCCESS:
       return {
         ...state,
         loading: false,
         error: null,
-        nameChecked:action.nameChecked
-      }
+        nameChecked: action.nameChecked,
+      };
     case types.USER_NAMECHK_ERROR:
       return {
         ...state,
         loading: false,
         error: action.error,
-        nameChecked:action.nameChecked
-      }
+        nameChecked: action.nameChecked,
+      };
     case types.USER_PROFILE_SUCCESS:
       return {
         ...state,
-        nickName:action.user.nickName,
-        gender:action.user.gender,
-        birth:action.user.birth,
+        nickName: action.user.nickName,
+        gender: action.user.gender,
+        birth: action.user.birth,
+        area: action.user.area,
         loading: false,
         error: null,
-      }
+      };
     default:
       return state;
   }
-}
+};

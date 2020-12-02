@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import ProfileSummary from "./ProfileSummary";
-import SetProfile from "./SetProfile";
+import Settings from "./Settings";
 
 const Stack = createStackNavigator();
 
@@ -15,7 +15,7 @@ export default function Myprofile() {
       mode="modal"
     >
       <Stack.Screen name="ProfileSummary" component={ProfileSummary} />
-      <Stack.Screen name="SetProfile" component={SetProfile} />
+      <Stack.Screen name="Settings" component={Settings} />
     </Stack.Navigator>
   );
 }
