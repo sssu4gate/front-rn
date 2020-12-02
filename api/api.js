@@ -17,7 +17,8 @@ export const searchPlace = (token, keyword, page = 1, offset = 10) => {
   return fetch(URL, OPTIONS("get", token))
     .then((res) => res.json())
     .then((json) => {
-      console.log(json);
+      if(json.status)
+        return [];
       return json;
     });
 };
