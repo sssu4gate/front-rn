@@ -121,38 +121,11 @@ function PostContent({
         />
       </Content>
       <Content>
-        <Text style={{ fontSize: 12, color: "#AAAAAA" }}>메모</Text>
-        <Line />
-      </Content>
-      <Content style={{ paddingBottom: 0 }}>
-        <FlatList
-          style={{ width: "100%", overflow: "visible" }}
-          data={post.memos}
-          renderItem={({ item, index }) => {
-            return (
-              <Memo
-                {...item}
-                checkHandler={() => {
-                  setPost({
-                    ...post,
-                    memos: [
-                      ...post.memos.slice(0, index),
-                      { text: item.text, type: Number(!item.type) },
-                      ...post.memos.slice(index + 1, post.memos.length),
-                    ],
-                  });
-                }}
-              />
-            );
-          }}
-        />
-      </Content>
-      <Content>
         <Text style={{ fontSize: 12, color: "#AAAAAA" }}>본문</Text>
         <Line />
       </Content>
       <Content style={{ flexDirection: "column" }}>
-        <Text style={{ color: "#777", fontSize: 18, minHeight: 100 }}>
+        <Text style={{ color: "#777", fontSize: 18, minHeight: 80 }}>
           {post.content}
         </Text>
       </Content>

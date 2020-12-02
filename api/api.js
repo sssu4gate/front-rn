@@ -31,7 +31,13 @@ export const saveCourse = async (token, course) => {
 export const loadPost = (token, id) => {
   const URL = `https://capstone-4gate.herokuapp.com/course/${id}`;
   console.log('Start fetch', URL)
-  return fetch(URL, OPTIONS('get', token)).then(res=>res.json()).then(json=>{console.log(json);return json});
+  const memoTypeMap={"CHECKOFF":0, "CHECKON":1, "MEMO":2}
+  const parseCourse=course=>({
+    ...course,
+    date:course.dateDay,
+    memos:course.memos.map(memo=>({text:memo.content, type:memoTypeMap[memo.type]}))
+  });
+  return fetch(URL, OPTIONS('get', token)).then(res=>res.json()).then(parseCourse);
 };
 
 export const loginUser = async ({accessToken, refreshToken}) => {

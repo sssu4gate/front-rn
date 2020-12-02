@@ -16,48 +16,13 @@ import {connect} from "react-redux";
 function HotCourse({moveCommunityTab, moveCommunityPost, requestPostListCommunity, postList, page, offset, option, token, loading}) {
   React.useEffect(()=>{
     // 서버 바뀌면 수정해야하
-    if(!(page==0 && offset==5 && option=="LIKE" && postList.length!=0))
+    if(!loading && !(page==0 && offset==5 && option=="LIKE" && postList.length!=0))
       requestPostListCommunity(token, 0, 5, "LIKE");
-  }, [postList, page, offset, option])
+  }, [postList, page, offset, option, loading])
+
+  console.log(postList);
 
   const navigation = useNavigation();
-  var courses = [
-    {
-      uri: "test",
-      title: "롯데타워, 석촌호수 힐링 데이트~",
-      rank: 1,
-      like: 1,
-      id: 1,
-    },
-    {
-      uri: "test2",
-      title: "title2",
-      rank: 2,
-      like: 3,
-      id: 2,
-    },
-    {
-      uri: "test3",
-      title: "title3",
-      rank: 3,
-      like: 5,
-      id: 3,
-    },
-    {
-      uri: "test4",
-      title: "title4",
-      rank: 4,
-      like: 7,
-      id: 4,
-    },
-    {
-      uri: "test5",
-      title: "title5",
-      rank: 5,
-      like: 9,
-      id: 5,
-    },
-  ];
 
   return (
     <>
@@ -75,14 +40,16 @@ function HotCourse({moveCommunityTab, moveCommunityPost, requestPostListCommunit
         </TouchableOpacity>
       </View>
       <View style={{ width: "90%", alignSelf: "center", flexGrow: 1 }}>
-        {courses.map((course) => {
+        {loading?
+          <Text>loading</Text>
+          :
+          postList?.map((course, index) => {
           return (
             <Hot5
               key={course.id}
-              uri={course.uri}
               title={course.title}
-              rank={course.rank}
-              like={course.like}
+              rank={index+1}
+              like={course.likeNum}
               id={course.id}
               moveCommunityPost={moveCommunityPost}
             />

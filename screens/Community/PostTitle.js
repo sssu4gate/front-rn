@@ -56,19 +56,7 @@ const IconContainer = ({ children, style }) => (
   </TouchableOpacity>
 );
 
-const Profile = ({ children, style }) => (
-  <Image
-    style={{
-      borderRadius: "50%",
-      width: 28,
-      height: 28,
-      ...style,
-    }}
-  >
-    {children}
-  </Image>
-);
-function PostTitle({ editMode, post, setPost, setCalendarVisible }) {
+function PostTitle({thumbnailImageUrl, editMode, post, setPost, setCalendarVisible }) {
   return (
     <Container>
       <Row paddingTop={14} style={{ maxHeight: 50 }}>
@@ -118,7 +106,7 @@ function PostTitle({ editMode, post, setPost, setCalendarVisible }) {
             }}
           >
             <Image 
-              style={{}}
+              style={{uri: thumbnailImageUrl}}
             />
           </View>
           <Text
@@ -154,6 +142,7 @@ function PostTitle({ editMode, post, setPost, setCalendarVisible }) {
 export default connect(
   (state) => ({
     post: state.post.post,
+    thumbnailImageUrl:state.user.thumbnailImageUrl,
   }),
   { setPost }
 )(PostTitle);

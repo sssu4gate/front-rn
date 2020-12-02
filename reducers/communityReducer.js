@@ -70,12 +70,14 @@ export default (state = defaultState, action) => {
   switch (action.type) {
     case types.COMMUNITY_TAB_MOVE:
       return {
+        ...state,
         tab:action.tab,
         id:0,
         moved:false,
       };
     case types.COMMUNITY_POST_MOVE:
       return {
+        ...state,
         tab:action.tab?action.tab:state.tab,
         id:action.id,
         moved:false,
