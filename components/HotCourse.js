@@ -38,7 +38,7 @@ function HotCourse({moveCommunityTab, moveCommunityPost, requestPostListCommunit
         </TouchableOpacity>
       </View>
       <View style={{ width: "90%", alignSelf: "center", flexGrow: 1 }}>
-        {postList["LIKE"].loading && postList["LIKE"].postList.length==0?
+        {token=='' || postList["LIKE"].loading || postList["LIKE"].postList.length==0?
           <Text>loading</Text>
           :
           postList["LIKE"]?.postList.map((course, index) => {
