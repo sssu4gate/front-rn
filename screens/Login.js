@@ -249,7 +249,7 @@ export default connect(
       }}
     >
       <Stack.Navigator
-        initialRouteName="Settings"
+        initialRouteName="SwitchLogin"
         screenOptions={({ route, navigation }) => ({
           headerShown: false,
         })}
