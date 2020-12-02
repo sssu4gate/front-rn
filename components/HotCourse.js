@@ -16,7 +16,7 @@ import {connect} from "react-redux";
 function HotCourse({moveCommunityTab, moveCommunityPost, requestPostListCommunity, postList, page, offset, option, token, loading}) {
   React.useEffect(()=>{
     // 서버 바뀌면 수정해야하
-    if(!(page==0 && offset==5 && option=="LIKE"))
+    if(!(page==0 && offset==5 && option=="LIKE" && postList.length!=0))
       requestPostListCommunity(token, 0, 5, "LIKE");
   }, [postList, page, offset, option])
 

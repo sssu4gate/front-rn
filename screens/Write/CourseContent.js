@@ -465,6 +465,6 @@ export default connect(
     setCourse,
     initCourse,
     requestSaveCourse,
-    moveCommunityPost,
+    moveCommunityPost, 
   }
 )(CourseContent);

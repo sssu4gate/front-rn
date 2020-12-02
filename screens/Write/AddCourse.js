@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, View, TouchableOpacity, Dimensions } from "react-native";
+import { Text, View, TouchableOpacity, Dimensions, Image } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import styled from "styled-components/native";
@@ -37,17 +37,28 @@ function AddCourse({
   selectPlace,
   selectedPlaces,
   navigation,
-  token
+  token,
+  keyword,
+  page,
+  offset,
 }) {
   // loading true 일경우 로딩중 표시
   React.useEffect(() => {
     // 추천 코스
     // 검색시 키워드 검색
-    requestPlace(token, "숭실대 맛집");
+    const initialKeyword='숭실대 맛집';
+    if(!loading && !(page==1 && offset==10 && keyword==initialKeyword && places.length!=0)){
+      requestPlace(token, initialKeyword, 1, 10);
+    }
   }, []);
+  const searchHandler=_keyword=>{
+    if(!loading && !(page==1 && offset==10 && keyword==_keyword && places.length!=0)){
+      requestPlace(token, _keyword, 1, 10);
+    }
+  }
   return (
     <Container>
-      <Search></Search>
+      <Search searchHandler={searchHandler}></Search>
       <FlatList
         style={{
           width: "100%",
@@ -78,16 +89,7 @@ function AddCourse({
               >
                 {item.place_name}
               </Text>
-              <Text
-                style={{
-                  marginLeft: 5,
-                  fontSize: 10,
-                  height: 20,
-                  color: "#aaa",
-                }}
-              >
-                X
-              </Text>
+              <Image source={require("../../assets/xBtn.png")} style={{marginLeft:3, height:10, width:10}} />
             </TouchableOpacity>
           );
         }}
@@ -155,7 +157,10 @@ export default connect(
     error: state.place.error,
     loading: state.place.loading,
     selectedPlaces: state.place.selectedPlaces,
-    token:state.user.accessToken
+    token:state.user.accessToken,
+    keyword: state.place.keyword,
+    page: state.place.page,
+    offset: state.place.offset,
   }),
   { requestPlace, initPlace, selectPlace }
 )(AddCourse);
