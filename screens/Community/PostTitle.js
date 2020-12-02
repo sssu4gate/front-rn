@@ -10,7 +10,7 @@ import HeartPinkImage from "../../assets/Heart(pink).png";
 const Container = ({ children, style }) => (
   <View
     style={{
-      height: 100,
+      height: 110,
       width: Dimensions.get('window').width,
       justifyContent: "center",
       alignItems: "center",
@@ -59,7 +59,7 @@ const IconContainer = ({ children, style }) => (
 function PostTitle({thumbnailImageUrl, editMode, post, setPost, setCalendarVisible }) {
   return (
     <Container>
-      <Row paddingTop={14} style={{ maxHeight: 50 }}>
+      <Row paddingTop={14} style={{ minHeight: 60 }}>
         <Text
           style={{
             fontSize: 28,
@@ -70,14 +70,14 @@ function PostTitle({thumbnailImageUrl, editMode, post, setPost, setCalendarVisib
         >
           {post.title}
         </Text>
-        <IconContainer style={{ justifyContent: "right", alignItems: "right" }}>
+        <IconContainer style={{ justifyContent: "right", alignItems: "right", paddingTop: 5 }}>
           <Image
             style={{ width: 20, height: 20, marginTop: 2, marginRight: 5 }}
             source={HeartPinkImage }
           />
           <Text
             style={{
-              fontSize: 20,
+              fontSize: 18,
               color: theme.PRIMARY_COLOR,
               marginLeft: 3,
               fontWeight: "300",
