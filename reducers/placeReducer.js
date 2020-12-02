@@ -9,20 +9,23 @@ export const types = {
   PLACE_SELECT: "PLACE_SELECT",
 };
 
-export function requestPlace(token, keyword, pageArray=[1]) {
+export function requestPlace(token, keyword, page, offset ) {
   return (dispatch) => {
-    dispatch(searchPlaceRequest());
-    return Promise.all(pageArray.map(page=>api.searchPlace(token, keyword, page)))
-      .then((jsonArray) => {
-        return dispatch(searchPlaceSuccess(jsonArray.flat()));
+    dispatch(searchPlaceRequest({keyword, page, offset}));
+    return api.searchPlace(token, keyword, page, offset)
+      .then(json => {
+        return dispatch(searchPlaceSuccess(json));
       })
       .catch((error) => dispatch(searchPlaceError(error)));
   };
 }
 
-export function searchPlaceRequest() {
+export function searchPlaceRequest({keyword, page, offset}) {
   return {
     type: types.PLACE_SEARCH_REQUEST,
+    keyword,
+    page,
+    offset
   };
 }
 
@@ -62,6 +65,9 @@ export function selectPlace(selectedPlaces) {
 const defaultState = {
   places: [],
   selectedPlaces: [],
+  keyword:'',
+  page:0,
+  offset:10,
   loading: false,
   error: null,
 };
@@ -77,6 +83,9 @@ export default (state = defaultState, action) => {
         ...state,
         loading: true,
         error: null,
+        keyword:action.keyword,
+        page:action.page,
+        offset:action.offset
       };
     case types.PLACE_SEARCH_SUCCESS:
       return {

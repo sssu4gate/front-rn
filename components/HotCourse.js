@@ -10,48 +10,17 @@ import {
 } from "react-native";
 import { useNavigation, TabActions } from "@react-navigation/native";
 import styled from "styled-components/native";
-import {moveCommunityTab, moveCommunityPost} from "../reducers/communityReducer";
+import {moveCommunityTab, moveCommunityPost, requestPostListCommunity} from "../reducers/communityReducer";
 import {connect} from "react-redux";
 
-function HotCourse({moveCommunityTab, moveCommunityPost}) {
+function HotCourse({moveCommunityTab, moveCommunityPost, requestPostListCommunity, postList, token}) {
+  React.useEffect(()=>{
+    // 서버 바뀌면 수정해야하
+    if(!postList["LIKE"].loading && !(postList["LIKE"].page==0 && postList["LIKE"].offset==5  && postList["LIKE"].postList.length!=0))
+      requestPostListCommunity(token, 0, 5, "LIKE");
+  }, [postList])
+
   const navigation = useNavigation();
-  var courses = [
-    {
-      uri: "test",
-      title: "롯데타워, 석촌호수 힐링 데이트~",
-      rank: 1,
-      like: 1,
-      id: 1,
-    },
-    {
-      uri: "test2",
-      title: "title2",
-      rank: 2,
-      like: 3,
-      id: 2,
-    },
-    {
-      uri: "test3",
-      title: "title3",
-      rank: 3,
-      like: 5,
-      id: 3,
-    },
-    {
-      uri: "test4",
-      title: "title4",
-      rank: 4,
-      like: 7,
-      id: 4,
-    },
-    {
-      uri: "test5",
-      title: "title5",
-      rank: 5,
-      like: 9,
-      id: 5,
-    },
-  ];
 
   return (
     <>
@@ -69,14 +38,16 @@ function HotCourse({moveCommunityTab, moveCommunityPost}) {
         </TouchableOpacity>
       </View>
       <View style={{ width: "90%", alignSelf: "center", flexGrow: 1 }}>
-        {courses.map((course) => {
+        {postList["LIKE"].loading?
+          <Text>loading</Text>
+          :
+          postList["LIKE"]?.postList.map((course, index) => {
           return (
             <Hot5
               key={course.id}
-              uri={course.uri}
               title={course.title}
-              rank={course.rank}
-              like={course.like}
+              rank={index+1}
+              like={course.likeNum}
               id={course.id}
               moveCommunityPost={moveCommunityPost}
             />
@@ -87,9 +58,13 @@ function HotCourse({moveCommunityTab, moveCommunityPost}) {
   );
 }
 
+
 export default connect(
-  state=>({}),
-  {moveCommunityTab, moveCommunityPost}
+  state=>({
+    postList:state.community.postList,
+    token:state.user.accessToken,
+  }),
+  {moveCommunityTab, moveCommunityPost, requestPostListCommunity}
 )(HotCourse)
 
 function Hot5({ uri, title, like, rank, id, moveCommunityPost }) {

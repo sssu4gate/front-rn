@@ -44,26 +44,6 @@ const Line = ({ children, style }) => (
   </View>
 );
 
-const AddButton = ({ children, style }) => (
-  <TouchableOpacity
-    style={{
-      flex: 1,
-      height: 40,
-      justifyContent: "center",
-      alignItems: "center",
-      borderRadius: 10,
-      boxShadow: "1px 1px 5px #00000040",
-      ...style,
-    }}
-  >
-    {children}
-  </TouchableOpacity>
-);
-
-const Temp = (props) => {
-  console.log(props);
-  return <View />;
-};
 function PostContent({
   post,
   setPost,
@@ -87,8 +67,6 @@ function PostContent({
       initPlace();
     }
   }, [uploaded]);
-
-  console.log(post);
 
   return (
     <View
@@ -121,38 +99,11 @@ function PostContent({
         />
       </Content>
       <Content>
-        <Text style={{ fontSize: 12, color: "#AAAAAA" }}>메모</Text>
-        <Line />
-      </Content>
-      <Content style={{ paddingBottom: 0 }}>
-        <FlatList
-          style={{ width: "100%", overflow: "visible" }}
-          data={post.memos}
-          renderItem={({ item, index }) => {
-            return (
-              <Memo
-                {...item}
-                checkHandler={() => {
-                  setPost({
-                    ...post,
-                    memos: [
-                      ...post.memos.slice(0, index),
-                      { text: item.text, type: Number(!item.type) },
-                      ...post.memos.slice(index + 1, post.memos.length),
-                    ],
-                  });
-                }}
-              />
-            );
-          }}
-        />
-      </Content>
-      <Content>
         <Text style={{ fontSize: 12, color: "#AAAAAA" }}>본문</Text>
         <Line />
       </Content>
       <Content style={{ flexDirection: "column" }}>
-        <Text style={{ color: "#777", fontSize: 18, minHeight: 100 }}>
+        <Text style={{ color: "#777", fontSize: 18, minHeight: 80 }}>
           {post.content}
         </Text>
       </Content>
@@ -179,7 +130,15 @@ function PlaceItem({ title, index, price, type }) {
       style={{
         flexDirection: "row",
         marginBottom: 20,
-        boxShadow: "1px 1px 5px #00000040",
+        backgroundColor:'#fff',
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 1,
+          height: 1,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3,
+        elevation: 5,
         height: 40,
         borderRadius: 10,
         padding: 8,
@@ -223,42 +182,6 @@ function PlaceItem({ title, index, price, type }) {
         ₩ {price}
       </Text>
     </TouchableOpacity>
-  );
-}
-
-function Memo({ text, type, checkHandler }) {
-  return (
-    <View
-      style={{
-        flexDirection: "row",
-        padding: 12,
-        boxShadow: "1px 1px 5px #00000040",
-        borderRadius: 10,
-        alignItems: "center",
-        marginBottom: 15,
-      }}
-    >
-      {type !== 3 ? (
-        <>
-          <TouchableOpacity
-            style={{ borderRadius: 5 }}
-            onPress={checkHandler}
-          >
-            {/* <Image style={{width:16, height:16}} source={{uri: type?CheckFullPinkImage:UnCheckPinkImage}} /> */}
-          </TouchableOpacity>
-          <View
-            style={{
-              width: 1,
-              height: 20,
-              backgroundColor: "#e3e3e3",
-              marginLeft: 7,
-              marginRight: 7,
-            }}
-          />
-        </>
-      ) : null}
-      <Text style={{ flex: 1, color: "#3c3c3c" }}>{text}</Text>
-    </View>
   );
 }
 

@@ -5,15 +5,12 @@ import { FlatList } from "react-native-gesture-handler";
 import * as theme from "../../assets/theme";
 
 export default function Schedule({ navigation, route, course }) {
-  let todayDate = `${new Date().getFullYear()}-${
-    new Date().getMonth() + 1
-  }-${new Date().getDate()}`;
-  const selectDate = (date) => {
-    let temp = {};
-    temp[date] = { selected: true };
-    return temp;
-  };
-  const [date, setDate] = React.useState(selectDate(todayDate));
+  const today=new Date();
+  const y=today.getFullYear();
+  const m=today.getMonth()+1<10?`0${today.getMonth()+1}`:today.getMonth()+1;
+  const d=today.getDate()<10?`0${today.getDate()}`:today.getDate();
+  const selectDate = (date) => ({[date]: { selected: true }});
+  const [date, setDate] = React.useState(selectDate(`${y}-${m}-${d}`));
 
   return (
     <View

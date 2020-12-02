@@ -10,7 +10,7 @@ import HeartPinkImage from "../../assets/Heart(pink).png";
 const Container = ({ children, style }) => (
   <View
     style={{
-      height: 100,
+      height: 110,
       width: Dimensions.get('window').width,
       justifyContent: "center",
       alignItems: "center",
@@ -56,22 +56,10 @@ const IconContainer = ({ children, style }) => (
   </TouchableOpacity>
 );
 
-const Profile = ({ children, style }) => (
-  <Image
-    style={{
-      borderRadius: "50%",
-      width: 28,
-      height: 28,
-      ...style,
-    }}
-  >
-    {children}
-  </Image>
-);
-function PostTitle({ editMode, post, setPost, setCalendarVisible }) {
+function PostTitle({thumbnailImageUrl, editMode, post, setPost, setCalendarVisible }) {
   return (
     <Container>
-      <Row paddingTop={14} style={{ maxHeight: 50 }}>
+      <Row paddingTop={14} style={{ minHeight: 60 }}>
         <Text
           style={{
             fontSize: 28,
@@ -82,14 +70,14 @@ function PostTitle({ editMode, post, setPost, setCalendarVisible }) {
         >
           {post.title}
         </Text>
-        <IconContainer style={{ justifyContent: "right", alignItems: "right" }}>
+        <IconContainer style={{ justifyContent: "right" }}>
           <Image
             style={{ width: 20, height: 20, marginTop: 2, marginRight: 5 }}
             source={HeartPinkImage }
           />
           <Text
             style={{
-              fontSize: 20,
+              fontSize: 18,
               color: theme.PRIMARY_COLOR,
               marginLeft: 3,
               fontWeight: "300",
@@ -118,7 +106,7 @@ function PostTitle({ editMode, post, setPost, setCalendarVisible }) {
             }}
           >
             <Image 
-              style={{}}
+              style={{uri: thumbnailImageUrl}}
             />
           </View>
           <Text
@@ -154,6 +142,7 @@ function PostTitle({ editMode, post, setPost, setCalendarVisible }) {
 export default connect(
   (state) => ({
     post: state.post.post,
+    thumbnailImageUrl:state.user.thumbnailImageUrl,
   }),
   { setPost }
 )(PostTitle);

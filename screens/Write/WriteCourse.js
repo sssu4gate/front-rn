@@ -18,8 +18,7 @@ import { setCourse } from "../../reducers/courseReducer";
 
 function WriteCourse({ course, loading, error, setCourse }) {
   const [calendarVisible, setCalendarVisible] = React.useState(false);
-  const date = {};
-  course.date ? (date[course.date] = { selected: true }) : null;
+  const date = { ...(course.date?{[course.date]: {selected:true}}:{})};
 
   return (
     <View

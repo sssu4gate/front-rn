@@ -34,21 +34,13 @@ function TopBar({ option, setOption, initOption, navigation}) {
         titleColor: "#fff",
         leftButton,
       });
-    } else if (route.state?.index == 1) {
-      if (
-        route.state.routes[1].state?.index == 1 ||
-        (!route.state.routes[1].state &&
-          route.state.routes[1].params?.screen == "PostDetail")
-      ) {
-        setOption({
-          ...option,
-          backgroundColor: theme.PRIMARY_COLOR,
-          titleColor: "#fff",
-          leftButton: "back",
-        });
-      } else {
-        if (option.nested) initOption();
-      }
+    } else if (route.state?.index == 1 && route.state.routes[1].state?.routes[route.state.routes[1].state?.index].name == 'PostDetail') {
+      setOption({
+        ...option,
+        backgroundColor: theme.PRIMARY_COLOR,
+        titleColor: "#fff",
+        leftButton: "back",
+      });
     } else {
       if (option.nested) initOption();
     }

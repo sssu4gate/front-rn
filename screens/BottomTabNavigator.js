@@ -18,7 +18,6 @@ const Tab = createBottomTabNavigator();
 
 function BottomTabNavigator({ route, navigation, user }) {
   React.useEffect(()=>{
-    console.log("BottomTabNavigator", user);
     if(user.isSigned=='unsigned') {
       navigation.navigate('Login');
     }
