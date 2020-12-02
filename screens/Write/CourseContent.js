@@ -312,18 +312,18 @@ function PlaceItem({ title, index, price, type }) {
         alignItems: "center",
       }}
     >
-      <Text
+      <View
         style={{
-          borderRadius: 10,
+          borderRadius: 4,
           width: 20,
           height: 20,
-          color: "#ffffff",
           backgroundColor: theme.PRIMARY_COLOR,
-          textAlign: "center",
         }}
       >
-        {index + 1}
-      </Text>
+        <Text style={{color:"#fff", textAlign:"center"}}>
+          {index + 1}
+        </Text>
+      </View>
       <View
         style={{
           width: 1,
@@ -335,19 +335,20 @@ function PlaceItem({ title, index, price, type }) {
       />
       {/*<Image />*/}
       <Text style={{ color: "#3c3c3c", flex: 1 }}>{title}</Text>
-      <Text
+      <View
         style={{
-          borderRadius: 4,
           paddingLeft: 5,
           paddingRight: 5,
           paddingTop: 2,
           paddingBottom: 2,
           backgroundColor: "#e5e5e5",
-          color: "#3c3c3c",
+          borderRadius: 4,
         }}
       >
-        ₩ {price}
-      </Text>
+        <Text style={{color:"#3c3c3c"}}>
+          ₩ {price}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 }
