@@ -155,7 +155,6 @@ const Signup = connect(
     requestNamechkUser,
     setUser,
   }) => {
-    // save info when signup success
     return (
       <View
         style={{
@@ -237,8 +236,6 @@ export default connect(
     requestCheckLoginedUser();
   }, []);
   React.useEffect(() => {
-    console.log("Login", user);
-    navigation.navigate("BottomTabNavigator");
     if (user.isSigned == "signed") {
       navigation.navigate("BottomTabNavigator");
     }
