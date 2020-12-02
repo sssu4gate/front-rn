@@ -17,8 +17,7 @@ export const searchPlace = (token, keyword, page = 1, offset = 10) => {
   return fetch(URL, OPTIONS("get", token))
     .then((res) => res.json())
     .then((json) => {
-      if(json.status)
-        return [];
+      if (json.status) return [];
       return json;
     });
 };
@@ -136,8 +135,7 @@ export const signupUser = async ({
 
 export const checkLoginedUser = async () => {
   try {
-    //return JSON.parse(await AsyncStorage.getItem("user"));
-    AsyncStorage.clear();
+    return JSON.parse(await AsyncStorage.getItem("user"));
   } catch (err) {
     console.log(err);
   }

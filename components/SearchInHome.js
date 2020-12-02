@@ -36,11 +36,12 @@ export default function SearchInHome() {
         borderRadius: 30,
         flex: 1,
         opacity: 0.7,
+        margin: 15,
       }}
     >
       <TextInput
         onChangeText={setQueryString}
-        placeholder="Search"
+        placeholder="검색"
         placeholderTextColor="#aaa"
         underlineColorAndroid="transparent"
         style={{

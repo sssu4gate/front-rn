@@ -113,7 +113,9 @@ function _lenderItem({ item, index }) {
         ITEM_WIDTH={item.ITEM_WIDTH}
         ITEM_HEIGHT={item.ITEM_HEIGHT}
       />
-      <Text style={styles.text}>{item.text}</Text>
+      <Text style={[styles.text, { margin: -10, marginTop: -15 }]}>
+        {item.text}
+      </Text>
     </View>
   );
 }

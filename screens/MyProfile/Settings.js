@@ -23,7 +23,7 @@ export default connect(
   (state) => ({
     user: state.user,
   }),
-  { setUser, requestNamechkUser, requestProfileUser }
+  { setUser, requestNamechkUser, requestProfileUser, requestLoginUser }
 )(function Settings({
   user,
   setUser,
@@ -80,8 +80,11 @@ export default connect(
         <View style={{ alignSelf: "center" }}>
           <View style={{ flexDirection: "row" }}>
             <View style={{ height: 18, width: 24 }} />
-            {user.imgUrl ? (
-              <Image source={{ uri: user.imgUrl }} style={style.profileImg} />
+            {user.profileImageUrl ? (
+              <Image
+                source={{ uri: user.profileImageUrl }}
+                style={style.profileImg}
+              />
             ) : (
               <Image
                 source={require("../../assets/아이유1.jpg")}
@@ -291,6 +294,8 @@ export default connect(
             style={style.btnExte}
             onPress={() => {
               setUser({ ...user });
+              requestProfileUser({ ...user });
+              requestLoginUser({ ...user });
               navigation.goBack();
             }}
           >

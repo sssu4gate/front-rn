@@ -10,15 +10,34 @@ import {
 } from "react-native";
 import { useNavigation, TabActions } from "@react-navigation/native";
 import styled from "styled-components/native";
-import {moveCommunityTab, moveCommunityPost, requestPostListCommunity} from "../reducers/communityReducer";
-import {connect} from "react-redux";
+import {
+  moveCommunityTab,
+  moveCommunityPost,
+  requestPostListCommunity,
+} from "../reducers/communityReducer";
+import { connect } from "react-redux";
 
-function HotCourse({moveCommunityTab, moveCommunityPost, requestPostListCommunity, postList, isSigned, token}) {
-  React.useEffect(()=>{
+function HotCourse({
+  moveCommunityTab,
+  moveCommunityPost,
+  requestPostListCommunity,
+  postList,
+  isSigned,
+  token,
+}) {
+  React.useEffect(() => {
     // 서버 바뀌면 수정해야하
-    if(isSigned=='signed' && !postList["LIKE"].loading && !(postList["LIKE"].page==0 && postList["LIKE"].offset==5  && postList["LIKE"].postList.length!=0))
+    if (
+      isSigned == "signed" &&
+      !postList["LIKE"].loading &&
+      !(
+        postList["LIKE"].page == 0 &&
+        postList["LIKE"].offset == 5 &&
+        postList["LIKE"].postList.length != 0
+      )
+    )
       requestPostListCommunity(token, 0, 5, "LIKE");
-  }, [postList, isSigned])
+  }, [postList, isSigned]);
 
   const navigation = useNavigation();
 
@@ -38,35 +57,37 @@ function HotCourse({moveCommunityTab, moveCommunityPost, requestPostListCommunit
         </TouchableOpacity>
       </View>
       <View style={{ width: "90%", alignSelf: "center", flexGrow: 1 }}>
-        {(isSigned=='unsigned' || postList["LIKE"].loading || postList["LIKE"].postList.length==0)?
+        {isSigned == "unsigned" ||
+        postList["LIKE"].loading ||
+        postList["LIKE"].postList.length == 0 ? (
           <Text>loading</Text>
-          :
+        ) : (
           postList["LIKE"]?.postList.map((course, index) => {
-          return (
-            <Hot5
-              key={course.id}
-              title={course.title}
-              rank={index+1}
-              like={course.likeNum}
-              id={course.id}
-              moveCommunityPost={moveCommunityPost}
-            />
-          );
-        })}
+            return (
+              <Hot5
+                key={course.id}
+                title={course.title}
+                rank={index + 1}
+                like={course.likeNum}
+                id={course.id}
+                moveCommunityPost={moveCommunityPost}
+              />
+            );
+          })
+        )}
       </View>
     </>
   );
 }
 
-
 export default connect(
-  state=>({
-    postList:state.community.postList,
-    isSigned:state.user.isSigned,
-    token:state.user.accessToken,
+  (state) => ({
+    postList: state.community.postList,
+    isSigned: state.user.isSigned,
+    token: state.user.accessToken,
   }),
-  {moveCommunityTab, moveCommunityPost, requestPostListCommunity}
-)(HotCourse)
+  { moveCommunityTab, moveCommunityPost, requestPostListCommunity }
+)(HotCourse);
 
 function Hot5({ uri, title, like, rank, id, moveCommunityPost }) {
   const navigation = useNavigation();
@@ -85,11 +106,10 @@ function Hot5({ uri, title, like, rank, id, moveCommunityPost }) {
       </View>
       <TouchableOpacity
         style={{ flex: 0.7, alignItems: "center" }}
-        onPress={() =>{
-            moveCommunityPost(id, "Popularity");
-            navigation.navigate("Community");
-          }
-        }
+        onPress={() => {
+          moveCommunityPost(id, "Popularity");
+          navigation.navigate("Community");
+        }}
       >
         <Text style={styles.hot5Title}>{title}</Text>
       </TouchableOpacity>

@@ -32,7 +32,10 @@ export default connect(
       <View style={styles.area1}>
         <View style={styles.area1_1}>
           {user.profileImageUrl ? (
-            <Image source={{ uri: user.profileImageUrl }} style={styles.profileImg} />
+            <Image
+              source={{ uri: user.profileImageUrl }}
+              style={styles.profileImg}
+            />
           ) : (
             <Image
               source={require("../../assets/아이유1.jpg")}
@@ -49,7 +52,7 @@ export default connect(
               navigation.navigate("Settings");
             }}
           >
-            <Text style={styles.textBtn}>개인 설정</Text>
+            <Text style={styles.textBtn}>계정 설정</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.area1_3}>
