@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, Dimensions, Image } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import styled from "styled-components/native";
-import Search from "../../components/Search";
+import Search from "./Search";
 import {
   requestPlace,
   initPlace,
@@ -46,16 +46,27 @@ function AddCourse({
   React.useEffect(() => {
     // 추천 코스
     // 검색시 키워드 검색
-    const initialKeyword='숭실대 맛집';
-    if(!loading && !(page==1 && offset==10 && keyword==initialKeyword && places.length!=0)){
+    const initialKeyword = "숭실대 맛집";
+    if (
+      !loading &&
+      !(
+        page == 1 &&
+        offset == 10 &&
+        keyword == initialKeyword &&
+        places.length != 0
+      )
+    ) {
       requestPlace(token, initialKeyword, 1, 10);
     }
   }, []);
-  const searchHandler=_keyword=>{
-    if(!loading && !(page==1 && offset==10 && keyword==_keyword && places.length!=0)){
+  const searchHandler = (_keyword) => {
+    if (
+      !loading &&
+      !(page == 1 && offset == 10 && keyword == _keyword && places.length != 0)
+    ) {
       requestPlace(token, _keyword, 1, 10);
     }
-  }
+  };
   return (
     <Container>
       <Search searchHandler={searchHandler}></Search>
@@ -63,12 +74,12 @@ function AddCourse({
         style={{
           width: "100%",
           height: 60,
-          maxHeight:60, 
+          maxHeight: 60,
           backgroundColor: "#f5f5f5",
           padding: 15,
         }}
         data={selectedPlaces}
-        keyExtractor={item=>item.id}
+        keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => {
           return (
             <TouchableOpacity
@@ -89,7 +100,10 @@ function AddCourse({
               >
                 {item.place_name}
               </Text>
-              <Image source={require("../../assets/xBtn.png")} style={{marginLeft:3, height:10, width:10}} />
+              <Image
+                source={require("../../assets/xBtn.png")}
+                style={{ marginLeft: 3, height: 10, width: 10 }}
+              />
             </TouchableOpacity>
           );
         }}
@@ -107,9 +121,9 @@ function AddCourse({
             }}
           />
         )}
-        style={{ width: "100%", marginBottom:60 }}
+        style={{ width: "100%", marginBottom: 60 }}
         data={places}
-        keyExtractor={item=>item.id}
+        keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => {
           return (
             <TouchableOpacity
@@ -142,10 +156,31 @@ function AddCourse({
           );
         }}
       />
-      <TouchableOpacity style={{position:"absolute", bottom:10, left:"auto", right:"auto", width:Dimensions.get('window').width*0.9, height:40, backgroundColor:theme.PRIMARY_COLOR, borderRadius:10, justifyContent:"center", alignItems:"center"}}
-        onPress={()=>navigation.goBack()}
+      <TouchableOpacity
+        style={{
+          position: "absolute",
+          bottom: 10,
+          left: "auto",
+          right: "auto",
+          width: Dimensions.get("window").width * 0.9,
+          height: 40,
+          backgroundColor: theme.PRIMARY_COLOR,
+          borderRadius: 10,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        onPress={() => navigation.goBack()}
       >
-        <Text style={{fontSize:16, fontWeight:"bold", color:"#fff", backgroundColor:theme.PRIMARY_COLOR}}>장소 추가하기</Text>
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "bold",
+            color: "#fff",
+            backgroundColor: theme.PRIMARY_COLOR,
+          }}
+        >
+          장소 추가하기
+        </Text>
       </TouchableOpacity>
     </Container>
   );
@@ -157,7 +192,7 @@ export default connect(
     error: state.place.error,
     loading: state.place.loading,
     selectedPlaces: state.place.selectedPlaces,
-    token:state.user.accessToken,
+    token: state.user.accessToken,
     keyword: state.place.keyword,
     page: state.place.page,
     offset: state.place.offset,

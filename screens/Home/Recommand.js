@@ -18,13 +18,16 @@ import {
 import {
   moveCommunityTab,
   moveCommunityPost,
-  requestPostListCommunity
-} from "../reducers/communityReducer";
+  requestPostListCommunity,
+} from "../../reducers/communityReducer";
 import { connect } from "react-redux";
 import Carousel from "react-native-snap-carousel";
-import { scrollInterpolator, animatedStyles } from "./animations";
+import {
+  scrollInterpolator,
+  animatedStyles,
+} from "../../components/animations";
 
-function Recommand({ 
+function Recommand({
   moveCommunityTab,
   moveCommunityPost,
   requestPostListCommunity,
@@ -32,18 +35,17 @@ function Recommand({
   isSigned,
   token,
   refreshing,
-  setRefreshing
+  setRefreshing,
 }) {
-
   React.useEffect(() => {
     // 서버 바뀌면 수정해야하
     console.log(postList);
     if (isSigned == "signed" && refreshing["REC"]) {
-      setRefreshing({...refreshing, "REC":false})
+      setRefreshing({ ...refreshing, REC: false });
       requestPostListCommunity(token, 1, 5, "LATEST");
     }
   }, [isSigned, refreshing]);
-  
+
   const navigation = useNavigation();
   const [index, setIndex] = React.useState(0);
   const SLIDER_WIDTH = Dimensions.get("window").width;
@@ -52,28 +54,28 @@ function Recommand({
 
   var imgList = [
     {
-      uri: require("../assets/아이유1.jpg"),
+      uri: require("../../assets/아이유1.jpg"),
       text: "도심속 한적한 아이유",
       like: 11,
       ITEM_HEIGHT: ITEM_HEIGHT,
       ITEM_WIDTH: ITEM_WIDTH,
     },
     {
-      uri: require("../assets/아이유2.jpg"),
+      uri: require("../../assets/아이유2.jpg"),
       text: "test2",
       like: 22,
       ITEM_HEIGHT: ITEM_HEIGHT,
       ITEM_WIDTH: ITEM_WIDTH,
     },
     {
-      uri: require("../assets/아이유3.jpg"),
+      uri: require("../../assets/아이유3.jpg"),
       text: "test3",
       like: 22,
       ITEM_HEIGHT: ITEM_HEIGHT,
       ITEM_WIDTH: ITEM_WIDTH,
     },
     {
-      uri: require("../assets/아이유4.jpg"),
+      uri: require("../../assets/아이유4.jpg"),
       text: "test4",
       like: 22,
       ITEM_HEIGHT: ITEM_HEIGHT,
@@ -119,8 +121,8 @@ function Recommand({
   );
 }
 
-export default connect((state) => 
-  (state) => ({
+export default connect(
+  (state) => (state) => ({
     postList: state.community.postList,
     isSigned: state.user.isSigned,
     token: state.user.accessToken,

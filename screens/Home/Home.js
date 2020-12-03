@@ -12,33 +12,39 @@ import {
 } from "react-native";
 import { NavigationContainer, useScrollToTop } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Recommand from "../../components/Recommand";
-import Search from "../../components/SearchInHome";
-import Hot5 from "../../components/HotCourse";
+import Recommand from "./Recommand";
+import Search from "./SearchInHome";
+import Hot5 from "./HotCourse";
 
 export default function Home() {
-  const [refreshing, setRefreshing] = React.useState({"LIKE":true, "REC":true});
+  const [refreshing, setRefreshing] = React.useState({ LIKE: true, REC: true });
   console.log(refreshing);
 
   const wait = (timeout) => {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(resolve, timeout);
     });
-  }
+  };
 
   const onRefresh = React.useCallback(() => {
-    setRefreshing({"LIKE":true, "REC":true});
+    setRefreshing({ LIKE: true, REC: true });
   }, []);
   return (
-    <ScrollView style={{ backgroundColor: "#ffffff" }}
-      refreshControl={<RefreshControl refreshing={refreshing["LIKE"] && refreshing["REC"]} onRefresh={onRefresh}/>}
+    <ScrollView
+      style={{ backgroundColor: "#ffffff" }}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing["LIKE"] && refreshing["REC"]}
+          onRefresh={onRefresh}
+        />
+      }
     >
       <View style={styles.recommand}>
-        <Recommand refreshing={refreshing} setRefreshing={setRefreshing}/>
+        <Recommand refreshing={refreshing} setRefreshing={setRefreshing} />
       </View>
       <View style={styles.container}>
         <Search />
-        <Hot5 refreshing={refreshing} setRefreshing={setRefreshing}/>
+        <Hot5 refreshing={refreshing} setRefreshing={setRefreshing} />
       </View>
     </ScrollView>
   );

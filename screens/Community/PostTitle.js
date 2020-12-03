@@ -1,17 +1,8 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { View, Text, Image, Dimensions } from "react-native";
 import { connect } from "react-redux";
 import { setPost } from "../../reducers/postReducer";
 import * as theme from "../../assets/theme";
-import PhotoImage from "../../assets/Photo.png";
-import CalendarImage from "../../assets/Schedule.png";
 import HeartPinkImage from "../../assets/Heart(pink).png";
 
 const Container = ({ children, style }) => (
@@ -50,7 +41,7 @@ const Row = ({ children, style, flex, paddingTop, paddingBottom }) => (
 );
 
 const IconContainer = ({ children, style }) => (
-  <TouchableOpacity
+  <View
     style={{
       marginRight: 20,
       flexDirection: "row",
@@ -60,7 +51,7 @@ const IconContainer = ({ children, style }) => (
     }}
   >
     {children}
-  </TouchableOpacity>
+  </View>
 );
 
 function PostTitle({
