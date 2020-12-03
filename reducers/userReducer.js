@@ -1,11 +1,11 @@
 import * as api from "../api/api.js";
-import {TOKEN} from "../environment";
+import { TOKEN } from "../environment";
 
 export const types = {
   USER_SET: "USER_SET",
   USER_INIT: "USER_INIT",
-  USER_HANDLE_ERROR:"USER_HANDLE_ERROR",
-  USER_HANDLE_REQUEST:"USER_HANDLE_REQUEST",
+  USER_HANDLE_ERROR: "USER_HANDLE_ERROR",
+  USER_HANDLE_REQUEST: "USER_HANDLE_REQUEST",
 
   USER_LOGIN_REQUEST: "USER_LOGIN_REQUEST",
   USER_LOGIN_SUCCESS: "USER_LOGIN_SUCCESS",
@@ -33,6 +33,7 @@ export function initUser() {
 }
 
 export function handleUserError(error) {
+  console.log("handle error");
   return {
     type: types.USER_HANDLE_ERROR,
     error,
@@ -45,12 +46,12 @@ export function handleUserRequest() {
   };
 }
 
-export function loginCheckedSuccess(user){
+export function loginCheckedSuccess(user) {
   return {
-    type:types.USER_LOGIN_SUCCESS,
+    type: types.USER_LOGIN_SUCCESS,
     ...user,
-    isSigned:'signed'
-  }
+    isSigned: "signed",
+  };
 }
 
 export function requestCheckLoginedUser() {
@@ -58,11 +59,9 @@ export function requestCheckLoginedUser() {
     return api
       .checkLoginedUser()
       .then((json) => {
-        if(json){
+        if (json) {
           dispatch(loginCheckedSuccess(json));
-        }
-        else
-          console.log("Not yet logined");
+        } else console.log("Not yet logined");
       })
       .catch((error) => console.log(error));
   };
@@ -113,9 +112,12 @@ export function loginUserError(error) {
 export function requestSignupUser(user) {
   return (dispatch) => {
     dispatch({ type: types.USER_HANDLE_REQUEST });
+    console.log("requst signup");
     return api
       .signupUser(user)
       .then((json) => {
+        console.log("api end");
+        console.log(json);
         if (json?.accessToken) dispatch(signupUserSuccess(json));
         else dispatch(handleUserError(error));
       })
@@ -124,6 +126,7 @@ export function requestSignupUser(user) {
 }
 
 export function signupUserSuccess({ accessToken, refreshToken }) {
+  console.log("signup success");
   return {
     type: types.USER_SIGNUP_SUCCESS,
     isSigned: "signed",
@@ -258,6 +261,12 @@ export default (state = defaultState, action) => {
         isSigned: action.isSigned,
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
+        birth: action.birth,
+        gender: action.gender,
+        likeNum: action.likeNum,
+        nickName: action.nickName,
+        thumbnailImageUrl: action.thumbnailImageUrl,
+        profileImageUrl: action.profileImageUrl,
       };
     case types.USER_NAMECHK_SUCCESS:
       return {

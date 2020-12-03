@@ -14,16 +14,16 @@ import Modal from "react-native-modal";
 import { connect } from "react-redux";
 import {
   requestNamechkUser,
-  requestProfileUser,
+  requestSignupUser,
   setUser,
-} from "../../reducers/userReducer";
-import ModalCalender from "../../components/ModalCalender";
+} from "../reducers/userReducer";
+import ModalCalender from "../components/ModalCalender";
 
 export default connect(
   (state) => ({
     user: state.user,
   }),
-  { setUser, requestNamechkUser, requestProfileUser }
+  { setUser, requestNamechkUser, requestSignupUser }
 )(function Settings({
   user,
   setUser,
@@ -86,13 +86,13 @@ export default connect(
               />
             ) : (
               <Image
-                source={require("../../assets/아이유1.jpg")}
+                source={require("../assets/아이유1.jpg")}
                 style={style.profileImg}
               />
             )}
             <TouchableOpacity style={{ alignSelf: "flex-end" }}>
               <Image
-                source={require("../../assets/camera.png")}
+                source={require("../assets/camera.png")}
                 style={style.cameraIcon}
               />
             </TouchableOpacity>
@@ -150,7 +150,7 @@ export default connect(
           >
             <Image
               style={{ width: 12, height: 12 }}
-              source={require("../../assets/Calendar.png")}
+              source={require("../assets/Calendar.png")}
             />
           </TouchableOpacity>
         </View>
@@ -301,7 +301,7 @@ export default connect(
                 return Alert.alert("생일", "생일을 입력 해주세요.");
               else if (user.gender == "")
                 return Alert.alert("성별", "성별을 입력 해주세요.");
-              requestProfileUser(user);
+              requestSignupUser(user);
             }}
           >
             <Text style={[style.btn, style.btnYes, style.shadowBox]}>완료</Text>
