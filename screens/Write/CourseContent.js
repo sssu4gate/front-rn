@@ -8,45 +8,23 @@ import {
   Dimensions,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { useNavigation, TabActions } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { connect } from "react-redux";
 import * as theme from "../../assets/theme";
-import {
-  loadSelectedPlace,
-  selectPlace,
-  initPlace,
-} from "../../reducers/placeReducer";
-import {
-  setCourse,
-  initCourse,
-  requestSaveCourse,
-} from "../../reducers/courseReducer";
-import {moveCommunityPost} from "../../reducers/communityReducer";
+import { setCourse } from "../../reducers/courseReducer";
 
 function CourseContent({
   course,
   setCourse,
-  selectPlace,
-  initPlace,
-  loadSelectedPlace,
   selectedPlaces,
-  initCourse,
-  requestSaveCourse,
-  uploaded,
-  token,
+  content,
+  setContent,
+  text,
+  setText,
+  initHandler,
+  saveHandler,
 }) {
-  const [text, setText] = React.useState("");
   const navigation = useNavigation();
-
-  React.useEffect(() => {
-    if (uploaded) {
-      moveCommunityPost(course.id, "Trend");
-      navigation.dispatch(TabActions.jumpTo("Community"));
-      initCourse();
-      initPlace();
-    }
-  }, [uploaded]);
-
   return (
     <View
       style={{
@@ -77,9 +55,7 @@ function CourseContent({
               navigation.navigate("AddCourse");
             }}
           >
-            <Text
-              style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}
-            >
+            <Text style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}>
               코스 추가
             </Text>
           </AddButton>
@@ -115,8 +91,8 @@ function CourseContent({
       <Content style={{ flexDirection: "column" }}>
         <TextInput
           style={{
-            textAlignVertical:'top',
-            minHeight:100,
+            textAlignVertical: "top",
+            minHeight: 100,
             maxHeight: 100,
             borderColor: "#e3e3e3",
             borderWidth: 1,
@@ -204,9 +180,9 @@ function CourseContent({
       </Content>
       <Content style={{ flexDirection: "column" }}>
         <TextInput
-         style={{
-            textAlignVertical:'top',
-            minHeight:100,
+          style={{
+            textAlignVertical: "top",
+            minHeight: 100,
             maxHeight: 100,
             borderColor: "#e3e3e3",
             borderWidth: 1,
@@ -217,8 +193,8 @@ function CourseContent({
           }}
           multiline
           numberOfLines={10}
-          onChangeText={(text) => setCourse({ ...course, content: text })}
-          value={course.content}
+          onChangeText={(text) => setContent(text)}
+          value={content}
         />
       </Content>
       <Content style={{ paddingTop: 0 }}>
@@ -226,7 +202,7 @@ function CourseContent({
           style={{
             flex: 1,
             height: 40,
-            backgroundColor:"#fff",
+            backgroundColor: "#fff",
             shadowColor: "#000",
             shadowOffset: {
               width: 1,
@@ -240,10 +216,7 @@ function CourseContent({
             alignItems: "center",
             marginRight: 10,
           }}
-          onPress={() => {
-            setText("");
-            initCourse();
-          }}
+          onPress={initHandler}
         >
           <Text style={{ color: "#aaa", fontSize: 16, fontWeight: "bold" }}>
             초기화 하기
@@ -253,7 +226,7 @@ function CourseContent({
           style={{
             flex: 1,
             height: 40,
-            backgroundColor:"#fff",
+            backgroundColor: "#fff",
             shadowColor: "#000",
             shadowOffset: {
               width: 1,
@@ -267,20 +240,7 @@ function CourseContent({
             justifyContent: "center",
             alignItems: "center",
           }}
-          onPress={() => {
-            console.log(course);
-            const memoTypeMap={0:"CHECKOFF", 1:"CHECKON", 2:"MEMO"}
-            const finalCourse = {
-              content: course.content,
-              courseName: course.courseName,
-              dateDay:course.date,
-              memos: course.memos.map(memo => ({content:memo.text, type:memoTypeMap[memo.type]})),
-              places: selectedPlaces.map(place=>({cost:0, time:"0", id:place.id})),
-              savePlaces:selectedPlaces,
-              shareType: course.shareType,
-            };
-            requestSaveCourse(token, finalCourse);
-          }}
+          onPress={saveHandler}
         >
           <Text style={{ color: "#ffffff", fontSize: 16, fontWeight: "bold" }}>
             작성 하기
@@ -297,7 +257,7 @@ function PlaceItem({ title, index, price, type }) {
       style={{
         flexDirection: "row",
         marginBottom: 20,
-        backgroundColor:"#fff",
+        backgroundColor: "#fff",
         shadowColor: "#000",
         shadowOffset: {
           width: 1,
@@ -314,15 +274,13 @@ function PlaceItem({ title, index, price, type }) {
     >
       <View
         style={{
-          borderRadius: 4,
+          borderRadius: 10,
           width: 20,
           height: 20,
           backgroundColor: theme.PRIMARY_COLOR,
         }}
       >
-        <Text style={{color:"#fff", textAlign:"center"}}>
-          {index + 1}
-        </Text>
+        <Text style={{ color: "#fff", textAlign: "center" }}>{index + 1}</Text>
       </View>
       <View
         style={{
@@ -345,9 +303,7 @@ function PlaceItem({ title, index, price, type }) {
           borderRadius: 4,
         }}
       >
-        <Text style={{color:"#3c3c3c"}}>
-          ₩ {price}
-        </Text>
+        <Text style={{ color: "#3c3c3c" }}>₩ {price}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -359,7 +315,7 @@ function Memo({ text, type, checkHandler }) {
       style={{
         flexDirection: "row",
         padding: 12,
-        backgroundColor:"#fff",
+        backgroundColor: "#fff",
         shadowColor: "#000",
         shadowOffset: {
           width: 1,
@@ -375,11 +331,15 @@ function Memo({ text, type, checkHandler }) {
     >
       {type !== 2 ? (
         <>
-          <TouchableOpacity
-            style={{ borderRadius: 4 }}
-            onPress={checkHandler}
-          >
-            <Image style={{width:16, height:16}} source={type?require("../../assets/CheckFull(pink).png"):require("../../assets/UnCheck(pink).png")} /> 
+          <TouchableOpacity style={{ borderRadius: 4 }} onPress={checkHandler}>
+            <Image
+              style={{ width: 16, height: 16 }}
+              source={
+                type
+                  ? require("../../assets/CheckFull(pink).png")
+                  : require("../../assets/UnCheck(pink).png")
+              }
+            />
           </TouchableOpacity>
           <View
             style={{
@@ -436,7 +396,7 @@ const AddButton = ({ children, style, onPress }) => (
       justifyContent: "center",
       alignItems: "center",
       borderRadius: 10,
-      backgroundColor:"#fff",
+      backgroundColor: "#fff",
       shadowColor: "#000",
       shadowOffset: {
         width: 1,
@@ -456,16 +416,9 @@ export default connect(
   (state) => ({
     selectedPlaces: state.place.selectedPlaces,
     course: state.course.course,
-    uploaded: state.course.uploaded,
-    token: state.user.accessToken
+    token: state.user.accessToken,
   }),
   {
-    loadSelectedPlace,
-    selectPlace,
-    initPlace,
     setCourse,
-    initCourse,
-    requestSaveCourse,
-    moveCommunityPost, 
   }
 )(CourseContent);

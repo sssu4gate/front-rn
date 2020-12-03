@@ -5,20 +5,16 @@ import {
   NavigationContainer,
   DefaultTheme,
   DrawerActions,
-  TabActions,
 } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { LocaleConfig } from "react-native-calendars";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as theme from "./assets/theme";
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
-  DrawerItemList,
   DrawerItem,
 } from "@react-navigation/drawer";
 import BottomTabNavigator from "./screens/BottomTabNavigator";
-import Settings from "./screens/MyProfile/Settings";
 import Login from "./screens/Login";
 import initStore from "./store";
 import TopBar from "./components/TopBar";
@@ -58,15 +54,15 @@ LocaleConfig.locales["kr"] = {
     "12월",
   ],
   dayNames: [
+    "일요일",
     "월요일",
     "화요일",
     "수요일",
     "목요일",
     "금요일",
     "토요일",
-    "일요일",
   ],
-  dayNamesShort: ["월", "화", "수", "목", "금", "토", "일"],
+  dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
   today: "오늘",
 };
 LocaleConfig.defaultLocale = "kr";

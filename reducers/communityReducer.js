@@ -1,11 +1,11 @@
 import * as api from "../api/api";
 export const types = {
-  COMMUNITY_TAB_MOVE:"COMMUNITY_TAB_MOVE",
-  COMMUNITY_POST_MOVE:"COMMUNITY_POST_MOVE",
-  COMMUNITY_MOVE_SUCCESS:"COMMUNITY_MOVE_SUCCESS",
-  COMMUNITY_POST_LIST_REQUEST:"COMMUNITY_POST_LIST_REQUEST",
-  COMMUNITY_POST_LIST_SUCCESS:"COMMUNITY_POST_LIST_SUCCESS",
-  COMMUNITY_POST_LIST_ERROR:"COMMUNITY_POST_LIST_ERROR",
+  COMMUNITY_TAB_MOVE: "COMMUNITY_TAB_MOVE",
+  COMMUNITY_POST_MOVE: "COMMUNITY_POST_MOVE",
+  COMMUNITY_MOVE_SUCCESS: "COMMUNITY_MOVE_SUCCESS",
+  COMMUNITY_POST_LIST_REQUEST: "COMMUNITY_POST_LIST_REQUEST",
+  COMMUNITY_POST_LIST_SUCCESS: "COMMUNITY_POST_LIST_SUCCESS",
+  COMMUNITY_POST_LIST_ERROR: "COMMUNITY_POST_LIST_ERROR",
 };
 
 export function requestPostListCommunity(token, page, offset, option) {
@@ -22,58 +22,58 @@ export function requestPostListCommunity(token, page, offset, option) {
 
 export function successPostListCommunity(option, postList) {
   return {
-    type:types.COMMUNITY_POST_LIST_SUCCESS,
+    type: types.COMMUNITY_POST_LIST_SUCCESS,
     postList,
     option,
   };
 }
 export function errorPostListCommunity(error) {
   return {
-    type:types.COMMUNITY_POST_LIST_ERROR,
-    error
+    type: types.COMMUNITY_POST_LIST_ERROR,
+    error,
   };
 }
 
 export function moveCommunityTab(tab) {
   return {
-    type:types.COMMUNITY_TAB_MOVE,
-    tab
-  }
+    type: types.COMMUNITY_TAB_MOVE,
+    tab,
+  };
 }
 
 export function moveCommunityPost(id, tab) {
   return {
-    type:types.COMMUNITY_POST_MOVE,
+    type: types.COMMUNITY_POST_MOVE,
     id,
-    tab
-  }
+    tab,
+  };
 }
 
-export function moveCommunitySuccess(){
+export function moveCommunitySuccess() {
   return {
-    type:types.COMMUNITY_MOVE_SUCCESS,
-  }
+    type: types.COMMUNITY_MOVE_SUCCESS,
+  };
 }
 
 const defaultState = {
-  tab:"Popularity", // Popularity, Trend, Loco
-  id:0,
-  moved:true,
-  postList:{
-    "LATEST":{
-      postList:[],
-      page:1,
-      offset:5,
-      loading:false,
+  tab: "Popularity", // Popularity, Trend, Loco
+  id: 0,
+  moved: true,
+  postList: {
+    LATEST: {
+      postList: [],
+      page: 1,
+      offset: 5,
+      loading: false,
     },
-    "LIKE":{
-      postList:[],
-      page:1,
-      offset:5,
-      loading:false,
+    LIKE: {
+      postList: [],
+      page: 1,
+      offset: 5,
+      loading: false,
     },
   },
-  error:null
+  error: null,
 };
 
 export default (state = defaultState, action) => {
@@ -81,58 +81,58 @@ export default (state = defaultState, action) => {
     case types.COMMUNITY_TAB_MOVE:
       return {
         ...state,
-        tab:action.tab,
-        id:0,
-        moved:false,
+        tab: action.tab,
+        id: 0,
+        moved: false,
       };
     case types.COMMUNITY_POST_MOVE:
       return {
         ...state,
-        tab:action.tab?action.tab:state.tab,
-        id:action.id,
-        moved:false,
+        tab: action.tab ? action.tab : state.tab,
+        id: action.id,
+        moved: false,
       };
     case types.COMMUNITY_MOVE_SUCCESS:
       return {
         ...state,
-        moved:true,
+        moved: true,
       };
 
     case types.COMMUNITY_POST_LIST_REQUEST:
-      return{
+      return {
         ...state,
-        postList:{
+        postList: {
           ...state.postList,
-          [action.option]:{
+          [action.option]: {
             postList: [],
             page: action.page,
             offset: action.offset,
             loading: true,
-          }
+          },
         },
-        error:null
-      }
+        error: null,
+      };
     case types.COMMUNITY_POST_LIST_SUCCESS:
       return {
         ...state,
-        postList:{
+        postList: {
           ...state.postList,
-          [action.option]:{
+          [action.option]: {
             ...state.postList[action.option],
             postList: action.postList,
             loading: false,
-          }
+          },
         },
-        error:null
-      }
+        error: null,
+      };
 
     case types.COMMUNITY_POST_LIST_ERROR:
-      return{
+      return {
         ...state,
-        loading:false,
-        error:action.error
-      }
+        loading: false,
+        error: action.error,
+      };
     default:
       return state;
   }
-}
+};

@@ -59,7 +59,7 @@ export default function SearchInHome() {
       >
         <Image
           style={{ width: 24, height: 24 }}
-          source={require("../assets/Search.png")}
+          source={require("../../assets/Search.png")}
         />
       </TouchableOpacity>
     </View>

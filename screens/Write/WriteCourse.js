@@ -8,17 +8,81 @@ import {
   ScrollView,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
-import Modal from 'react-native-modal';
+import Modal from "react-native-modal";
 import * as theme from "../../assets/theme";
 import CourseContent from "./CourseContent";
 import CourseTitle from "./CourseTitle";
+import { TabActions } from "@react-navigation/native";
 
 import { connect } from "react-redux";
-import { setCourse } from "../../reducers/courseReducer";
+import { initPlace } from "../../reducers/placeReducer";
+import {
+  setCourse,
+  initCourse,
+  requestSaveCourse,
+} from "../../reducers/courseReducer";
+import { moveCommunityPost } from "../../reducers/communityReducer";
 
-function WriteCourse({ course, loading, error, setCourse }) {
+function WriteCourse({
+  navigation,
+  course,
+  loading,
+  error,
+  setCourse,
+  uploaded,
+  initCourse,
+  initPlace,
+  selectedPlaces,
+  requestSaveCourse,
+  token,
+}) {
   const [calendarVisible, setCalendarVisible] = React.useState(false);
-  const date = { ...(course.date?{[course.date]: {selected:true}}:{})};
+  const [title, setTitle] = React.useState("");
+  const [content, setContent] = React.useState("");
+  const [text, setText] = React.useState("");
+  const date = {
+    ...(course.date ? { [course.date]: { selected: true } } : {}),
+  };
+
+  const initHandler = () => {
+    setTitle("");
+    setText("");
+    setContent("");
+    initCourse();
+    initPlace();
+  };
+
+  const saveHandler = () => {
+    console.log(course);
+    const memoTypeMap = { 0: "CHECKOFF", 1: "CHECKON", 2: "MEMO" };
+    const finalCourse = {
+      content: content,
+      courseName: title,
+      dateDay: course.date,
+      memos: course.memos.map((memo) => ({
+        content: memo.text,
+        type: memoTypeMap[memo.type],
+      })),
+      places: selectedPlaces.map((place) => ({
+        cost: 0,
+        time: "0",
+        id: place.id,
+      })),
+      savePlaces: selectedPlaces,
+      shareType: course.shareType,
+    };
+    requestSaveCourse(token, finalCourse);
+  };
+
+  React.useEffect(() => {
+    if (uploaded) {
+      if (course.shareType == "PUBLIC") {
+        moveCommunityPost(course.id, "Trend");
+      }
+      navigation.dispatch(TabActions.jumpTo("Community"));
+      initHandler();
+    }
+  }, [uploaded]);
 
   return (
     <View
@@ -30,15 +94,15 @@ function WriteCourse({ course, loading, error, setCourse }) {
       }}
     >
       <ScrollView>
-        <Modal 
+        <Modal
           isVisible={calendarVisible}
           onBackdropPress={() => setCalendarVisible(false)}
         >
           <View
             style={{
               width: Dimensions.get("window").width * 0.8,
-              marginLeft:'auto',
-              marginRight:'auto',
+              marginLeft: "auto",
+              marginRight: "auto",
             }}
           >
             <Calendar
@@ -47,7 +111,9 @@ function WriteCourse({ course, loading, error, setCourse }) {
                 todayTextColor: theme.PRIMARY_COLOR,
                 selectedDayBackgroundColor: theme.PRIMARY_COLOR,
               }}
-              onDayPress={(day) => setCourse({ ...course, date: day.dateString })}
+              onDayPress={(day) =>
+                setCourse({ ...course, date: day.dateString })
+              }
               monthFormat={"yyyy년 MMM"}
               renderArrow={(direction) => (
                 <View>
@@ -74,7 +140,13 @@ function WriteCourse({ course, loading, error, setCourse }) {
                   setCourse({ ...course, date: null });
                 }}
               >
-                <Text style={{ color: theme.PRIMARY_COLOR, fontSize: 16, textAlign:'center' }}>
+                <Text
+                  style={{
+                    color: theme.PRIMARY_COLOR,
+                    fontSize: 16,
+                    textAlign: "center",
+                  }}
+                >
                   초기화
                 </Text>
               </TouchableOpacity>
@@ -86,13 +158,28 @@ function WriteCourse({ course, loading, error, setCourse }) {
                 }}
                 onPress={() => setCalendarVisible(false)}
               >
-                <Text style={{ color: "white", fontSize: 16, textAlign:'center'}}>확인</Text>
+                <Text
+                  style={{ color: "white", fontSize: 16, textAlign: "center" }}
+                >
+                  확인
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
         </Modal>
-        <CourseTitle setCalendarVisible={setCalendarVisible} />
-        <CourseContent />
+        <CourseTitle
+          setCalendarVisible={setCalendarVisible}
+          title={title}
+          setTitle={setTitle}
+        />
+        <CourseContent
+          content={content}
+          setContent={setContent}
+          text={text}
+          setText={setText}
+          initHandler={initHandler}
+          saveHandler={saveHandler}
+        />
       </ScrollView>
     </View>
   );
@@ -102,6 +189,9 @@ export default connect(
     course: state.course.course,
     error: state.course.error,
     loading: state.course.loading,
+    uploaded: state.course.uploaded,
+    selectedPlaces: state.place.selectedPlaces,
+    token: state.user.accessToken,
   }),
-  { setCourse }
+  { setCourse, initCourse, initPlace, requestSaveCourse }
 )(WriteCourse);

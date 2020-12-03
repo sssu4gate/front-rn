@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, TouchableOpacity, Dimensions } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useNavigation, TabActions } from "@react-navigation/native";
 import { connect } from "react-redux";
@@ -10,9 +10,6 @@ import {
   initPlace,
 } from "../../reducers/placeReducer";
 import { setPost, initPost, requestSavePost } from "../../reducers/postReducer";
-import CheckFullPinkImage from "../../assets/CheckFull(pink).png";
-import UnCheckPinkImage from "../../assets/UnCheck(pink).png";
-import UnCheckAAAImage from "../../assets/UnCheck(AAA).png";
 
 const Content = ({ children, style }) => (
   <View
@@ -126,11 +123,11 @@ function PostContent({
 
 function PlaceItem({ title, index, price, type }) {
   return (
-    <TouchableOpacity
+    <View
       style={{
         flexDirection: "row",
         marginBottom: 20,
-        backgroundColor:'#fff',
+        backgroundColor: "#fff",
         shadowColor: "#000",
         shadowOffset: {
           width: 1,
@@ -153,9 +150,7 @@ function PlaceItem({ title, index, price, type }) {
           backgroundColor: theme.PRIMARY_COLOR,
         }}
       >
-        <Text style={{color:"#fff", textAlign:'center'}}>
-          {index + 1}
-        </Text>
+        <Text style={{ color: "#fff", textAlign: "center" }}>{index + 1}</Text>
       </View>
       <View
         style={{
@@ -177,11 +172,9 @@ function PlaceItem({ title, index, price, type }) {
           paddingBottom: 2,
         }}
       >
-        <Text style={{color:"#3c3c3c"}}>
-          ₩ {price}
-        </Text>
+        <Text style={{ color: "#3c3c3c" }}>₩ {price}</Text>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 

@@ -14,8 +14,9 @@ import {
   moveCommunityTab,
   moveCommunityPost,
   requestPostListCommunity,
-} from "../reducers/communityReducer";
+} from "../../reducers/communityReducer";
 import { connect } from "react-redux";
+import LoadingSVG from "../../assets/Loading";
 
 function HotCourse({
   moveCommunityTab,
@@ -25,12 +26,12 @@ function HotCourse({
   isSigned,
   token,
   refreshing,
-  setRefreshing
+  setRefreshing,
 }) {
   React.useEffect(() => {
     console.log(postList);
     if (isSigned == "signed" && refreshing["LIKE"]) {
-      setRefreshing({...refreshing, "LIKE":false})
+      setRefreshing({ ...refreshing, LIKE: false });
       requestPostListCommunity(token, 1, 5, "LIKE");
     }
   }, [isSigned, refreshing]);
@@ -53,24 +54,24 @@ function HotCourse({
         </TouchableOpacity>
       </View>
       <View style={{ width: "90%", alignSelf: "center", flexGrow: 1 }}>
-        {
-          isSigned == "signed" && !postList["LIKE"].loading ?
-          (
-            postList["LIKE"].postList?.slice(0, 5).map((course, index) => {
-              return (
-                <Hot5
-                  key={course.id}
-                  title={course.title}
-                  rank={index + 1}
-                  like={course.likeNum}
-                  id={course.id}
-                  moveCommunityPost={moveCommunityPost}
-                />
-              );
-            })
-          ):
-          <Text>Loading</Text>
-        }
+        {isSigned == "signed" && !postList["LIKE"].loading ? (
+          postList["LIKE"].postList?.slice(0, 5).map((course, index) => {
+            return (
+              <Hot5
+                key={course.id}
+                title={course.title}
+                rank={index + 1}
+                like={course.likeNum}
+                id={course.id}
+                moveCommunityPost={moveCommunityPost}
+              />
+            );
+          })
+        ) : (
+          <View style={{ alignItems: "center", marginTop: 20 }}>
+            <LoadingSVG width={80} height={80} />
+          </View>
+        )}
       </View>
     </>
   );
@@ -117,7 +118,7 @@ function Hot5({ uri, title, like, rank, id, moveCommunityPost }) {
       >
         <Image
           style={{ width: 14, height: 14 }}
-          source={require("../assets/Heart(gray).png")}
+          source={require("../../assets/Heart(gray).png")}
         />
         <Text style={styles.more}>{like}</Text>
       </TouchableOpacity>
