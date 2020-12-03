@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, RefreshControl } from "react-native";
 import * as theme from "../../assets/theme";
 import PostContent from "./PostContent";
 import PostTitle from "./PostTitle";
@@ -16,11 +16,17 @@ function PostDetail({
   requestLoadPost,
   post,
 }) {
+  const [refreshing, setRefreshing] = React.useState(true);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+  }, []);
+
   React.useEffect(() => {
-    if (params?.id) {
+    if (params?.id && refreshing) {
       requestLoadPost(token, params.id);
+      setRefreshing(false);
     }
-  }, [params]);
+  }, [params, refreshing]);
 
   return (
     <View
@@ -37,7 +43,11 @@ function PostDetail({
           <LoadingSVG width={80} height={80} />
         </View>
       ) : (
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <PostTitle post={post} />
           <PostContent post={post} />
         </ScrollView>

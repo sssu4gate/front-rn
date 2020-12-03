@@ -112,26 +112,6 @@ export default (state = defaultState, action) => {
         ...state,
         post: action.post,
       };
-    case types.POST_SAVE_REQUEST:
-      return {
-        ...state,
-        loading: true,
-        error: null,
-      };
-    case types.POST_SAVE_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        uploaded: true,
-        error: null,
-      };
-    case types.POST_SAVE_ERROR:
-      return {
-        ...state,
-        loading: false,
-        uploaded: true,
-        error: action.error,
-      };
     case types.POST_INIT:
       return {
         ...defaultState,

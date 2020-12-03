@@ -67,6 +67,8 @@ function AddCourse({
       requestPlace(token, _keyword, 1, 10);
     }
   };
+
+  console.log(places);
   return (
     <Container>
       <Search searchHandler={searchHandler}></Search>
@@ -79,7 +81,7 @@ function AddCourse({
           padding: 15,
         }}
         data={selectedPlaces}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => String(item.id)}
         renderItem={({ item, index }) => {
           return (
             <TouchableOpacity
@@ -123,7 +125,7 @@ function AddCourse({
         )}
         style={{ width: "100%", marginBottom: 60 }}
         data={places}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => String(item.id)}
         renderItem={({ item, index }) => {
           return (
             <TouchableOpacity

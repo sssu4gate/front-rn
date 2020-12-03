@@ -1,7 +1,5 @@
 import * as React from "react";
 import { View, Text, Dimensions } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
-import { useNavigation, TabActions } from "@react-navigation/native";
 import * as theme from "../../assets/theme";
 
 export default function PostContent({ post, initPlace, initPost, uploaded }) {
@@ -19,21 +17,15 @@ export default function PostContent({ post, initPlace, initPost, uploaded }) {
         <Text style={{ fontSize: 12, color: "#AAAAAA" }}>코스</Text>
         <Line />
       </Content>
-      <Content style={{ flexDirection: "column" }}>
-        <FlatList
-          style={{ width: "100%", overflow: "visible" }}
-          data={post.places}
-          renderItem={({ item, index }) => {
-            return (
-              <PlaceItem
-                key={index}
-                price={item.cost}
-                title={item.placeDto.place_name}
-                index={index}
-              />
-            );
-          }}
-        />
+      <Content style={{ flexDirection: "column", overflow: "" }}>
+        {post.places.map((item, index) => (
+          <PlaceItem
+            key={item.id}
+            price={item.cost}
+            title={item.placeDto.place_name}
+            index={index}
+          />
+        ))}
       </Content>
       <Content>
         <Text style={{ fontSize: 12, color: "#AAAAAA" }}>본문</Text>
@@ -45,13 +37,9 @@ export default function PostContent({ post, initPlace, initPost, uploaded }) {
         </Text>
       </Content>
       <Content>
-        <FlatList
-          style={{ width: "100%", overflow: "visible" }}
-          data={post.tags}
-          renderItem={({ item, index }) => {
-            return <View />;
-          }}
-        />
+        {post.tags?.map((item) => (
+          <View />
+        ))}
       </Content>
       <Content>
         <Text style={{ fontSize: 12, color: "#AAAAAA" }}>댓글</Text>

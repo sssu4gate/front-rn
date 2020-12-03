@@ -1,34 +1,15 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  Button,
-  ScrollView,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-  RefreshControl,
-} from "react-native";
-import { NavigationContainer, useScrollToTop } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { View, ScrollView, StyleSheet, RefreshControl } from "react-native";
 import Recommand from "./Recommand";
 import Search from "./SearchInHome";
 import Hot5 from "./HotCourse";
 
 export default function Home() {
   const [refreshing, setRefreshing] = React.useState({ LIKE: true, REC: true });
-  console.log(refreshing);
-
-  const wait = (timeout) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, timeout);
-    });
-  };
-
   const onRefresh = React.useCallback(() => {
     setRefreshing({ LIKE: true, REC: true });
   }, []);
+
   return (
     <ScrollView
       style={{ backgroundColor: "#ffffff" }}

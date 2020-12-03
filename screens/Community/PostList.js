@@ -6,6 +6,7 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { requestPostListCommunity } from "../../reducers/communityReducer";
@@ -67,6 +68,9 @@ const PostListPreview = connect(
     isSigned,
   }) => {
     const [refreshing, setRefreshing] = React.useState(true);
+    const onRefresh = React.useCallback(() => {
+      setRefreshing(true);
+    }, []);
 
     React.useEffect(() => {
       console.log(postList);
@@ -76,17 +80,15 @@ const PostListPreview = connect(
       }
     }, [isSigned, refreshing]);
 
-    const onRefresh = React.useCallback(() => {
-      setRefreshing(true);
-    }, []);
-
     return (
       <ScrollView
         style={styles.scrollView}
-        refreshing={refreshing}
-        onRefresh={onRefresh}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       >
-        {isSigned == "signed" && !postList["LIKE"].loading ? (
+        {isSigned == "signed" &&
+        (!postList[option].loading || postList[option].postList?.length) ? (
           postList[option].postList.map((post) => {
             return (
               <Post

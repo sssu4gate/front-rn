@@ -104,7 +104,7 @@ export default (state = defaultState, action) => {
         postList: {
           ...state.postList,
           [action.option]: {
-            postList: [],
+            ...state.postList[action.option],
             page: action.page,
             offset: action.offset,
             loading: true,
