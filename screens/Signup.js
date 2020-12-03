@@ -302,6 +302,7 @@ export default connect(
               else if (user.gender == "")
                 return Alert.alert("성별", "성별을 입력 해주세요.");
               requestSignupUser(user);
+              navigation.navigate("Home");
             }}
           >
             <Text style={[style.btn, style.btnYes, style.shadowBox]}>완료</Text>

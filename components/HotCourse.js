@@ -24,30 +24,16 @@ function HotCourse({
   postList,
   isSigned,
   token,
+  refreshing,
+  setRefreshing,
 }) {
-  const dummyPostList = [
-    {
-      uri: "",
-      title: "test1",
-      likeNum: 1,
-      rank: 1,
-      id: 1,
-    },
-    {
-      uri: "",
-      title: "test2 sasad",
-      likeNum: 2,
-      rank: 2,
-      id: 2,
-    },
-    {
-      uri: "",
-      title: "test3 asdasdsadasd",
-      likeNum: 3,
-      rank: 3,
-      id: 3,
-    },
-  ];
+  React.useEffect(() => {
+    console.log(postList);
+    if (isSigned == "signed" && refreshing["LIKE"]) {
+      setRefreshing({ ...refreshing, LIKE: false });
+      requestPostListCommunity(token, 1, 5, "LIKE");
+    }
+  }, [isSigned, refreshing]);
 
   const navigation = useNavigation();
 
@@ -67,18 +53,22 @@ function HotCourse({
         </TouchableOpacity>
       </View>
       <View style={{ width: "90%", alignSelf: "center", flexGrow: 1 }}>
-        {dummyPostList.map((course, index) => {
-          return (
-            <Hot5
-              key={course.id}
-              title={course.title}
-              rank={index + 1}
-              like={course.likeNum}
-              id={course.id}
-              moveCommunityPost={moveCommunityPost}
-            />
-          );
-        })}
+        {isSigned == "signed" && !postList["LIKE"].loading ? (
+          postList["LIKE"].postList?.slice(0, 5).map((course, index) => {
+            return (
+              <Hot5
+                key={course.id}
+                title={course.title}
+                rank={index + 1}
+                like={course.likeNum}
+                id={course.id}
+                moveCommunityPost={moveCommunityPost}
+              />
+            );
+          })
+        ) : (
+          <Text>Loading</Text>
+        )}
       </View>
     </>
   );

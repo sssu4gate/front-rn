@@ -138,7 +138,7 @@ function CustomDrawerContent(props) {
         <DrawerItem
           label="계정 설정"
           onPress={() => {
-            props.navigation.navigate("Settings");
+            props.navigation.navigate("MyProfile", { screen: "Settings" });
           }}
           style={styles.borderLine}
         />

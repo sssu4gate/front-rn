@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import {
   requestNamechkUser,
   requestProfileUser,
+  requestSignupUser,
   setUser,
 } from "../../reducers/userReducer";
 import ModalCalender from "../../components/ModalCalender";
@@ -23,7 +24,7 @@ export default connect(
   (state) => ({
     user: state.user,
   }),
-  { setUser, requestNamechkUser, requestProfileUser }
+  { setUser, requestNamechkUser, requestProfileUser, requestSignupUser }
 )(function Settings({
   user,
   setUser,
@@ -31,12 +32,15 @@ export default connect(
   requestSignupUser,
   navigation,
 }) {
-  console.log(user);
+  useEffect(() => {
+    const userName = user.nickName;
+  }, []);
   const [isAreaEdit, setAreaEdit] = useState(false);
   const toggleAreaEdit = () => {
     setAreaEdit(!isAreaEdit);
   };
   const [name, setName] = useState(user.nickName);
+
   const [calendarVisible, setCalendarVisible] = React.useState(false);
   const [birth, setBirth] = useState(user.birth);
   const [yyyy, setyyyy] = useState("0000");
@@ -129,8 +133,10 @@ export default connect(
             onPress={() => {
               requestNamechkUser(name);
               if (user.nameChecked) {
-                setUser({ nickName: name });
-              } else {
+                setUser({ ...user, nickName: name });
+                requestSignupUser(user);
+                return Alert.alert("닉네임", "변경 완료!");
+              } else if (!user.nameChecked) {
                 return Alert.alert("닉네임", "중복된 닉네임 입니다.");
               }
             }}
@@ -295,13 +301,22 @@ export default connect(
           <TouchableOpacity
             style={style.btnExte}
             onPress={() => {
+              if (userName === user.nickName) {
+                setUser({ nameChecked: true });
+                requestProfileUser(user);
+                navigation.goBack();
+                return;
+              }
+
               if (user.nameChecked == false)
                 return Alert.alert("닉네임", "닉네임 중복체크 해주세요.");
               else if (user.birth == "")
                 return Alert.alert("생일", "생일을 입력 해주세요.");
               else if (user.gender == "")
                 return Alert.alert("성별", "성별을 입력 해주세요.");
-              requestProfileUser(user);
+              console.log("저장");
+              requestSignupUser(user);
+              navigation.goBack();
             }}
           >
             <Text style={[style.btn, style.btnYes, style.shadowBox]}>완료</Text>
