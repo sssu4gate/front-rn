@@ -6,8 +6,7 @@ import * as theme from "../../assets/theme";
 
 export default function Schedule({ navigation, route, course }) {
   const today=new Date();
-  const y=today.getFullYear();
-  const m=today.getMonth()+1<10?`0${today.getMonth()+1}`:today.getMonth()+1;
+  const y=today.getFullYear(); const m=today.getMonth()+1<10?`0${today.getMonth()+1}`:today.getMonth()+1;
   const d=today.getDate()<10?`0${today.getDate()}`:today.getDate();
   const selectDate = (date) => ({[date]: { selected: true }});
   const [date, setDate] = React.useState(selectDate(`${y}-${m}-${d}`));
@@ -56,25 +55,34 @@ export default function Schedule({ navigation, route, course }) {
       >
         {Object.keys(date)}
       </Text>
-      <FlatList
-        style={{ width: "100%", flex: 1, padding: 15 }}
-        data={[1, 2, 3]}
-        renderItem={({ item, index }) => {
-          return (
-            <TouchableOpacity
-              key={index}
-              style={{ height: 22, flexDirection: "row", marginBottom: 15 }}
-              onPress={() => {
-                console.log(item, index);
-              }}
-            >
-              <Text style={{ fontSize: 18, color: theme.SECOND_TEXT_COLOR }}>
-                {item}
-              </Text>
-            </TouchableOpacity>
-          );
-        }}
-      />
+      {
+        true?(
+          <FlatList
+            style={{ width: "100%", flex: 1, padding: 15 }}
+            data={[1, 2, 3]}
+            renderItem={({ item, index }) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={{ height: 22, flexDirection: "row", marginBottom: 15 }}
+                  onPress={() => {
+                    console.log(item, index);
+                  }}
+                >
+                  <Text style={{ fontSize: 18, color: theme.SECOND_TEXT_COLOR }}>
+                    {item}
+                  </Text>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        )
+        :(
+          <View style={{width:'100%', height:'100%', justifyContent:'center', alignItems:'center'}}>
+            <Text style={{fontSize:16, color:'#3c3c3c', fontWeight:'bold'}}>코스를 추가해보세요!</Text>
+          </View>
+        )
+      }
     </View>
   );
 }
