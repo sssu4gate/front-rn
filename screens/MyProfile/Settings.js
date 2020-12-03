@@ -301,7 +301,7 @@ export default connect(
           <TouchableOpacity
             style={style.btnExte}
             onPress={() => {
-              if (userName === user.nickName) {
+              if (name === user.nickName) {
                 setUser({ nameChecked: true });
                 requestProfileUser(user);
                 navigation.goBack();
