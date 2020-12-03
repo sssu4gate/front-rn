@@ -1,13 +1,5 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  Button,
-  ScrollView,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation, TabActions } from "@react-navigation/native";
 import styled from "styled-components/native";
 import {
@@ -23,18 +15,17 @@ function HotCourse({
   moveCommunityPost,
   requestPostListCommunity,
   postList,
-  isSigned,
   token,
   refreshing,
   setRefreshing,
 }) {
   React.useEffect(() => {
     console.log(postList);
-    if (isSigned == "signed" && refreshing["LIKE"]) {
+    if (refreshing["LIKE"]) {
       setRefreshing({ ...refreshing, LIKE: false });
       requestPostListCommunity(token, 1, 5, "LIKE");
     }
-  }, [isSigned, refreshing]);
+  }, [refreshing]);
 
   const navigation = useNavigation();
 
@@ -54,7 +45,7 @@ function HotCourse({
         </TouchableOpacity>
       </View>
       <View style={{ width: "90%", alignSelf: "center", flexGrow: 1 }}>
-        {isSigned == "signed" && !postList["LIKE"].loading ? (
+        {!postList["LIKE"].loading ? (
           postList["LIKE"].postList?.slice(0, 5).map((course, index) => {
             return (
               <Hot5
@@ -80,7 +71,6 @@ function HotCourse({
 export default connect(
   (state) => ({
     postList: state.community.postList,
-    isSigned: state.user.isSigned,
     token: state.user.accessToken,
   }),
   { moveCommunityTab, moveCommunityPost, requestPostListCommunity }

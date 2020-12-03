@@ -53,7 +53,6 @@ const PostListPreview = connect(
   (state) => ({
     postList: state.community.postList,
     token: state.user.accessToken,
-    isSigned: state.user.isSigned,
   }),
   { requestPostListCommunity }
 )(
@@ -65,7 +64,6 @@ const PostListPreview = connect(
     requestPostListCommunity,
     postList,
     token,
-    isSigned,
   }) => {
     const [refreshing, setRefreshing] = React.useState(true);
     const onRefresh = React.useCallback(() => {
@@ -74,11 +72,11 @@ const PostListPreview = connect(
 
     React.useEffect(() => {
       console.log(postList);
-      if (isSigned == "signed" && refreshing) {
+      if (refreshing) {
         setRefreshing(false);
         requestPostListCommunity(token, 1, 10, option);
       }
-    }, [isSigned, refreshing]);
+    }, [refreshing]);
 
     return (
       <ScrollView
@@ -87,8 +85,7 @@ const PostListPreview = connect(
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        {isSigned == "signed" &&
-        (!postList[option].loading || postList[option].postList?.length) ? (
+        {!postList[option].loading || postList[option].postList?.length ? (
           postList[option].postList.map((post) => {
             return (
               <Post

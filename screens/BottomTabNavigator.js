@@ -8,6 +8,7 @@ import MyProfile from "./MyProfile/MyProfile";
 import Schedule from "./Schedule/Schedule";
 import Write from "./Write/Write";
 import * as theme from "../assets/theme";
+import LoadingSVG from "../assets/Loading";
 
 /* 
  Navigation Theme Reference 
@@ -23,7 +24,7 @@ function BottomTabNavigator({ route, navigation, user }) {
     }
   }, [user]);
 
-  return (
+  return user.isSigned == "signed" ? (
     <Tab.Navigator
       initialRouteName="Home"
       activeColor={theme.PRIMARY_COLOR}
@@ -131,6 +132,10 @@ function BottomTabNavigator({ route, navigation, user }) {
         options={{ tabBarLabel: "내 정보" }}
       />
     </Tab.Navigator>
+  ) : (
+    <View style={{ alignItems: "center", marginTop: 20, flex: 1 }}>
+      <LoadingSVG width={80} height={80} />
+    </View>
   );
 }
 

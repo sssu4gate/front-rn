@@ -10,6 +10,7 @@ import {
   selectPlace,
 } from "../../reducers/placeReducer";
 import * as theme from "../../assets/theme";
+import LoadingSVG from "../../assets/Loading";
 
 const Container = styled.View`
   flex: 1;
@@ -72,92 +73,109 @@ function AddCourse({
   return (
     <Container>
       <Search searchHandler={searchHandler}></Search>
-      <FlatList
-        style={{
-          width: "100%",
-          height: 60,
-          maxHeight: 60,
-          backgroundColor: "#f5f5f5",
-          padding: 15,
-        }}
-        data={selectedPlaces}
-        keyExtractor={(item) => String(item.id)}
-        renderItem={({ item, index }) => {
-          return (
-            <TouchableOpacity
-              style={{ height: 20, flexDirection: "row", marginRight: 15 }}
-              onPress={() => {
-                const idx = selectedPlaces.findIndex((e) => e.id == item.id);
-                if (idx != -1) {
-                  selectPlace([
-                    ...selectedPlaces.slice(0, idx),
-                    ...selectedPlaces.slice(idx + 1, selectedPlaces.length),
-                  ]);
-                }
-              }}
-            >
-              {/*<Image />*/}
-              <Text
-                style={{ fontSize: 14, height: 20, color: theme.PRIMARY_COLOR }}
-              >
-                {item.place_name}
-              </Text>
-              <Image
-                source={require("../../assets/xBtn.png")}
-                style={{ marginLeft: 3, height: 10, width: 10 }}
-              />
-            </TouchableOpacity>
-          );
-        }}
-        horizontal
-      />
-      <FlatList
-        ItemSeparatorComponent={({ highlighted }) => (
-          <View
+      {!loading ? (
+        <>
+          <FlatList
             style={{
-              marginLeft: "auto",
-              marginRight: "auto",
-              backgroundColor: "#E3E3E3",
-              width: "90%",
-              height: 1,
+              width: "100%",
+              height: 60,
+              maxHeight: 60,
+              backgroundColor: "#f5f5f5",
+              padding: 15,
+            }}
+            data={selectedPlaces}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item, index }) => {
+              return (
+                <TouchableOpacity
+                  style={{ height: 20, flexDirection: "row", marginRight: 15 }}
+                  onPress={() => {
+                    const idx = selectedPlaces.findIndex(
+                      (e) => e.id == item.id
+                    );
+                    if (idx != -1) {
+                      selectPlace([
+                        ...selectedPlaces.slice(0, idx),
+                        ...selectedPlaces.slice(idx + 1, selectedPlaces.length),
+                      ]);
+                    }
+                  }}
+                >
+                  {/*<Image />*/}
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      height: 20,
+                      color: theme.PRIMARY_COLOR,
+                    }}
+                  >
+                    {item.place_name}
+                  </Text>
+                  <Image
+                    source={require("../../assets/xBtn.png")}
+                    style={{ marginLeft: 3, height: 10, width: 10 }}
+                  />
+                </TouchableOpacity>
+              );
+            }}
+            horizontal
+          />
+          <FlatList
+            ItemSeparatorComponent={({ highlighted }) => (
+              <View
+                style={{
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  backgroundColor: "#E3E3E3",
+                  width: "90%",
+                  height: 1,
+                }}
+              />
+            )}
+            style={{ width: "100%", marginBottom: 60 }}
+            data={places}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item, index }) => {
+              return (
+                <TouchableOpacity
+                  style={{
+                    height: 60,
+                    paddingRight: 20,
+                    paddingLeft: 20,
+                    paddingTop: 15,
+                    paddingBottom: 15,
+                    flexDirection: "row",
+                  }}
+                  onPress={() => {
+                    if (
+                      selectedPlaces.findIndex((e) => e.id == item.id) == -1
+                    ) {
+                      selectPlace(selectedPlaces.concat(item));
+                    }
+                  }}
+                >
+                  {/*<Image />*/}
+                  <Text
+                    style={{
+                      paddingTop: 10,
+                      fontSize: 18,
+                      height: 30,
+                      color: "#3c3c3c",
+                    }}
+                  >
+                    {item.place_name}
+                  </Text>
+                </TouchableOpacity>
+              );
             }}
           />
-        )}
-        style={{ width: "100%", marginBottom: 60 }}
-        data={places}
-        keyExtractor={(item) => String(item.id)}
-        renderItem={({ item, index }) => {
-          return (
-            <TouchableOpacity
-              style={{
-                height: 60,
-                paddingRight: 20,
-                paddingLeft: 20,
-                paddingTop: 15,
-                paddingBottom: 15,
-                flexDirection: "row",
-              }}
-              onPress={() => {
-                if (selectedPlaces.findIndex((e) => e.id == item.id) == -1) {
-                  selectPlace(selectedPlaces.concat(item));
-                }
-              }}
-            >
-              {/*<Image />*/}
-              <Text
-                style={{
-                  paddingTop: 10,
-                  fontSize: 18,
-                  height: 30,
-                  color: "#3c3c3c",
-                }}
-              >
-                {item.place_name}
-              </Text>
-            </TouchableOpacity>
-          );
-        }}
-      />
+        </>
+      ) : (
+        <View style={{ alignItems: "center", flex: 1 }}>
+          <LoadingSVG width={80} height={80} />
+        </View>
+      )}
+
       <TouchableOpacity
         style={{
           position: "absolute",
