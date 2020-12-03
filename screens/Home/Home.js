@@ -57,24 +57,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
   },
-  baseText: {
-    fontWeight: "bold",
-    fontSize: 24,
-  },
-  innerText: {
-    color: "grey",
-    fontSize: 10,
-    alignItems: "flex-end",
-  },
   recommand: {
-    height: "45%",
     width: "100%",
     alignSelf: "center",
     flex: 1,
-  },
-  hot: {
-    width: "100%",
-    alignSelf: "center",
-    flexDirection: "row",
   },
 });

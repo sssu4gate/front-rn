@@ -49,6 +49,7 @@ export const saveCourse = async (token, course) => {
 export const loadPost = (token, id) => {
   const URL = `https://capstone-4gate.herokuapp.com/course/${id}`;
   console.log("Start fetch", URL);
+  console.log("Token : ", token, id);
   const memoTypeMap = { CHECKOFF: 0, CHECKON: 1, MEMO: 2 };
   const parseCourse = (course) => ({
     ...course,
@@ -70,18 +71,21 @@ export const loginUser = async ({ accessToken, refreshToken }) => {
     URL,
     OPTIONS("post", null, { accessToken, refreshToken })
   ).then((res) => res.json());
-  if (resultJson?.statusCode == 404)
+  if (resultJson?.statusCode == 404) {
+    console.log(resultJson);
     return fetch(
       "https://kapi.kakao.com/v2/user/me",
       OPTIONS("post", `Bearer ${accessToken}`)
     )
       .then((res) => res.json())
       .then((json) => ({ ...json, ...resultJson, accessToken, refreshToken }));
-  else
+  } else
     return profileUser(resultJson.accessToken)
       .then((json) => ({ ...json, ...resultJson }))
       .then((json) => {
         AsyncStorage.setItem("user", JSON.stringify(json));
+        console.log("in Login");
+        console.log(json);
         return json;
       });
 };
@@ -89,6 +93,7 @@ export const loginUser = async ({ accessToken, refreshToken }) => {
 export const profileUser = (token) => {
   const URL = `https://capstone-4gate.herokuapp.com/user/info/profile`;
   console.log("Start fetch", URL);
+  console.log(token);
   return fetch(URL, OPTIONS("get", token))
     .then((res) => res.json())
     .then((json) => ({
@@ -149,5 +154,6 @@ export const requestPostList = (
 ) => {
   const URL = `https://capstone-4gate.herokuapp.com/course/list?offset=${offset}&page=${page}&type=${option}`;
   console.log("Start fetch", URL);
+  console.log("Token : ", token);
   return fetch(URL, OPTIONS("get", token)).then((res) => res.json());
 };

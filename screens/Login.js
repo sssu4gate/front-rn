@@ -21,7 +21,7 @@ import {
   requestCheckLoginedUser,
   setUser,
 } from "../reducers/userReducer";
-import Settings from "../screens/MyProfile/Settings";
+import SignupScreen from "./Signup";
 
 const Stack = createStackNavigator();
 
@@ -119,8 +119,7 @@ const OAuthLogin = connect((state) => ({}), { requestLoginUser })(
               ) == 0 &&
               loading
             )
-              //navigation.navigate("Settings");
-              navigation.navigate("Signup");
+              navigation.navigate("SignupScreen");
           }}
           injectedJavaScript={`(function() {
             if(window.document.body.innerText.indexOf('access_token')==2)
@@ -258,8 +257,7 @@ export default connect(
       >
         <Stack.Screen name="SwitchLogin" component={SwitchLogin} />
         <Stack.Screen name="OAuthLogin" component={OAuthLogin} />
-        <Stack.Screen name="Settings" component={Settings} />
-        <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="SignupScreen" component={SignupScreen} />
       </Stack.Navigator>
     </SafeAreaView>
   );

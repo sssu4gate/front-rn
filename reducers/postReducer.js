@@ -17,145 +17,146 @@ export const types = {
 export function setPost(post) {
   return {
     type: types.POST_SET,
-    post
-  }
+    post,
+  };
 }
 
 export function requestLoadPost(token, id) {
-  return dispatch => {
-    dispatch({type:types.POST_LOAD_REQUEST});
+  console.log("Token : ", token);
+  return (dispatch) => {
+    dispatch({ type: types.POST_LOAD_REQUEST });
     return api
       .loadPost(token, id)
-      .then(json => {
+      .then((json) => {
         dispatch(loadPostSuccess(json));
       })
-      .catch(error => dispatch(loadPostError(error)));
-  }
+      .catch((error) => dispatch(loadPostError(error)));
+  };
 }
 
-export function loadPostSuccess(post){
+export function loadPostSuccess(post) {
+  console.log("Token : ", token);
   return {
-    type:types.POST_LOAD_SUCCESS,
-    post
-  }
+    type: types.POST_LOAD_SUCCESS,
+    post,
+  };
 }
 
-export function loadPostError(error){
+export function loadPostError(error) {
   return {
-    type:types.POST_LOAD_ERROR,
-    error
-  }
+    type: types.POST_LOAD_ERROR,
+    error,
+  };
 }
 
 export function requestSavePost(token, post) {
-  return dispatch => {
-    dispatch({type:types.POST_SAVE_REQUEST});
+  return (dispatch) => {
+    dispatch({ type: types.POST_SAVE_REQUEST });
     return api
       .savePost(token, post)
-      .then(json => {
+      .then((json) => {
         dispatch(setPost(json));
         dispatch(savePostSuccess());
       })
-      .catch(error => dispatch(savePostError(error)));
-  }
+      .catch((error) => dispatch(savePostError(error)));
+  };
 }
 
-export function savePostSuccess(post){
+export function savePostSuccess(post) {
   return {
-    type:types.POST_SAVE_SUCCESS,
-    post
-  }
+    type: types.POST_SAVE_SUCCESS,
+    post,
+  };
 }
 
-export function savePostError(error){
+export function savePostError(error) {
   return {
-    type:types.POST_SAVE_ERROR,
-    error
-  }
+    type: types.POST_SAVE_ERROR,
+    error,
+  };
 }
 
 export function initPost() {
   return {
     type: types.POST_INIT,
-  }
+  };
 }
 
-
-const defaultState =  {
-  post:{
-    nickName:"",
+const defaultState = {
+  post: {
+    nickName: "",
     likeNum: 0,
-    commentNum:0,
+    commentNum: 0,
     viewCount: 0,
     backgroundImg: null,
     postName: "",
-    title:"",
+    title: "",
     id: null,
     date: null,
-    createdAt:null,
-    shareType:"PUBLIC",
+    createdAt: null,
+    shareType: "PUBLIC",
     places: [],
     memos: [],
-    content:"",
-    totalCost:0,
+    content: "",
+    totalCost: 0,
   },
   loading: false,
   error: null,
-  uploaded:false,
-}
+  uploaded: false,
+};
 
 export default (state = defaultState, action) => {
   switch (action.type) {
     case types.POST_SET:
       return {
         ...state,
-        post:action.post
-      }
+        post: action.post,
+      };
     case types.POST_SAVE_REQUEST:
       return {
         ...state,
         loading: true,
         error: null,
-      }
+      };
     case types.POST_SAVE_SUCCESS:
       return {
         ...state,
         loading: false,
         uploaded: true,
         error: null,
-      }
+      };
     case types.POST_SAVE_ERROR:
       return {
         ...state,
         loading: false,
         uploaded: true,
         error: action.error,
-      }
+      };
     case types.POST_INIT:
       return {
-        ...defaultState
-      }
+        ...defaultState,
+      };
     case types.POST_LOAD_REQUEST:
       return {
         ...defaultState,
         loading: true,
         error: null,
-      }
+      };
     case types.POST_LOAD_SUCCESS:
       return {
         ...state,
         post: action.post,
         loading: false,
         error: null,
-      }
+      };
     case types.POST_LOAD_ERROR:
       return {
         ...state,
         loading: false,
         uploaded: true,
         error: action.error,
-      }
+      };
     default:
       return state;
   }
-}
+};

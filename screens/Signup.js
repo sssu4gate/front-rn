@@ -14,17 +14,16 @@ import Modal from "react-native-modal";
 import { connect } from "react-redux";
 import {
   requestNamechkUser,
-  requestProfileUser,
   requestSignupUser,
   setUser,
-} from "../../reducers/userReducer";
-import ModalCalender from "../../components/ModalCalender";
+} from "../reducers/userReducer";
+import ModalCalender from "../components/ModalCalender";
 
 export default connect(
   (state) => ({
     user: state.user,
   }),
-  { setUser, requestNamechkUser, requestProfileUser, requestSignupUser }
+  { setUser, requestNamechkUser, requestSignupUser }
 )(function Settings({
   user,
   setUser,
@@ -32,15 +31,12 @@ export default connect(
   requestSignupUser,
   navigation,
 }) {
-  useEffect(() => {
-    const userName = user.nickName;
-  }, []);
+  console.log(user);
   const [isAreaEdit, setAreaEdit] = useState(false);
   const toggleAreaEdit = () => {
     setAreaEdit(!isAreaEdit);
   };
   const [name, setName] = useState(user.nickName);
-
   const [calendarVisible, setCalendarVisible] = React.useState(false);
   const [birth, setBirth] = useState(user.birth);
   const [yyyy, setyyyy] = useState("0000");
@@ -90,13 +86,13 @@ export default connect(
               />
             ) : (
               <Image
-                source={require("../../assets/아이유1.jpg")}
+                source={require("../assets/아이유1.jpg")}
                 style={style.profileImg}
               />
             )}
             <TouchableOpacity style={{ alignSelf: "flex-end" }}>
               <Image
-                source={require("../../assets/camera.png")}
+                source={require("../assets/camera.png")}
                 style={style.cameraIcon}
               />
             </TouchableOpacity>
@@ -133,10 +129,8 @@ export default connect(
             onPress={() => {
               requestNamechkUser(name);
               if (user.nameChecked) {
-                setUser({ ...user, nickName: name });
-                requestSignupUser(user);
-                return Alert.alert("닉네임", "변경 완료!");
-              } else if (!user.nameChecked) {
+                setUser({ nickName: name });
+              } else {
                 return Alert.alert("닉네임", "중복된 닉네임 입니다.");
               }
             }}
@@ -156,7 +150,7 @@ export default connect(
           >
             <Image
               style={{ width: 12, height: 12 }}
-              source={require("../../assets/Calendar.png")}
+              source={require("../assets/Calendar.png")}
             />
           </TouchableOpacity>
         </View>
@@ -301,22 +295,14 @@ export default connect(
           <TouchableOpacity
             style={style.btnExte}
             onPress={() => {
-              if (name === user.nickName) {
-                setUser({ nameChecked: true });
-                requestProfileUser(user);
-                navigation.goBack();
-                return;
-              }
-
               if (user.nameChecked == false)
                 return Alert.alert("닉네임", "닉네임 중복체크 해주세요.");
               else if (user.birth == "")
                 return Alert.alert("생일", "생일을 입력 해주세요.");
               else if (user.gender == "")
                 return Alert.alert("성별", "성별을 입력 해주세요.");
-              console.log("저장");
               requestSignupUser(user);
-              navigation.goBack();
+              navigation.navigate("Home");
             }}
           >
             <Text style={[style.btn, style.btnYes, style.shadowBox]}>완료</Text>

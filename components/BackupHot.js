@@ -14,9 +14,8 @@ import {
   moveCommunityTab,
   moveCommunityPost,
   requestPostListCommunity,
-} from "../../reducers/communityReducer";
+} from "../reducers/communityReducer";
 import { connect } from "react-redux";
-import LoadingSVG from "../../assets/Loading";
 
 function HotCourse({
   moveCommunityTab,
@@ -25,23 +24,27 @@ function HotCourse({
   postList,
   isSigned,
   token,
-  refreshing,
-  setRefreshing,
 }) {
   React.useEffect(() => {
-    console.log(postList);
-    if (isSigned == "signed" && refreshing["LIKE"]) {
-      setRefreshing({ ...refreshing, LIKE: false });
-      requestPostListCommunity(token, 1, 5, "LIKE");
-    }
-  }, [isSigned, refreshing]);
+    // 서버 바뀌면 수정해야하
+    if (
+      isSigned == "signed" &&
+      !postList["LIKE"].loading &&
+      !(
+        postList["LIKE"].page == 0 &&
+        postList["LIKE"].offset == 5 &&
+        postList["LIKE"].postList.length != 0
+      )
+    )
+      requestPostListCommunity(token, 0, 5, "LIKE");
+  }, [postList, isSigned]);
 
   const navigation = useNavigation();
 
   return (
     <>
       <View style={styles.row}>
-        <Text style={{ width: "20%" }}> </Text>
+        <Text style={{ flex: 0.2 }}> </Text>
         <Text style={styles.title}>인기코스 TOP 5</Text>
         <TouchableOpacity
           style={styles.more}
@@ -54,8 +57,12 @@ function HotCourse({
         </TouchableOpacity>
       </View>
       <View style={{ width: "90%", alignSelf: "center", flexGrow: 1 }}>
-        {isSigned == "signed" && !postList["LIKE"].loading ? (
-          postList["LIKE"].postList?.slice(0, 5).map((course, index) => {
+        {isSigned == "unsigned" ||
+        postList["LIKE"].loading ||
+        postList["LIKE"].postList.length == 0 ? (
+          <Text>loading</Text>
+        ) : (
+          postList["LIKE"]?.postList.map((course, index) => {
             return (
               <Hot5
                 key={course.id}
@@ -67,10 +74,6 @@ function HotCourse({
               />
             );
           })
-        ) : (
-          <View style={{ alignItems: "center", marginTop: 20 }}>
-            <LoadingSVG width={80} height={80} />
-          </View>
         )}
       </View>
     </>
@@ -92,25 +95,18 @@ function Hot5({ uri, title, like, rank, id, moveCommunityPost }) {
     <View style={styles.row}>
       <View
         style={{
-          width: "10%",
+          flex: 0.1,
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "row",
         }}
       >
-        <Text style={[styles.text, { marginRight: 12 }]}>{rank}</Text>
-        <View
-          style={{
-            height: "100%",
-            width: 1,
-            backgroundColor: "#eeeeee",
-          }}
-        >
-          <Text />
-        </View>
+        <Text style={styles.text}>{rank}</Text>
+        <View style={{ height: "80%" }} />
+        <View style={{ width: 1, height: "100%", backgroundColor: "#eee" }} />
       </View>
       <TouchableOpacity
-        style={{ width: "60%", alignItems: "center", marginLeft: 5 }}
+        style={{ flex: 0.7, alignItems: "center" }}
         onPress={() => {
           moveCommunityPost(id, "Popularity");
           navigation.navigate("Community");
@@ -119,14 +115,14 @@ function Hot5({ uri, title, like, rank, id, moveCommunityPost }) {
         <Text style={styles.hot5Title}>{title}</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={{ flexDirection: "row", width: "30%", alignItems: "center" }}
+        style={{ flexDirection: "row", flex: 0.2, alignItems: "center" }}
         onPress={() => {
           console.log("Like");
         }}
       >
         <Image
           style={{ width: 14, height: 14 }}
-          source={require("../../assets/Heart(gray).png")}
+          source={require("../assets/Heart(gray).png")}
         />
         <Text style={styles.more}>{like}</Text>
       </TouchableOpacity>
@@ -137,7 +133,7 @@ function Hot5({ uri, title, like, rank, id, moveCommunityPost }) {
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
-    width: "90%",
+    width: "100%",
     alignItems: "center",
     alignSelf: "center",
     flexGrow: 1,
@@ -148,7 +144,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     padding: 10,
-    width: "60%",
+    flex: 0.6,
     textAlign: "center",
   },
   more: {
@@ -157,6 +153,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     padding: 10,
+    flex: 0.2,
   },
   text: {
     color: "#000",
