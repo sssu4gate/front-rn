@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 
-import { setCourse } from "../../reducers/courseReducer";
 import * as theme from "../../assets/theme";
 
 const Container = ({ children, style }) => (
@@ -62,7 +61,7 @@ const IconContainer = ({ children, style, onPress }) => (
   </TouchableOpacity>
 );
 
-function CourseTitle({ course, setCourse, setCalendarVisible }) {
+function CourseTitle({ course, setCalendarVisible, title, setTitle }) {
   return (
     <Container>
       <Row flex={5.5} paddingTop={14}>
@@ -76,8 +75,8 @@ function CourseTitle({ course, setCourse, setCalendarVisible }) {
             fontWeight: "800",
             flex: 1,
           }}
-          value={course.courseName}
-          onChangeText={(text) => setCourse({ ...course, courseName: text })}
+          value={title}
+          onChangeText={(text) => setTitle(text)}
         />
       </Row>
       <Row flex={4.5}>
@@ -124,5 +123,5 @@ export default connect(
   (state) => ({
     course: state.course.course,
   }),
-  { setCourse }
+  {}
 )(CourseTitle);
