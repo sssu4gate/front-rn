@@ -62,14 +62,14 @@ const defaultState = {
   postList:{
     "LATEST":{
       postList:[],
-      page:0,
-      offset:10,
+      page:1,
+      offset:5,
       loading:false,
     },
     "LIKE":{
       postList:[],
-      page:0,
-      offset:10,
+      page:1,
+      offset:5,
       loading:false,
     },
   },

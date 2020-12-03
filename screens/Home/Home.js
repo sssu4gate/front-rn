@@ -8,6 +8,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  RefreshControl,
 } from "react-native";
 import { NavigationContainer, useScrollToTop } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -16,14 +17,28 @@ import Search from "../../components/SearchInHome";
 import Hot5 from "../../components/HotCourse";
 
 export default function Home() {
+  const [refreshing, setRefreshing] = React.useState({"LIKE":true, "REC":true});
+  console.log(refreshing);
+
+  const wait = (timeout) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  }
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing({"LIKE":true, "REC":true});
+  }, []);
   return (
-    <ScrollView style={{ backgroundColor: "#ffffff" }}>
+    <ScrollView style={{ backgroundColor: "#ffffff" }}
+      refreshControl={<RefreshControl refreshing={refreshing["LIKE"] && refreshing["REC"]} onRefresh={onRefresh}/>}
+    >
       <View style={styles.recommand}>
-        <Recommand />
+        <Recommand refreshing={refreshing} setRefreshing={setRefreshing}/>
       </View>
       <View style={styles.container}>
         <Search />
-        <Hot5 />
+        <Hot5 refreshing={refreshing} setRefreshing={setRefreshing}/>
       </View>
     </ScrollView>
   );

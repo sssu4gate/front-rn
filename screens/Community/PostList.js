@@ -67,39 +67,48 @@ const PostListPreview=connect(
   state=>({
     postList:state.community.postList,
     token:state.user.accessToken,
+    isSigned:state.user.isSigned
   }),
   {requestPostListCommunity}
-)(({ route:{params:{option}}, navigation, requestPostListCommunity, postList, token}) => {
+)(({ route:{params:{option}}, navigation, requestPostListCommunity, postList, token, isSigned}) => {
+  const [refreshing, setRefreshing] = React.useState(true);
 
   React.useEffect(()=>{
-    // 서버 바뀌면 수정해야하
-    if(!postList[option].loading && !(postList[option].page==0 && postList[option].offset==5  && postList[option].postList.length!=0))
-      requestPostListCommunity(token, 0, 5, option);
-  }, [postList])
+    console.log(postList);
+    if (isSigned == "signed" && refreshing) {
+      setRefreshing(false);
+      requestPostListCommunity(token, 1, 10, option);
+    }
+  }, [isSigned, refreshing])
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+  }, []);
 
   return (
-    <ScrollView style={styles.scrollView}>
-      {postList[option].loading && postList[option].length==0?
-        <Text>loading</Text>
-        :
+    <ScrollView style={styles.scrollView} refreshing={refreshing} onRefresh={onRefresh}>
+      {isSigned == "signed" && !postList["LIKE"].loading?
         postList[option].postList.map((post) => {
-        return (
-          <View key={post.id}>
-            <Post
-              title={post.title}
-              like={post.likeNum}
-              view={post.commentNum}
-              time={post.createdAt}
-              course={post.course}
-              text={post.text}
-              writer={post.writer}
-              profile={post.profile}
-              onPress={()=>navigation.navigate("PostDetail", {id: post.id})}
-            />
-            <View style={styles.indicator} />
-          </View>
-        );
-      })}
+          return (
+            <View key={post.id}>
+              <Post
+                title={post.title}
+                like={post.likeNum}
+                view={post.commentNum}
+                time={post.createdAt}
+                course={post.course}
+                text={post.text}
+                writer={post.writer}
+                profile={post.profile}
+                onPress={()=>navigation.navigate("PostDetail", {id: post.id})}
+              />
+              <View style={styles.indicator} />
+            </View>
+          );
+        })
+        :
+        <Text>loading</Text>
+      }
     </ScrollView>
   );
 })

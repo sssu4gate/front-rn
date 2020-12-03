@@ -18,12 +18,32 @@ import {
 import {
   moveCommunityTab,
   moveCommunityPost,
+  requestPostListCommunity
 } from "../reducers/communityReducer";
 import { connect } from "react-redux";
 import Carousel from "react-native-snap-carousel";
 import { scrollInterpolator, animatedStyles } from "./animations";
 
-function Recommand({ moveCommunityTab, moveCommunityPost }) {
+function Recommand({ 
+  moveCommunityTab,
+  moveCommunityPost,
+  requestPostListCommunity,
+  postList,
+  isSigned,
+  token,
+  refreshing,
+  setRefreshing
+}) {
+
+  React.useEffect(() => {
+    // 서버 바뀌면 수정해야하
+    console.log(postList);
+    if (isSigned == "signed" && refreshing["REC"]) {
+      setRefreshing({...refreshing, "REC":false})
+      requestPostListCommunity(token, 1, 5, "LATEST");
+    }
+  }, [isSigned, refreshing]);
+  
   const navigation = useNavigation();
   const [index, setIndex] = React.useState(0);
   const SLIDER_WIDTH = Dimensions.get("window").width;
@@ -99,10 +119,14 @@ function Recommand({ moveCommunityTab, moveCommunityPost }) {
   );
 }
 
-export default connect((state) => ({}), {
-  moveCommunityTab,
-  moveCommunityPost,
-})(Recommand);
+export default connect((state) => 
+  (state) => ({
+    postList: state.community.postList,
+    isSigned: state.user.isSigned,
+    token: state.user.accessToken,
+  }),
+  { moveCommunityTab, moveCommunityPost, requestPostListCommunity }
+)(Recommand);
 
 function _lenderItem({ item, index }) {
   return (

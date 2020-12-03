@@ -24,20 +24,16 @@ function HotCourse({
   postList,
   isSigned,
   token,
+  refreshing,
+  setRefreshing
 }) {
   React.useEffect(() => {
-    // 서버 바뀌면 수정해야하
-    if (
-      isSigned == "signed" &&
-      !postList["LIKE"].loading &&
-      !(
-        postList["LIKE"].page == 0 &&
-        postList["LIKE"].offset == 5 &&
-        postList["LIKE"].postList.length != 0
-      )
-    )
-      requestPostListCommunity(token, 0, 5, "LIKE");
-  }, [postList, isSigned]);
+    console.log(postList);
+    if (isSigned == "signed" && refreshing["LIKE"]) {
+      setRefreshing({...refreshing, "LIKE":false})
+      requestPostListCommunity(token, 1, 5, "LIKE");
+    }
+  }, [isSigned, refreshing]);
 
   const navigation = useNavigation();
 
@@ -57,24 +53,24 @@ function HotCourse({
         </TouchableOpacity>
       </View>
       <View style={{ width: "90%", alignSelf: "center", flexGrow: 1 }}>
-        {isSigned == "unsigned" ||
-        postList["LIKE"].loading ||
-        postList["LIKE"].postList.length == 0 ? (
-          <Text>loading</Text>
-        ) : (
-          postList["LIKE"]?.postList.map((course, index) => {
-            return (
-              <Hot5
-                key={course.id}
-                title={course.title}
-                rank={index + 1}
-                like={course.likeNum}
-                id={course.id}
-                moveCommunityPost={moveCommunityPost}
-              />
-            );
-          })
-        )}
+        {
+          isSigned == "signed" && !postList["LIKE"].loading ?
+          (
+            postList["LIKE"].postList?.slice(0, 5).map((course, index) => {
+              return (
+                <Hot5
+                  key={course.id}
+                  title={course.title}
+                  rank={index + 1}
+                  like={course.likeNum}
+                  id={course.id}
+                  moveCommunityPost={moveCommunityPost}
+                />
+              );
+            })
+          ):
+          <Text>Loading</Text>
+        }
       </View>
     </>
   );
