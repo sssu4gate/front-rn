@@ -1,16 +1,23 @@
 import * as React from "react";
-import {useNavigation} from "@react-navigation/native";
-import {Image, View, Text, Button, TouchableOpacity, ScrollView} from "react-native";
-import { Calendar} from "react-native-calendars";
+import { View, ScrollView } from "react-native";
 import * as theme from "../../assets/theme";
 import PostContent from "./PostContent";
 import PostTitle from "./PostTitle";
-import {requestLoadPost} from "../../reducers/postReducer";
-import {connect} from "react-redux";
+import { requestLoadPost } from "../../reducers/postReducer";
+import { connect } from "react-redux";
+import LoadingSVG from "../../assets/Loading";
 
-function PostDetail({navigation, route:{params}, loading, error, token, requestLoadPost}) {
-  React.useEffect(()=>{
-    if(params?.id){
+function PostDetail({
+  navigation,
+  route: { params },
+  loading,
+  error,
+  token,
+  requestLoadPost,
+  post,
+}) {
+  React.useEffect(() => {
+    if (params?.id) {
       requestLoadPost(token, params.id);
     }
   }, [params]);
@@ -22,22 +29,29 @@ function PostDetail({navigation, route:{params}, loading, error, token, requestL
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#fff",
-        dropShadow: "1px 1px black"
+        dropShadow: "1px 1px black",
       }}
     >
-      <ScrollView>
-        <PostTitle/>
-        <PostContent/>
-      </ScrollView>
+      {loading ? (
+        <View style={{ alignItems: "center" }}>
+          <LoadingSVG width={80} height={80} />
+        </View>
+      ) : (
+        <ScrollView>
+          <PostTitle post={post} />
+          <PostContent post={post} />
+        </ScrollView>
+      )}
     </View>
   );
 }
 
 export default connect(
-  state=>({
-    error:state.post.error, 
-    loading:state.post.loading,
-    token:state.user.accessToken
+  (state) => ({
+    error: state.post.error,
+    loading: state.post.loading,
+    token: state.user.accessToken,
+    post: state.post.post,
   }),
-  {requestLoadPost}
-)(PostDetail)
+  { requestLoadPost }
+)(PostDetail);

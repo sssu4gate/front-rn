@@ -35,7 +35,7 @@ export function requestLoadPost(token, id) {
 }
 
 export function loadPostSuccess(post) {
-  console.log("Token : ", token);
+  console.log("post is \n", post);
   return {
     type: types.POST_LOAD_SUCCESS,
     post,

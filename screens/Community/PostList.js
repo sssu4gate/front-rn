@@ -8,9 +8,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { TabActions } from "@react-navigation/native";
 import { requestPostListCommunity } from "../../reducers/communityReducer";
 import { connect } from "react-redux";
+import LoadingSVG from "../../assets/Loading";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -106,24 +106,16 @@ const PostListPreview = connect(
             );
           })
         ) : (
-          <Text>loading</Text>
+          <View style={{ alignItems: "center" }}>
+            <LoadingSVG width={80} height={80} />
+          </View>
         )}
       </ScrollView>
     );
   }
 );
 
-function Post({
-  title,
-  course,
-  text,
-  writer,
-  profile,
-  like,
-  time,
-  view,
-  onPress,
-}) {
+function Post({ title, text, writer, profile, like, time, view, onPress }) {
   return (
     <TouchableOpacity
       onPress={onPress}

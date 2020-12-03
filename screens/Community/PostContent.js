@@ -2,69 +2,9 @@ import * as React from "react";
 import { View, Text, Dimensions } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useNavigation, TabActions } from "@react-navigation/native";
-import { connect } from "react-redux";
 import * as theme from "../../assets/theme";
-import {
-  loadSelectedPlace,
-  selectPlace,
-  initPlace,
-} from "../../reducers/placeReducer";
-import { setPost, initPost, requestSavePost } from "../../reducers/postReducer";
 
-const Content = ({ children, style }) => (
-  <View
-    style={{
-      flexDirection: "row",
-      paddingTop: 10,
-      paddingBottom: 10,
-      paddingLeft: 30,
-      paddingRight: 30,
-      width: "100%",
-      ...style,
-    }}
-  >
-    {children}
-  </View>
-);
-
-const Line = ({ children, style }) => (
-  <View
-    style={{
-      marginLeft: 10,
-      flex: 1,
-      borderBottomWidth: 1,
-      borderBottomColor: "#e3e3e3",
-      ...style,
-    }}
-  >
-    {children}
-  </View>
-);
-
-function PostContent({
-  post,
-  setPost,
-  selectPlace,
-  initPlace,
-  loadSelectedPlace,
-  selectedPlaces,
-  initPost,
-  requestSavePost,
-  uploaded,
-}) {
-  const [text, setText] = React.useState("");
-  const navigation = useNavigation();
-
-  React.useEffect(() => {
-    if (uploaded) {
-      navigation.dispatch(
-        TabActions.jumpTo("Community", { screen: "PostDetail" })
-      );
-      initPost();
-      initPlace();
-    }
-  }, [uploaded]);
-
+export default function PostContent({ post, initPlace, initPost, uploaded }) {
   return (
     <View
       style={{
@@ -178,18 +118,32 @@ function PlaceItem({ title, index, price, type }) {
   );
 }
 
-export default connect(
-  (state) => ({
-    selectedPlaces: state.place.selectedPlaces,
-    post: state.post.post,
-    uploaded: state.post.uploaded,
-  }),
-  {
-    loadSelectedPlace,
-    selectPlace,
-    initPlace,
-    setPost,
-    initPost,
-    requestSavePost,
-  }
-)(PostContent);
+const Content = ({ children, style }) => (
+  <View
+    style={{
+      flexDirection: "row",
+      paddingTop: 10,
+      paddingBottom: 10,
+      paddingLeft: 30,
+      paddingRight: 30,
+      width: "100%",
+      ...style,
+    }}
+  >
+    {children}
+  </View>
+);
+
+const Line = ({ children, style }) => (
+  <View
+    style={{
+      marginLeft: 10,
+      flex: 1,
+      borderBottomWidth: 1,
+      borderBottomColor: "#e3e3e3",
+      ...style,
+    }}
+  >
+    {children}
+  </View>
+);
