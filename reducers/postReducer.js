@@ -27,6 +27,7 @@ export function requestLoadPost(token, id) {
     return api
       .loadPost(token, id)
       .then((json) => {
+        console.log(json);
         dispatch(loadPostSuccess(json));
       })
       .catch((error) => dispatch(loadPostError(error)));

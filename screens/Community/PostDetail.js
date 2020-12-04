@@ -28,6 +28,8 @@ function PostDetail({
     if (refreshing) setRefreshing(false);
   }, [params, refreshing]);
 
+  console.log(post);
+
   return (
     <View
       style={{

@@ -137,6 +137,7 @@ export const signupUser = async ({
       refreshToken,
     })
   ).then((res) => res.status);
+  console.log("signup status", result);
   if (result == 200) return loginUser({ accessToken, refreshToken });
   else return {};
 };

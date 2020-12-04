@@ -325,12 +325,12 @@ export default connect(
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      onPress={() => setUser({ ...user, gender: "W" })}
+                      onPress={() => setUser({ ...user, gender: "F" })}
                     >
                       <Text
                         style={[
                           style.area3_text,
-                          { color: user.gender == "W" ? "#777777" : "#e3e3e3" },
+                          { color: user.gender == "F" ? "#777777" : "#e3e3e3" },
                         ]}
                       >
                         여자

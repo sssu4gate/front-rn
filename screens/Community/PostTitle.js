@@ -64,7 +64,7 @@ export default function PostTitle({ thumbnailImageUrl, post }) {
               marginLeft: 8,
             }}
           >
-            {post.nickName} 조회 {post.viewCount}
+            {post.nickName} 댓글 {post.commentNum}
           </Text>
         </IconContainer>
         <IconContainer
