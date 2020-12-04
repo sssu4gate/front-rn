@@ -16,6 +16,7 @@ import { TabActions } from "@react-navigation/native";
 
 import { connect } from "react-redux";
 import { initPlace } from "../../reducers/placeReducer";
+import { setRefresh } from "../../reducers/refreshReducer";
 import {
   setCourse,
   initCourse,
@@ -37,6 +38,8 @@ function WriteCourse({
   requestSaveCourse,
   moveCommunityPost,
   token,
+  refresh,
+  setRefresh,
 }) {
   const [calendarVisible, setCalendarVisible] = React.useState(false);
   const [title, setTitle] = React.useState("");
@@ -78,9 +81,12 @@ function WriteCourse({
   React.useEffect(() => {
     if (uploaded) {
       if (course.shareType == "PUBLIC") {
+        setRefresh({ ...refresh, Community: true, MyProfile: true });
         moveCommunityPost(course.id, "Trend");
+        navigation.dispatch(TabActions.jumpTo("Community"));
+      } else {
+        navigation.dispatch(TabActions.jumpTo("MyProfile"));
       }
-      navigation.dispatch(TabActions.jumpTo("Community"));
       initHandler();
     }
   }, [uploaded]);
@@ -201,6 +207,14 @@ export default connect(
     uploaded: state.course.uploaded,
     selectedPlaces: state.place.selectedPlaces,
     token: state.user.accessToken,
+    refresh: state.refresh,
   }),
-  { setCourse, initCourse, initPlace, requestSaveCourse, moveCommunityPost }
+  {
+    setCourse,
+    initCourse,
+    initPlace,
+    requestSaveCourse,
+    moveCommunityPost,
+    setRefresh,
+  }
 )(WriteCourse);

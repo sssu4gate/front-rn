@@ -34,9 +34,11 @@ export const saveCourse = async (token, course) => {
       type: memoTypeMap[memo.type],
     })),
   });
+  console.log(PLACE_URL);
   await fetch(PLACE_URL, OPTIONS("post", token, course.savePlaces)).then(
     (res) => res.status
   );
+  console.log(COURSE_URL);
   return fetch(COURSE_URL, OPTIONS("post", token, course))
     .then((res) => res.json())
     .then((json) => {

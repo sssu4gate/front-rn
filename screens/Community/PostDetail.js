@@ -24,8 +24,8 @@ function PostDetail({
   React.useEffect(() => {
     if (params?.id && params?.id != post.id && refreshing) {
       requestLoadPost(token, params.id);
-      setRefreshing(false);
     }
+    if (refreshing) setRefreshing(false);
   }, [params, refreshing]);
 
   return (
