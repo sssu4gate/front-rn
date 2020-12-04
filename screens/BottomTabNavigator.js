@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, View, Image } from "react-native";
+import { TouchableOpacity, View, Image } from "react-native";
 import { connect } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Community from "./Community/Community";
@@ -26,6 +26,7 @@ function BottomTabNavigator({ route, navigation, user }) {
 
   return user.isSigned == "signed" ? (
     <Tab.Navigator
+      keyboardHidesTabBar={true}
       initialRouteName="Home"
       activeColor={theme.PRIMARY_COLOR}
       inactiveColor="#777"

@@ -22,6 +22,7 @@ import {
   requestSaveCourse,
 } from "../../reducers/courseReducer";
 import { moveCommunityPost } from "../../reducers/communityReducer";
+import LoadingSVG from "../../assets/Loading";
 
 function WriteCourse({
   navigation,
@@ -34,6 +35,7 @@ function WriteCourse({
   initPlace,
   selectedPlaces,
   requestSaveCourse,
+  moveCommunityPost,
   token,
 }) {
   const [calendarVisible, setCalendarVisible] = React.useState(false);
@@ -76,6 +78,7 @@ function WriteCourse({
 
   React.useEffect(() => {
     if (uploaded) {
+      console.log(course, uploaded, course.shareType == "PUBLIC");
       if (course.shareType == "PUBLIC") {
         moveCommunityPost(course.id, "Trend");
       }
@@ -93,94 +96,102 @@ function WriteCourse({
         backgroundColor: "#fff",
       }}
     >
-      <ScrollView>
-        <Modal
-          isVisible={calendarVisible}
-          onBackdropPress={() => setCalendarVisible(false)}
-        >
-          <View
-            style={{
-              width: Dimensions.get("window").width * 0.8,
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
+      {loading ? (
+        <LoadingSVG />
+      ) : (
+        <ScrollView>
+          <Modal
+            isVisible={calendarVisible}
+            onBackdropPress={() => setCalendarVisible(false)}
           >
-            <Calendar
-              markedDates={date}
-              theme={{
-                todayTextColor: theme.PRIMARY_COLOR,
-                selectedDayBackgroundColor: theme.PRIMARY_COLOR,
+            <View
+              style={{
+                width: Dimensions.get("window").width * 0.8,
+                marginLeft: "auto",
+                marginRight: "auto",
               }}
-              onDayPress={(day) =>
-                setCourse({ ...course, date: day.dateString })
-              }
-              monthFormat={"yyyy년 MMM"}
-              renderArrow={(direction) => (
-                <View>
-                  <Image
-                    style={{ width: 20, height: 20 }}
-                    source={
-                      direction == "left"
-                        ? require("../../assets/LeftArrow(pink).png")
-                        : require("../../assets/RightArrow(pink).png")
-                    }
-                  />
-                </View>
-              )}
-            />
-            <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
-                style={{
-                  flex: 1,
-                  padding: 8,
-                  backgroundColor: "#fff",
+            >
+              <Calendar
+                markedDates={date}
+                theme={{
+                  todayTextColor: theme.PRIMARY_COLOR,
+                  selectedDayBackgroundColor: theme.PRIMARY_COLOR,
                 }}
-                onPress={() => {
-                  setCalendarVisible(false);
-                  setCourse({ ...course, date: null });
-                }}
-              >
-                <Text
+                onDayPress={(day) =>
+                  setCourse({ ...course, date: day.dateString })
+                }
+                monthFormat={"yyyy년 MMM"}
+                renderArrow={(direction) => (
+                  <View>
+                    <Image
+                      style={{ width: 20, height: 20 }}
+                      source={
+                        direction == "left"
+                          ? require("../../assets/LeftArrow(pink).png")
+                          : require("../../assets/RightArrow(pink).png")
+                      }
+                    />
+                  </View>
+                )}
+              />
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity
                   style={{
-                    color: theme.PRIMARY_COLOR,
-                    fontSize: 16,
-                    textAlign: "center",
+                    flex: 1,
+                    padding: 8,
+                    backgroundColor: "#fff",
+                  }}
+                  onPress={() => {
+                    setCalendarVisible(false);
+                    setCourse({ ...course, date: null });
                   }}
                 >
-                  초기화
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  flex: 1,
-                  backgroundColor: theme.PRIMARY_COLOR,
-                  padding: 8,
-                }}
-                onPress={() => setCalendarVisible(false)}
-              >
-                <Text
-                  style={{ color: "white", fontSize: 16, textAlign: "center" }}
+                  <Text
+                    style={{
+                      color: theme.PRIMARY_COLOR,
+                      fontSize: 16,
+                      textAlign: "center",
+                    }}
+                  >
+                    초기화
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    flex: 1,
+                    backgroundColor: theme.PRIMARY_COLOR,
+                    padding: 8,
+                  }}
+                  onPress={() => setCalendarVisible(false)}
                 >
-                  확인
-                </Text>
-              </TouchableOpacity>
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: 16,
+                      textAlign: "center",
+                    }}
+                  >
+                    확인
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </Modal>
-        <CourseTitle
-          setCalendarVisible={setCalendarVisible}
-          title={title}
-          setTitle={setTitle}
-        />
-        <CourseContent
-          content={content}
-          setContent={setContent}
-          text={text}
-          setText={setText}
-          initHandler={initHandler}
-          saveHandler={saveHandler}
-        />
-      </ScrollView>
+          </Modal>
+          <CourseTitle
+            setCalendarVisible={setCalendarVisible}
+            title={title}
+            setTitle={setTitle}
+          />
+          <CourseContent
+            content={content}
+            setContent={setContent}
+            text={text}
+            setText={setText}
+            initHandler={initHandler}
+            saveHandler={saveHandler}
+          />
+        </ScrollView>
+      )}
     </View>
   );
 }
@@ -193,5 +204,5 @@ export default connect(
     selectedPlaces: state.place.selectedPlaces,
     token: state.user.accessToken,
   }),
-  { setCourse, initCourse, initPlace, requestSaveCourse }
+  { setCourse, initCourse, initPlace, requestSaveCourse, moveCommunityPost }
 )(WriteCourse);

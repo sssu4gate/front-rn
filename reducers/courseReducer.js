@@ -23,7 +23,7 @@ export function requestSaveCourse(token, course) {
       .saveCourse(token, course)
       .then((json) => {
         dispatch(setPost(json)); // warning
-        dispatch(saveCourseSuccess());
+        dispatch(saveCourseSuccess(json));
       })
       .catch((error) => dispatch(saveCourseError(error)));
   };
@@ -88,6 +88,11 @@ export default (state = defaultState, action) => {
     case types.COURSE_SAVE_SUCCESS:
       return {
         ...state,
+        course: {
+          ...state.course,
+          id: action.course.id,
+          shareType: action.course.shareType,
+        },
         loading: false,
         uploaded: true,
         error: null,

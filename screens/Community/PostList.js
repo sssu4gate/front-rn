@@ -78,6 +78,13 @@ const PostListPreview = connect(
       }
     }, [refreshing]);
 
+    React.useEffect(() => {
+      const unsubscribe = navigation.addListener("tabPress", (e) => {
+        setRefreshing(true);
+      });
+      return unsubscribe;
+    }, [navigation]);
+
     return (
       <ScrollView
         style={styles.scrollView}

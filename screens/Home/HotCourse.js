@@ -100,7 +100,7 @@ function Hot5({ uri, title, like, rank, id, moveCommunityPost }) {
         </View>
       </View>
       <TouchableOpacity
-        style={{ width: "60%", alignItems: "center", marginLeft: 5 }}
+        style={{ flex: 1, alignItems: "center", marginLeft: 5 }}
         onPress={() => {
           moveCommunityPost(id, "Popularity");
           navigation.navigate("Community");
@@ -109,7 +109,7 @@ function Hot5({ uri, title, like, rank, id, moveCommunityPost }) {
         <Text style={styles.hot5Title}>{title}</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={{ flexDirection: "row", width: "30%", alignItems: "center" }}
+        style={{ flexDirection: "row", alignItems: "center" }}
         onPress={() => {
           console.log("Like");
         }}
@@ -145,7 +145,6 @@ const styles = StyleSheet.create({
     color: "#b0b0b0",
     fontSize: 12,
     fontWeight: "bold",
-    textAlign: "center",
     padding: 10,
   },
   text: {

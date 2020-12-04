@@ -7,7 +7,6 @@ import {
   Image,
   Dimensions,
 } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { connect } from "react-redux";
 import * as theme from "../../assets/theme";
@@ -40,15 +39,14 @@ function CourseContent({
         <Line />
       </Content>
       <Content style={{ flexDirection: "column" }}>
-        <FlatList
-          style={{ width: "100%", overflow: "visible" }}
-          data={selectedPlaces}
-          renderItem={({ item, index }) => {
-            return (
-              <PlaceItem price={0} title={item.place_name} index={index} />
-            );
-          }}
-        />
+        {selectedPlaces?.map((item, index) => (
+          <PlaceItem
+            key={item.id}
+            price={0}
+            title={item.place_name}
+            index={index}
+          />
+        ))}
         <View style={{ height: 40 }}>
           <AddButton
             onPress={() => {
@@ -65,28 +63,22 @@ function CourseContent({
         <Text style={{ fontSize: 12, color: "#AAAAAA" }}>메모</Text>
         <Line />
       </Content>
-      <Content style={{ paddingBottom: 0 }}>
-        <FlatList
-          style={{ width: "100%", overflow: "visible" }}
-          data={course.memos}
-          renderItem={({ item, index }) => {
-            return (
-              <Memo
-                {...item}
-                checkHandler={() => {
-                  setCourse({
-                    ...course,
-                    memos: [
-                      ...course.memos.slice(0, index),
-                      { text: item.text, type: Number(!item.type) },
-                      ...course.memos.slice(index + 1, course.memos.length),
-                    ],
-                  });
-                }}
-              />
-            );
-          }}
-        />
+      <Content style={{ paddingBottom: 0, flexDirection: "column" }}>
+        {course.memos?.map((item, index) => (
+          <Memo
+            {...item}
+            checkHandler={() => {
+              setCourse({
+                ...course,
+                memos: [
+                  ...course.memos.slice(0, index),
+                  { text: item.text, type: Number(!item.type) },
+                  ...course.memos.slice(index + 1, course.memos.length),
+                ],
+              });
+            }}
+          />
+        ))}
       </Content>
       <Content style={{ flexDirection: "column" }}>
         <TextInput

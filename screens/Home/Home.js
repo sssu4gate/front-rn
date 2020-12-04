@@ -4,11 +4,18 @@ import Recommand from "./Recommand";
 import Search from "./SearchInHome";
 import Hot5 from "./HotCourse";
 
-export default function Home() {
+export default function Home({ navigation }) {
   const [refreshing, setRefreshing] = React.useState({ LIKE: true, REC: true });
   const onRefresh = React.useCallback(() => {
     setRefreshing({ LIKE: true, REC: true });
   }, []);
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener("tabPress", (e) => {
+      console.log(e);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <ScrollView
