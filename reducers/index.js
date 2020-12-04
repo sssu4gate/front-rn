@@ -5,6 +5,7 @@ import PostReducer from "./postReducer";
 import TopBarReducer from "./topBarReducer";
 import UserReducer from "./userReducer";
 import CommunityReducer from "./communityReducer";
+import RefreshReducer from "./refreshReducer";
 
 export default combineReducers({
   course: CourseReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   topBar: TopBarReducer,
   user: UserReducer,
   community: CommunityReducer,
+  refresh: RefreshReducer,
 });

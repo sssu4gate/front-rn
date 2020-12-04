@@ -1,18 +1,10 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import {
-  useNavigation,
-  StackActions,
-  TabActions,
-} from "@react-navigation/native";
+import { StackActions, TabActions } from "@react-navigation/native";
 import { connect } from "react-redux";
 import PostList from "./PostList";
 import PostDetail from "./PostDetail";
-import {
-  moveCommunityTab,
-  moveCommunityPost,
-  moveCommunitySuccess,
-} from "../../reducers/communityReducer";
+import { moveCommunitySuccess } from "../../reducers/communityReducer";
 
 const Stack = createStackNavigator();
 
@@ -22,15 +14,12 @@ function Community({
   moved,
   tab,
   id,
-  moveCommunityTab,
-  moveCommunityPost,
   moveCommunitySuccess,
 }) {
   React.useEffect(() => {
     if (!moved) {
       navigation.dispatch(TabActions.jumpTo(tab));
       if (id) {
-        console.log(id);
         navigation.dispatch(StackActions.push("PostDetail", { id }));
       }
       moveCommunitySuccess();
@@ -60,5 +49,5 @@ export default connect(
     tab: state.community.tab,
     id: state.community.id,
   }),
-  { moveCommunityTab, moveCommunityPost, moveCommunitySuccess }
+  { moveCommunitySuccess }
 )(Community);

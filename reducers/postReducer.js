@@ -22,7 +22,6 @@ export function setPost(post) {
 }
 
 export function requestLoadPost(token, id) {
-  console.log("Token : ", token);
   return (dispatch) => {
     dispatch({ type: types.POST_LOAD_REQUEST });
     return api
@@ -35,7 +34,6 @@ export function requestLoadPost(token, id) {
 }
 
 export function loadPostSuccess(post) {
-  console.log("post is \n", post);
   return {
     type: types.POST_LOAD_SUCCESS,
     post,

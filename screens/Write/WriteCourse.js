@@ -55,7 +55,6 @@ function WriteCourse({
   };
 
   const saveHandler = () => {
-    console.log(course);
     const memoTypeMap = { 0: "CHECKOFF", 1: "CHECKON", 2: "MEMO" };
     const finalCourse = {
       content: content,
@@ -78,7 +77,6 @@ function WriteCourse({
 
   React.useEffect(() => {
     if (uploaded) {
-      console.log(course, uploaded, course.shareType == "PUBLIC");
       if (course.shareType == "PUBLIC") {
         moveCommunityPost(course.id, "Trend");
       }

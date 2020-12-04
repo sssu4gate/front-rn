@@ -12,6 +12,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { requestPostListCommunity } from "../../reducers/communityReducer";
 import { connect } from "react-redux";
 import LoadingSVG from "../../assets/Loading";
+import { setRefresh } from "../../reducers/refreshReducer";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -43,7 +44,7 @@ export default function PostList({ navigation, route }) {
         name="Loco"
         options={{ tabBarLabel: "추천" }}
         component={PostListPreview}
-        initialParams={{ option: "LIKE" }}
+        initialParams={{ option: "REC" }}
       />
     </Tab.Navigator>
   );
@@ -53,8 +54,9 @@ const PostListPreview = connect(
   (state) => ({
     postList: state.community.postList,
     token: state.user.accessToken,
+    refresh: state.refresh,
   }),
-  { requestPostListCommunity }
+  { requestPostListCommunity, setRefresh }
 )(
   ({
     route: {
@@ -64,6 +66,8 @@ const PostListPreview = connect(
     requestPostListCommunity,
     postList,
     token,
+    refresh,
+    setRefresh,
   }) => {
     const [refreshing, setRefreshing] = React.useState(true);
     const onRefresh = React.useCallback(() => {
@@ -71,19 +75,28 @@ const PostListPreview = connect(
     }, []);
 
     React.useEffect(() => {
-      console.log(postList);
-      if (refreshing) {
-        setRefreshing(false);
-        requestPostListCommunity(token, 1, 10, option);
-      }
-    }, [refreshing]);
-
-    React.useEffect(() => {
       const unsubscribe = navigation.addListener("tabPress", (e) => {
         setRefreshing(true);
       });
       return unsubscribe;
     }, [navigation]);
+
+    React.useEffect(() => {
+      if (refresh.Community) {
+        setRefresh({
+          ...refresh,
+          Community: false,
+        });
+        if (!refreshing) setRefreshing(true);
+      }
+    }, [refresh.Community]);
+
+    React.useEffect(() => {
+      if (refreshing) {
+        setRefreshing(false);
+        requestPostListCommunity(token, 1, 10, option);
+      }
+    }, [refreshing]);
 
     return (
       <ScrollView

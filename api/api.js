@@ -152,8 +152,8 @@ export const requestPostList = (
   offset = 10,
   option = "LATEST"
 ) => {
+  option = option == "REC" ? "LIKE" : option; //REC 주석 해제해야함.
   const URL = `https://capstone-4gate.herokuapp.com/course/list?offset=${offset}&page=${page}&type=${option}`;
   console.log("Start fetch", URL);
-  console.log("Token : ", token);
   return fetch(URL, OPTIONS("get", token)).then((res) => res.json());
 };

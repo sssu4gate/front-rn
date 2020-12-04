@@ -32,19 +32,16 @@ function Recommand({
   moveCommunityPost,
   requestPostListCommunity,
   postList,
-  isSigned,
   token,
   refreshing,
   setRefreshing,
 }) {
   React.useEffect(() => {
-    // 서버 바뀌면 수정해야하
-    console.log(postList);
-    if (isSigned == "signed" && refreshing["REC"]) {
-      setRefreshing({ ...refreshing, REC: false });
+    if (refreshing) {
+      setRefreshing(false);
       requestPostListCommunity(token, 1, 5, "LATEST");
     }
-  }, [isSigned, refreshing]);
+  }, [refreshing]);
 
   const navigation = useNavigation();
   const [index, setIndex] = React.useState(0);
@@ -124,7 +121,6 @@ function Recommand({
 export default connect(
   (state) => (state) => ({
     postList: state.community.postList,
-    isSigned: state.user.isSigned,
     token: state.user.accessToken,
   }),
   { moveCommunityTab, moveCommunityPost, requestPostListCommunity }

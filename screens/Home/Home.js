@@ -4,39 +4,55 @@ import Recommand from "./Recommand";
 import Search from "./SearchInHome";
 import Hot5 from "./HotCourse";
 
-export default function Home({ navigation }) {
-  const [refreshing, setRefreshing] = React.useState({ LIKE: true, REC: true });
+import { connect } from "react-redux";
+import { setRefresh } from "../../reducers/refreshReducer";
+
+function Home({ navigation, refresh, setRefresh }) {
+  const [hotRefreshing, setHotRefreshing] = React.useState(true);
+  const [recRefreshing, setRecRefreshing] = React.useState(true);
   const onRefresh = React.useCallback(() => {
-    setRefreshing({ LIKE: true, REC: true });
+    setHotRefreshing(true);
+    setRecRefreshing(true);
   }, []);
 
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener("tabPress", (e) => {
-      console.log(e);
-    });
-    return unsubscribe;
-  }, [navigation]);
+    if (refresh.Home) {
+      setRefresh({
+        ...refresh,
+        Home: false,
+      });
+      if (!hotRefreshing) setHotRefreshing(true);
+      if (!recRefreshing) setRecRefreshing(true);
+    }
+  }, [refresh.Home]);
 
   return (
     <ScrollView
       style={{ backgroundColor: "#ffffff" }}
       refreshControl={
         <RefreshControl
-          refreshing={refreshing["LIKE"] && refreshing["REC"]}
+          refreshing={hotRefreshing && recRefreshing}
           onRefresh={onRefresh}
         />
       }
     >
       <View style={styles.recommand}>
-        <Recommand refreshing={refreshing} setRefreshing={setRefreshing} />
+        <Recommand
+          refreshing={hotRefreshing}
+          setRefreshing={setHotRefreshing}
+        />
       </View>
       <View style={styles.container}>
         <Search />
-        <Hot5 refreshing={refreshing} setRefreshing={setRefreshing} />
+        <Hot5 refreshing={recRefreshing} setRefreshing={setRecRefreshing} />
       </View>
     </ScrollView>
   );
 }
+
+export default connect((state) => ({ refresh: state.refresh }), { setRefresh })(
+  Home
+);
 
 const styles = StyleSheet.create({
   container: {

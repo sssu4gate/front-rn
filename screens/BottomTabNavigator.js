@@ -9,6 +9,7 @@ import Schedule from "./Schedule/Schedule";
 import Write from "./Write/Write";
 import * as theme from "../assets/theme";
 import LoadingSVG from "../assets/Loading";
+import { setRefresh } from "../reducers/refreshReducer";
 
 /* 
  Navigation Theme Reference 
@@ -17,7 +18,7 @@ import LoadingSVG from "../assets/Loading";
 
 const Tab = createBottomTabNavigator();
 
-function BottomTabNavigator({ route, navigation, user }) {
+function BottomTabNavigator({ route, navigation, user, refresh, setRefresh }) {
   React.useEffect(() => {
     if (user.isSigned == "unsigned") {
       navigation.navigate("Login");
@@ -110,27 +111,70 @@ function BottomTabNavigator({ route, navigation, user }) {
         name="Home"
         component={Home}
         options={{ tabBarLabel: "홈" }}
+        listeners={{
+          tabPress: (e) => {
+            setRefresh({
+              ...refresh,
+              currentTab: "Home",
+              Home: refresh.currentTab == "Home",
+            });
+          },
+        }}
       />
       <Tab.Screen
         name="Community"
         component={Community}
         options={{ tabBarLabel: "커뮤니티" }}
+        listeners={{
+          tabPress: (e) => {
+            setRefresh({
+              ...refresh,
+              currentTab: "Community",
+              Community: refresh.currentTab == "Community",
+            });
+          },
+        }}
       />
       <Tab.Screen
         name="Write"
         component={Write}
         options={{ tabBarLabel: "" }}
         tabBarAccessibilityLabel
+        listeners={{
+          tabPress: (e) => {
+            setRefresh({
+              ...refresh,
+              currentTab: "Write",
+            });
+          },
+        }}
       />
       <Tab.Screen
         name="Schedule"
         component={Schedule}
         options={{ tabBarLabel: "일정" }}
+        listeners={{
+          tabPress: (e) => {
+            setRefresh({
+              ...refresh,
+              currentTab: "Schedule",
+            });
+          },
+        }}
       />
       <Tab.Screen
         name="MyProfile"
         component={MyProfile}
         options={{ tabBarLabel: "내 정보" }}
+        listeners={{
+          tabPress: (e) => {
+            setRefresh({
+              ...refresh,
+              currentTab: "MyProfile",
+              MyProfile: refresh.currentTab == "MyProfile",
+            });
+          },
+        }}
       />
     </Tab.Navigator>
   ) : (
@@ -143,6 +187,7 @@ function BottomTabNavigator({ route, navigation, user }) {
 export default connect(
   (state) => ({
     user: state.user,
+    refresh: state.refresh,
   }),
-  {}
+  { setRefresh }
 )(BottomTabNavigator);

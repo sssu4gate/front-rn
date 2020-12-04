@@ -20,9 +20,8 @@ function HotCourse({
   setRefreshing,
 }) {
   React.useEffect(() => {
-    console.log(postList);
-    if (refreshing["LIKE"]) {
-      setRefreshing({ ...refreshing, LIKE: false });
+    if (refreshing) {
+      setRefreshing(false);
       requestPostListCommunity(token, 1, 5, "LIKE");
     }
   }, [refreshing]);

@@ -72,6 +72,12 @@ const defaultState = {
       offset: 5,
       loading: false,
     },
+    REC: {
+      postList: [],
+      page: 1,
+      offset: 5,
+      loading: false,
+    },
   },
   error: null,
 };

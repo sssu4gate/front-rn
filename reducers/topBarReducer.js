@@ -1,29 +1,28 @@
-import * as api from "../api/api.js";
 import * as theme from "../assets/theme";
 
 export const types = {
-  OPTION_SET:"OPTION_SET",
-  OPTION_INIT:"OPTION_INIT"
+  OPTION_SET: "OPTION_SET",
+  OPTION_INIT: "OPTION_INIT",
 };
 
 export function setOption(option) {
   return {
     type: types.OPTION_SET,
-    option
-  }
+    option,
+  };
 }
 
 export function initOption() {
   return {
     type: types.OPTION_INIT,
-  }
+  };
 }
 
-const defaultState={
-  backgroundColor:"#fff",
+const defaultState = {
+  backgroundColor: "#fff",
   titleColor: theme.PRIMARY_COLOR,
-  leftButton:"menu",
-  nested:false,
+  leftButton: "menu",
+  nested: false,
 };
 
 export default (state = defaultState, action) => {
@@ -32,14 +31,14 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         ...action.option,
-        nested:true,
-      }
+        nested: true,
+      };
     case types.OPTION_INIT:
       return {
         ...defaultState,
-        nested:false
-      }
+        nested: false,
+      };
     default:
       return state;
   }
-}
+};

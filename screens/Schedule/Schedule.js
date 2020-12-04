@@ -15,13 +15,6 @@ export default function Schedule({ navigation, route, course }) {
   const selectDate = (date) => ({ [date]: { selected: true } });
   const [date, setDate] = React.useState(selectDate(`${y}-${m}-${d}`));
 
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener("tabPress", (e) => {
-      console.log(e);
-    });
-    return unsubscribe;
-  }, [navigation]);
-
   return (
     <View
       style={{
