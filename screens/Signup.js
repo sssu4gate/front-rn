@@ -53,6 +53,8 @@ export default connect(
       : { [`${y}-${m}-${d}`]: { selected: true } }),
   };
 
+  const [name, setName] = useState(user.nickName);
+
   const areaList = [
     "강남구",
     "서초구",
@@ -266,8 +268,9 @@ export default connect(
                     style.area3_input,
                     { color: user.nameChecked ? "green" : "red", flex: 1 },
                   ]}
-                  value={user.nickName}
+                  value={name}
                   onChangeText={(text) => {
+                    setName(text);
                     setUser({ ...user, nickName: text, nameChecked: false });
                   }}
                 />

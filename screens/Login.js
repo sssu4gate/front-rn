@@ -26,7 +26,7 @@ import SignupScreen from "./Signup";
 const Stack = createStackNavigator();
 
 const SwitchLogin = ({ navigation }) => (
-  <>
+  <View style={{ backgroundColor: "white", flex: 1 }}>
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text
         style={{
@@ -64,7 +64,7 @@ const SwitchLogin = ({ navigation }) => (
           width: "80%",
           marginLeft: "auto",
           marginRight: "auto",
-          marginBottom: 20,
+          marginBottom: 30,
           borderRadius: 20,
           backgroundColor: "#FFDB43",
         }}
@@ -85,9 +85,9 @@ const SwitchLogin = ({ navigation }) => (
           width: "80%",
           marginLeft: "auto",
           marginRight: "auto",
-          marginBottom: 80,
+          marginBottom: 60,
           borderRadius: 20,
-          backgroundColor: "#fff",
+          backgroundColor: "#f3f3f3",
         }}
       >
         <Image
@@ -99,7 +99,7 @@ const SwitchLogin = ({ navigation }) => (
         </Text>
       </TouchableOpacity>
     </View>
-  </>
+  </View>
 );
 
 const OAuthLogin = connect((state) => ({}), { requestLoginUser })(
