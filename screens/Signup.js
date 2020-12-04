@@ -39,7 +39,7 @@ export default connect(
   const toggleAreaEdit = () => {
     setAreaEdit(!isAreaEdit);
   };
-  const [calendarVisible, setCalendarVisible] = React.useState(false);
+  const [calendarVisible, setCalendarVisible] = useState(false);
   const today = new Date();
   const y = today.getFullYear();
   const m =
@@ -53,7 +53,10 @@ export default connect(
       : { [`${y}-${m}-${d}`]: { selected: true } }),
   };
 
-  const [name, setName] = useState(user.nickName);
+  const [name, setName] = useState("");
+  useEffect(() => {
+    if (name == "" && user.nickName != "") setName(user.nickName);
+  }, [user.nickName]);
 
   const areaList = [
     "강남구",
@@ -84,7 +87,7 @@ export default connect(
   ].sort();
   return (
     <View style={style.background}>
-      {!user.id ? (
+      {!user.id || user.loading ? (
         <View style={{ alignItems: "center", marginTop: 20, flex: 1 }}>
           <LoadingSVG width={80} height={80} />
         </View>
@@ -196,6 +199,7 @@ export default connect(
                       borderTopLeftRadius: 10,
                       borderTopRightRadius: 10,
                       justifyContent: "center",
+                      padding: 10,
                     }}
                   >
                     {areaList.map((area) => {
@@ -221,7 +225,6 @@ export default connect(
                           }}
                           style={{
                             margin: 10,
-                            minWidth: 60,
                           }}
                         >
                           <Text
@@ -341,40 +344,13 @@ export default connect(
                   관심지역 :
                 </Text>
                 <View style={{ flex: 1 }}>
-                  {isAreaEdit ? (
-                    <Text>
-                      {user.area.map((area) => {
-                        return (
-                          <TouchableOpacity
-                            key={area}
-                            onPress={() => {
-                              if (isAreaEdit) {
-                                user.area.splice(user.area.indexOf(area), 1);
-                                setUser({ area: user.area });
-                              }
-                            }}
-                          >
-                            <Text
-                              style={[
-                                style.area3_text,
-                                { paddingHorizontal: 5 },
-                              ]}
-                            >
-                              {area}
-                            </Text>
-                          </TouchableOpacity>
-                        );
-                      })}
-                    </Text>
-                  ) : (
-                    <Text
-                      ellipsizeMode={"tail"}
-                      numberOfLines={1}
-                      style={[style.area3_text, { paddingHorizontal: 0 }]}
-                    >
-                      {user.area.join(", ")}
-                    </Text>
-                  )}
+                  <Text
+                    ellipsizeMode={"tail"}
+                    numberOfLines={1}
+                    style={[style.area3_text, { paddingHorizontal: 0 }]}
+                  >
+                    {user.area.join(", ")}
+                  </Text>
                 </View>
                 <TouchableOpacity
                   style={{

@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   infoText: {
-    fontSize: 10,
+    fontSize: 13,
     color: "#777777",
     padding: 3,
     textAlign: "left",
@@ -217,9 +217,11 @@ const styles = StyleSheet.create({
   },
   profile: {
     flex: 0.1,
-    width: 30,
-    height: 30,
-    borderRadius: 50,
+    minWidth: 30,
+    minHeight: 30,
+    maxWidth: 30,
+    maxHeight: 30,
+    borderRadius: 15,
     marginRight: 5,
   },
 });

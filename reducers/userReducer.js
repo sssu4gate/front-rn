@@ -246,13 +246,9 @@ export default (state = defaultState, action) => {
         thumbnailImageUrl: action.thumbnailImageUrl
           ? action.thumbnailImageUrl
           : "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
-        thumbnailImageUrl:
-          "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
         profileImageUrl: action.profileImageUrl
           ? action.profileImageUrl
           : "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
-        profileImageUrl:
-          "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
       };
     case types.USER_LOGIN_ERROR:
       return {
@@ -273,8 +269,12 @@ export default (state = defaultState, action) => {
         gender: action.gender,
         likeNum: action.likeNum,
         nickName: action.nickName,
-        thumbnailImageUrl: action.thumbnailImageUrl,
-        profileImageUrl: action.profileImageUrl,
+        thumbnailImageUrl: action.thumbnailImageUrl
+          ? action.thumbnailImageUrl
+          : "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
+        profileImageUrl: action.profileImageUrl
+          ? action.profileImageUrl
+          : "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
       };
     case types.USER_NAMECHK_SUCCESS:
       return {

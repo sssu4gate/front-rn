@@ -74,13 +74,13 @@ export const loginUser = async ({ accessToken, refreshToken }) => {
     OPTIONS("post", null, { accessToken, refreshToken })
   ).then((res) => res.json());
   if (resultJson?.statusCode == 404) {
-    console.log(resultJson);
     return fetch(
       "https://kapi.kakao.com/v2/user/me",
       OPTIONS("post", `Bearer ${accessToken}`)
     )
       .then((res) => res.json())
-      .then((json) => ({ ...json, ...resultJson, accessToken, refreshToken }));
+      .then((json) => ({ ...json, ...resultJson, accessToken, refreshToken }))
+      .catch((error) => console.log("When Login user", error));
   } else
     return profileUser(resultJson.accessToken)
       .then((json) => ({ ...json, ...resultJson }))
@@ -89,7 +89,8 @@ export const loginUser = async ({ accessToken, refreshToken }) => {
         console.log("in Login");
         console.log(json);
         return json;
-      });
+      })
+      .catch((error) => console.log("When Profile user", error));
 };
 
 export const profileUser = (token) => {
@@ -142,8 +143,7 @@ export const signupUser = async ({
 
 export const checkLoginedUser = async () => {
   try {
-    //return JSON.parse(await AsyncStorage.getItem("user"));
-    AsyncStorage.clear();
+    return JSON.parse(await AsyncStorage.getItem("user"));
   } catch (err) {
     console.log(err);
   }

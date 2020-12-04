@@ -85,9 +85,9 @@ const SwitchLogin = ({ navigation }) => (
           width: "80%",
           marginLeft: "auto",
           marginRight: "auto",
-          marginBottom: 60,
+          marginBottom: 80,
           borderRadius: 20,
-          backgroundColor: "#f3f3f3",
+          backgroundColor: "#eee",
         }}
       >
         <Image
@@ -253,7 +253,6 @@ export default connect(
         screenOptions={({ route, navigation }) => ({
           headerShown: false,
         })}
-        mode="modal"
       >
         <Stack.Screen name="SwitchLogin" component={SwitchLogin} />
         <Stack.Screen name="OAuthLogin" component={OAuthLogin} />
