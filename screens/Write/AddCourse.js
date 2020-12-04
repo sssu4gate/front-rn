@@ -19,16 +19,6 @@ const Container = styled.View`
   background: #fff;
 `;
 
-function CourseItem({ imgURL, text, handler }) {
-  return (
-    <View>
-      <Image />
-      <Text></Text>
-      <DeleteButton></DeleteButton>
-    </View>
-  );
-}
-
 function AddCourse({
   places,
   error,

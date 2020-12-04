@@ -142,7 +142,8 @@ export const signupUser = async ({
 
 export const checkLoginedUser = async () => {
   try {
-    return JSON.parse(await AsyncStorage.getItem("user"));
+    //return JSON.parse(await AsyncStorage.getItem("user"));
+    AsyncStorage.clear();
   } catch (err) {
     console.log(err);
   }

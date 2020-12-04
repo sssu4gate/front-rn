@@ -9,7 +9,9 @@ import {
   TextInput,
   ScrollView,
   Alert,
+  Dimensions,
 } from "react-native";
+import { Calendar } from "react-native-calendars";
 import Modal from "react-native-modal";
 import { connect } from "react-redux";
 import {
@@ -17,7 +19,8 @@ import {
   requestSignupUser,
   setUser,
 } from "../reducers/userReducer";
-import ModalCalender from "../components/ModalCalender";
+import LoadingSVG from "../assets/Loading";
+import * as theme from "../assets/theme";
 
 export default connect(
   (state) => ({
@@ -36,13 +39,20 @@ export default connect(
   const toggleAreaEdit = () => {
     setAreaEdit(!isAreaEdit);
   };
-  const [name, setName] = useState(user.nickName);
   const [calendarVisible, setCalendarVisible] = React.useState(false);
-  const [birth, setBirth] = useState(user.birth);
-  const [yyyy, setyyyy] = useState("0000");
-  const [mm, setmm] = useState("00");
-  const [dd, setdd] = useState("00");
-  const userArea = user.area;
+  const today = new Date();
+  const y = today.getFullYear();
+  const m =
+    today.getMonth() + 1 < 10
+      ? `0${today.getMonth() + 1}`
+      : today.getMonth() + 1;
+  const d = today.getDate() < 10 ? `0${today.getDate()}` : today.getDate();
+  const date = {
+    ...(user.birth != ""
+      ? { [user.birth]: { selected: true } }
+      : { [`${y}-${m}-${d}`]: { selected: true } }),
+  };
+
   const areaList = [
     "강남구",
     "서초구",
@@ -69,256 +79,373 @@ export default connect(
     "금천구",
     "강동구",
     "은평구",
-  ];
+  ].sort();
   return (
-    <ScrollView style={style.background}>
-      <View style={style.area1}>
-        <Text style={style.area1_text}>회원가입</Text>
-      </View>
-      <View style={style.area2}>
-        <View style={{ alignSelf: "center" }}>
-          <View style={{ flexDirection: "row" }}>
-            <View style={{ height: 18, width: 24 }} />
-            {user.profileImageUrl ? (
-              <Image
-                source={{ uri: user.profileImageUrl }}
-                style={style.profileImg}
-              />
-            ) : (
-              <Image
-                source={require("../assets/아이유1.jpg")}
-                style={style.profileImg}
-              />
-            )}
-            <TouchableOpacity style={{ alignSelf: "flex-end" }}>
-              <Image
-                source={require("../assets/camera.png")}
-                style={style.cameraIcon}
-              />
-            </TouchableOpacity>
-          </View>
+    <View style={style.background}>
+      {!user.id ? (
+        <View style={{ alignItems: "center", marginTop: 20, flex: 1 }}>
+          <LoadingSVG width={80} height={80} />
         </View>
-        <Text style={style.area2_text}>{user.nickName}</Text>
-      </View>
-      <View style={style.area3}>
-        <Modal
-          isVisible={calendarVisible}
-          onBackdropPress={() => setCalendarVisible(false)}
-        >
-          <ModalCalender
-            user={user}
-            setUser={setUser}
-            setCalendarVisible={setCalendarVisible}
-          />
-        </Modal>
-        <View style={[style.area3_box]}>
-          <Text style={style.area3_text}>닉네임 :</Text>
-          <TextInput
-            style={[
-              style.area3_input,
-              { color: user.nameChecked ? "green" : "red" },
-            ]}
-            placeholder={user.nickName}
-            onChangeText={(text) => {
-              setName(text);
-              requestNamechkUser(name);
-            }}
-          />
-          <TouchableOpacity
-            style={{ justifyContent: "center" }}
-            onPress={() => {
-              requestNamechkUser(name);
-              if (user.nameChecked) {
-                setUser({ nickName: name });
-              } else {
-                return Alert.alert("닉네임", "중복된 닉네임 입니다.");
-              }
-            }}
-          >
-            <Text style={[style.area3_text, { fontSize: 14 }, style.btnEdit]}>
-              변경
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={[style.area3_box]}>
-          <Text style={style.area3_text}>생일 :</Text>
-          <Text style={style.area3_text}>{user.birth}</Text>
-          <TouchableOpacity
-            style={{ justifyContent: "center" }}
-            onPress={() => setCalendarVisible(true)}
-          >
-            <Image
-              style={{ width: 12, height: 12 }}
-              source={require("../assets/Calendar.png")}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={[style.area3_box]}>
-          <Text style={style.area3_text}>성별 :</Text>
-          <View>
-            {console.log(user.gender)}
-            {user.gender ? (
-              <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity
-                  onPress={() => setUser({ ...user, gender: "M" })}
-                >
-                  <Text
-                    style={[
-                      style.area3_text,
-                      { color: user.gender == "M" ? "#777777" : "#e3e3e3" },
-                    ]}
-                  >
-                    남자
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => setUser({ ...user, gender: "W" })}
-                >
-                  <Text
-                    style={[
-                      style.area3_text,
-                      { color: user.gender == "W" ? "#777777" : "#e3e3e3" },
-                    ]}
-                  >
-                    여자
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity
-                  onPress={() => setUser({ ...user, gender: "M" })}
-                >
-                  <Text style={[style.area3_text]}>남자</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => setUser({ ...user, gender: "W" })}
-                >
-                  <Text style={[style.area3_text]}>여자</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          </View>
-        </View>
-        <View style={[style.area3_box]}>
-          <Text style={[style.area3_text, { minWidth: 84 }]}>관심지역 :</Text>
-          {isAreaEdit ? (
-            <Text>
-              {userArea.map((area) => {
-                return (
-                  <TouchableOpacity
-                    key={area}
-                    onPress={() => {
-                      if (isAreaEdit) {
-                        userArea.splice(userArea.indexOf(area), 1);
-                        setUser({ area: userArea });
-                      }
+      ) : (
+        <>
+          <ScrollView>
+            <View style={style.area1}>
+              <Text style={style.area1_text}>회원가입</Text>
+            </View>
+            <View style={style.area2}>
+              <View style={{ alignSelf: "center" }}>
+                <View style={{ flexDirection: "row" }}>
+                  <View style={{ height: 18, width: 24 }} />
+                  <Image
+                    source={{
+                      uri: user.profileImageUrl,
                     }}
+                    style={style.profileImg}
+                  />
+                  <TouchableOpacity style={{ alignSelf: "flex-end" }}>
+                    <Image
+                      source={require("../assets/camera.png")}
+                      style={style.cameraIcon}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <Text style={style.area2_text}>{user.nickName}</Text>
+            </View>
+            <View style={style.area3}>
+              <Modal
+                isVisible={calendarVisible}
+                onBackdropPress={() => setCalendarVisible(false)}
+              >
+                <View
+                  style={{
+                    width: Dimensions.get("window").width * 0.8,
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  }}
+                >
+                  <Calendar
+                    style={{
+                      borderTopLeftRadius: 10,
+                      borderTopRightRadius: 10,
+                    }}
+                    markedDates={date}
+                    theme={{
+                      todayTextColor: theme.PRIMARY_COLOR,
+                      selectedDayBackgroundColor: theme.PRIMARY_COLOR,
+                    }}
+                    onDayPress={(day) =>
+                      setUser({ ...user, birth: day.dateString })
+                    }
+                    monthFormat={"yyyy년 MMM"}
+                    renderArrow={(direction) => (
+                      <View>
+                        <Image
+                          style={{ width: 20, height: 20 }}
+                          source={
+                            direction == "left"
+                              ? require("../assets/LeftArrow(pink).png")
+                              : require("../assets/RightArrow(pink).png")
+                          }
+                        />
+                      </View>
+                    )}
+                  />
+                  <TouchableOpacity
+                    style={{
+                      flex: 1,
+                      backgroundColor: theme.PRIMARY_COLOR,
+                      padding: 8,
+                      minHeight: 40,
+                      borderBottomLeftRadius: 10,
+                      borderBottomRightRadius: 10,
+                      justifyContent: "center",
+                    }}
+                    onPress={() => setCalendarVisible(false)}
                   >
-                    <Text style={[style.area3_text, { paddingHorizontal: 5 }]}>
-                      {area}
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 16,
+                        textAlign: "center",
+                      }}
+                    >
+                      확인
                     </Text>
                   </TouchableOpacity>
-                );
-              })}
-            </Text>
-          ) : (
-            <Text
-              ellipsizeMode={"tail"}
-              numberOfLines={1}
-              style={[style.area3_text, { paddingHorizontal: 0 }]}
-            >
-              {userArea + ` `}
-            </Text>
-          )}
-
-          <TouchableOpacity
-            style={{ justifyContent: "center" }}
-            onPress={toggleAreaEdit}
-          >
-            <Text style={[style.area3_text, style.btnEdit]}>
-              {isAreaEdit ? "완료" : "+추가"}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        {isAreaEdit && (
-          <View
-            style={{ backgroundColor: "#eeeeee", padding: 5, borderRadius: 20 }}
-          >
-            <View
-              style={{
-                height: "100%",
-                width: "100%",
-                flexDirection: "row",
-                padding: 8,
-              }}
-            >
-              <Text style={{ textAlign: "center" }}>
-                {areaList.map((area) => {
-                  if (userArea.indexOf(area) !== -1) return;
-                  else {
-                    return (
-                      <TouchableOpacity
-                        key={area}
-                        onPress={() => {
-                          userArea.push(area);
-                          setUser({ ...user, area: userArea });
-                        }}
-                        style={{
-                          margin: 5,
-                        }}
-                      >
-                        <Text
-                          style={[
-                            style.area3_text,
-                            {
+                </View>
+              </Modal>
+              <Modal
+                isVisible={isAreaEdit}
+                onBackdropPress={() => setAreaEdit(false)}
+              >
+                <View
+                  style={{
+                    width: Dimensions.get("window").width * 0.8,
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  }}
+                >
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                      backgroundColor: "#fff",
+                      borderTopLeftRadius: 10,
+                      borderTopRightRadius: 10,
+                      justifyContent: "center",
+                    }}
+                  >
+                    {areaList.map((area) => {
+                      const idx = user.area.findIndex((e) => e == area);
+                      return (
+                        <TouchableOpacity
+                          key={area}
+                          onPress={() => {
+                            setUser({
+                              ...user,
+                              ...(idx == -1
+                                ? { area: [...user.area, area].sort() }
+                                : {
+                                    area: [
+                                      ...user.area.slice(0, idx),
+                                      ...user.area.slice(
+                                        idx + 1,
+                                        user.area.length
+                                      ),
+                                    ],
+                                  }),
+                            });
+                          }}
+                          style={{
+                            margin: 10,
+                            minWidth: 60,
+                          }}
+                        >
+                          <Text
+                            style={{
                               padding: 5,
                               borderRadius: 15,
-                              backgroundColor: "#eeeeee",
-                            },
-                          ]}
-                        >
-                          {area}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  }
-                })}
-              </Text>
+                              color: idx == -1 ? "#777" : theme.PRIMARY_COLOR,
+                            }}
+                          >
+                            {area}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </View>
+                  <TouchableOpacity
+                    style={{
+                      flex: 1,
+                      backgroundColor: theme.PRIMARY_COLOR,
+                      padding: 8,
+                      minHeight: 40,
+                      borderBottomLeftRadius: 10,
+                      borderBottomRightRadius: 10,
+                      justifyContent: "center",
+                    }}
+                    onPress={() => setAreaEdit(false)}
+                  >
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 16,
+                        textAlign: "center",
+                      }}
+                    >
+                      확인
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </Modal>
+              <View style={[style.area3_box]}>
+                <Text style={style.area3_text}>닉네임 :</Text>
+                <TextInput
+                  style={[
+                    style.area3_input,
+                    { color: user.nameChecked ? "green" : "red", flex: 1 },
+                  ]}
+                  value={user.nickName}
+                  onChangeText={(text) => {
+                    setUser({ ...user, nickName: text, nameChecked: false });
+                  }}
+                />
+                <TouchableOpacity
+                  style={{
+                    ...style.btnEdit,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingLeft: 5,
+                    paddingRight: 5,
+                  }}
+                  onPress={() => {
+                    requestNamechkUser(user.nickName);
+                  }}
+                >
+                  <Text style={{ fontSize: 14, color: "#777" }}>중복확인</Text>
+                </TouchableOpacity>
+              </View>
+
+              <View style={[style.area3_box]}>
+                <Text style={style.area3_text}>생일 :</Text>
+                <Text style={style.area3_text}>
+                  {user.birth != "" ? user.birth : `${y}-${m}-${d}`}
+                </Text>
+                <TouchableOpacity
+                  style={{ justifyContent: "center" }}
+                  onPress={() => setCalendarVisible(true)}
+                >
+                  <Image
+                    style={{ width: 12, height: 12 }}
+                    source={require("../assets/Calendar.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={[style.area3_box]}>
+                <Text style={style.area3_text}>성별 :</Text>
+                <View>
+                  <View style={{ flexDirection: "row" }}>
+                    <TouchableOpacity
+                      onPress={() => setUser({ ...user, gender: "M" })}
+                    >
+                      <Text
+                        style={[
+                          style.area3_text,
+                          { color: user.gender == "M" ? "#777777" : "#e3e3e3" },
+                        ]}
+                      >
+                        남자
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => setUser({ ...user, gender: "W" })}
+                    >
+                      <Text
+                        style={[
+                          style.area3_text,
+                          { color: user.gender == "W" ? "#777777" : "#e3e3e3" },
+                        ]}
+                      >
+                        여자
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+              <View style={[style.area3_box]}>
+                <Text style={[style.area3_text, { minWidth: 84 }]}>
+                  관심지역 :
+                </Text>
+                <View style={{ flex: 1 }}>
+                  {isAreaEdit ? (
+                    <Text>
+                      {user.area.map((area) => {
+                        return (
+                          <TouchableOpacity
+                            key={area}
+                            onPress={() => {
+                              if (isAreaEdit) {
+                                user.area.splice(user.area.indexOf(area), 1);
+                                setUser({ area: user.area });
+                              }
+                            }}
+                          >
+                            <Text
+                              style={[
+                                style.area3_text,
+                                { paddingHorizontal: 5 },
+                              ]}
+                            >
+                              {area}
+                            </Text>
+                          </TouchableOpacity>
+                        );
+                      })}
+                    </Text>
+                  ) : (
+                    <Text
+                      ellipsizeMode={"tail"}
+                      numberOfLines={1}
+                      style={[style.area3_text, { paddingHorizontal: 0 }]}
+                    >
+                      {user.area.join(", ")}
+                    </Text>
+                  )}
+                </View>
+                <TouchableOpacity
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 10,
+                    ...style.area3_text,
+                    ...style.btnEdit,
+                    minWidth: 50,
+                    minHeight: 30,
+                  }}
+                  onPress={toggleAreaEdit}
+                >
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      color: "#777",
+                    }}
+                  >
+                    추가
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
+          </ScrollView>
+          <View style={style.area4}>
+            <TouchableOpacity
+              style={{
+                position: "absolute",
+                bottom: 20,
+                left: "auto",
+                right: "auto",
+                width: Dimensions.get("window").width * 0.9,
+                height: 40,
+                backgroundColor: theme.PRIMARY_COLOR,
+                borderRadius: 10,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={() => {
+                if (user.nameChecked == false)
+                  return Alert.alert("닉네임", "닉네임 중복체크 해주세요.");
+                else if (user.birth == "")
+                  return Alert.alert("생일", "생일을 입력 해주세요.");
+                else if (user.gender == "")
+                  return Alert.alert("성별", "성별을 입력 해주세요.");
+                requestSignupUser(user);
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: "bold",
+                  color: "#fff",
+                  backgroundColor: theme.PRIMARY_COLOR,
+                }}
+              >
+                회원 가입
+              </Text>
+            </TouchableOpacity>
           </View>
-        )}
-      </View>
-      <View style={style.area4}>
-        <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity
-            style={style.btnExte}
-            onPress={() => {
-              if (user.nameChecked == false)
-                return Alert.alert("닉네임", "닉네임 중복체크 해주세요.");
-              else if (user.birth == "")
-                return Alert.alert("생일", "생일을 입력 해주세요.");
-              else if (user.gender == "")
-                return Alert.alert("성별", "성별을 입력 해주세요.");
-              requestSignupUser(user);
-              navigation.navigate("Home");
-            }}
-          >
-            <Text style={[style.btn, style.btnYes, style.shadowBox]}>완료</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ScrollView>
+        </>
+      )}
+    </View>
   );
 });
 
 const style = StyleSheet.create({
   background: {
     backgroundColor: "white",
+    flex: 1,
   },
   area1: {
-    padding: 20,
+    padding: 10,
   },
   area1_text: {
     fontSize: 28,
@@ -326,19 +453,19 @@ const style = StyleSheet.create({
   area2: {
     textAlign: "center",
     padding: 10,
-    padding: 30,
   },
   area2_text: {
     textAlign: "center",
     fontSize: 20,
     padding: 5,
     color: "#777777",
+    marginTop: 5,
   },
   area3: {
     alignSelf: "center",
     alignContent: "center",
     width: "90%",
-    padding: 20,
+    marginTop: 20,
   },
   area3_text: {
     fontSize: 16,
@@ -349,11 +476,9 @@ const style = StyleSheet.create({
   area3_box: {
     flexDirection: "row",
     alignSelf: "center",
-    width: "100%",
-    padding: 3,
-    margin: 5,
+    width: "90%",
+    marginBottom: 10,
     minWidth: 230,
-    maxWidth: 300,
   },
   area3_input: {
     paddingTop: 10,
@@ -362,6 +487,7 @@ const style = StyleSheet.create({
     width: "40%",
   },
   area4: {
+    flex: 1,
     width: "90%",
     padding: 10,
     alignSelf: "center",
