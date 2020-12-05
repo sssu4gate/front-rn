@@ -103,7 +103,7 @@ export default connect(
                   <View style={{ height: 18, width: 24 }} />
                   <Image
                     source={{
-                      uri: user.profileImageUrl,
+                      uri: user.userImgUrl,
                     }}
                     style={style.profileImg}
                   />

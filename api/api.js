@@ -73,13 +73,30 @@ export const loginUser = async ({ accessToken, refreshToken }) => {
     URL,
     OPTIONS("post", null, { accessToken, refreshToken })
   ).then((res) => res.json());
+
   if (resultJson?.statusCode == 404) {
     return fetch(
       "https://kapi.kakao.com/v2/user/me",
       OPTIONS("post", `Bearer ${accessToken}`)
     )
       .then((res) => res.json())
-      .then((json) => ({ ...json, ...resultJson, accessToken, refreshToken }))
+      .then((json) => {
+        console.log(json);
+        return json;
+      })
+      .then((json) => ({
+        id: json.id,
+        accessToken,
+        refreshToken,
+        nickName: json.properties.nickname,
+        isSigned: "unsigned",
+        birth: "",
+        gender: "",
+        likeNum: 0,
+        userImgUrl: json.properties.profile_image
+          ? json.properties.profile_image
+          : "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
+      }))
       .catch((error) => console.log("When Login user", error));
   } else
     return profileUser(resultJson.accessToken)
@@ -88,7 +105,7 @@ export const loginUser = async ({ accessToken, refreshToken }) => {
         AsyncStorage.setItem("user", JSON.stringify(json));
         console.log("in Login");
         console.log(json);
-        return json;
+        return { ...json, isSigned: "signed" };
       })
       .catch((error) => console.log("When Profile user", error));
 };
@@ -97,17 +114,7 @@ export const profileUser = (token) => {
   const URL = `https://capstone-4gate.herokuapp.com/user/info/profile`;
   console.log("Start fetch", URL);
   console.log(token);
-  return fetch(URL, OPTIONS("get", token))
-    .then((res) => res.json())
-    .then((json) => ({
-      id: json.userInfo.id,
-      nickName: json.nickName,
-      birth: json.birth,
-      gender: json.gender,
-      likeNum: json.likeNum,
-      profileImageUrl: json.userInfo.properties.profile_image,
-      thumbnailImageUrl: json.userInfo.properties.thumbnail_image,
-    }));
+  return fetch(URL, OPTIONS("get", token)).then((res) => res.json());
 };
 
 export const namechkUser = (nickName) => {
@@ -123,10 +130,20 @@ export const signupUser = async ({
   gender,
   nickName,
   refreshToken,
+  userImgUrl,
 }) => {
   const URL = `https://capstone-4gate.herokuapp.com/auth/signup`;
   console.log("Start fetch", URL);
-  const result = await fetch(
+  const info = {
+    id,
+    accessToken,
+    birth,
+    gender,
+    nickName,
+    refreshToken,
+    kakaoImgUrl: userImgUrl,
+  };
+  return fetch(
     URL,
     OPTIONS("post", null, {
       id,
@@ -135,16 +152,17 @@ export const signupUser = async ({
       gender,
       nickName,
       refreshToken,
+      kakaoImgUrl: userImgUrl,
     })
-  ).then((res) => res.status);
-  console.log("signup status", result);
-  if (result == 200) return loginUser({ accessToken, refreshToken });
-  else return {};
+  )
+    .then((res) => res.json())
+    .then((json) => ({ ...json, ...info }));
 };
 
 export const checkLoginedUser = async () => {
   try {
-    return JSON.parse(await AsyncStorage.getItem("user"));
+    //return JSON.parse(await AsyncStorage.getItem("user"));
+    AsyncStorage.clear();
   } catch (err) {
     console.log(err);
   }

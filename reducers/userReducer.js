@@ -1,5 +1,4 @@
 import * as api from "../api/api.js";
-import { TOKEN } from "../environment";
 
 export const types = {
   USER_SET: "USER_SET",
@@ -87,19 +86,10 @@ export function loginUserSuccess(user) {
   return {
     type: types.USER_LOGIN_SUCCESS,
     ...user,
-    isSigned: user?.statusCode == 404 ? "unsigned" : "signed",
-    birth: user.birth ? user.birth : "",
-    gender: user.gender ? user.gender : "",
-    likeNum: user.likeNum ? user.likeNum : 0,
-    nickName: user.nickName ? user.nickName : user.properties.nickname,
-    thumbnailImageUrl: user.thumbnailImageUrl
-      ? user.thumbnailImageUrl
-      : user.properties.thumbnail_image,
-    profileImageUrl: user.profileImageUrl
-      ? user.profileImageUrl
-      : user.properties.profile_image,
   };
 }
+
+// "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
 
 export function loginUserError(error) {
   return {
@@ -125,13 +115,12 @@ export function requestSignupUser(user) {
   };
 }
 
-export function signupUserSuccess({ accessToken, refreshToken }) {
+export function signupUserSuccess(user) {
   console.log("signup success");
   return {
     type: types.USER_SIGNUP_SUCCESS,
     isSigned: "signed",
-    accessToken,
-    refreshToken,
+    ...user,
   };
 }
 
@@ -189,8 +178,7 @@ const defaultState = {
   id: 0,
   likeNum: 0,
   nickName: "",
-  thumbnailImageUrl: "",
-  profileImageUrl: "",
+  userImgUrl: "",
   loading: false,
   error: null,
   isSigned: "unsigned", // unsigned, singed
@@ -243,12 +231,7 @@ export default (state = defaultState, action) => {
         gender: action.gender,
         likeNum: action.likeNum,
         nickName: action.nickName,
-        thumbnailImageUrl: action.thumbnailImageUrl
-          ? action.thumbnailImageUrl
-          : "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
-        profileImageUrl: action.profileImageUrl
-          ? action.profileImageUrl
-          : "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
+        userImgUrl: action.userImgUrl,
       };
     case types.USER_LOGIN_ERROR:
       return {
@@ -269,12 +252,7 @@ export default (state = defaultState, action) => {
         gender: action.gender,
         likeNum: action.likeNum,
         nickName: action.nickName,
-        thumbnailImageUrl: action.thumbnailImageUrl
-          ? action.thumbnailImageUrl
-          : "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
-        profileImageUrl: action.profileImageUrl
-          ? action.profileImageUrl
-          : "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
+        userImgUrl: action.userImgUrl,
       };
     case types.USER_NAMECHK_SUCCESS:
       return {

@@ -31,9 +31,9 @@ export default connect(
     <ScrollView style={{ backgroundColor: "#ffffff" }}>
       <View style={styles.area1}>
         <View style={styles.area1_1}>
-          {user.profileImageUrl ? (
+          {user.userImgUrl ? (
             <Image
-              source={{ uri: user.profileImageUrl }}
+              source={{ uri: user.userImgUrl }}
               style={styles.profileImg}
             />
           ) : (

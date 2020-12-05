@@ -83,9 +83,9 @@ export default connect(
         <View style={{ alignSelf: "center" }}>
           <View style={{ flexDirection: "row" }}>
             <View style={{ height: 18, width: 24 }} />
-            {user.profileImageUrl ? (
+            {user.userImgUrl ? (
               <Image
-                source={{ uri: user.profileImageUrl }}
+                source={{ uri: user.userImgUrl }}
                 style={style.profileImg}
               />
             ) : (
