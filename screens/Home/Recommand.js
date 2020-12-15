@@ -73,35 +73,33 @@ function Recommand({
           <Text style={styles.more}>더보기</Text>
         </TouchableOpacity>
       </View>
-      {
-        !postList["LATEST"].loading ? (
-          <Carousel
-            data={postList["LATEST"].postList.map(item=>({
-              id:item.id,
-              uri:item.courseImgUrl,
-              text:item.title,
-              like: item.likeNum,
-              ITEM_HEIGHT,
-              ITEM_WIDTH,
-              moveCommunityPost,
-              navigation
-            }))}
-            renderItem={_lenderItem}
-            sliderWidth={SLIDER_WIDTH}
-            itemWidth={ITEM_WIDTH}
-            containerCustomStyle={styles.carouselContainer}
-            inactiveSlideShift={0}
-            onSnapToItem={(index) => setIndex({ index })}
-            scrollInterpolator={scrollInterpolator}
-            slideInterpolatedStyle={animatedStyles}
-            useScrollView={true}
-          />
-        ):(
-          <View style={{ alignItems: "center", marginTop: 20 }}>
-            <LoadingSVG width={80} height={80} />
-          </View>
-        )
-      }
+      {!postList["LATEST"].loading ? (
+        <Carousel
+          data={postList["LATEST"].postList.map((item) => ({
+            id: item.id,
+            uri: item.courseImgUrl,
+            text: item.title,
+            like: item.likeNum,
+            ITEM_HEIGHT,
+            ITEM_WIDTH,
+            moveCommunityPost,
+            navigation,
+          }))}
+          renderItem={_lenderItem}
+          sliderWidth={SLIDER_WIDTH}
+          itemWidth={ITEM_WIDTH}
+          containerCustomStyle={styles.carouselContainer}
+          inactiveSlideShift={0}
+          onSnapToItem={(index) => setIndex({ index })}
+          scrollInterpolator={scrollInterpolator}
+          slideInterpolatedStyle={animatedStyles}
+          useScrollView={true}
+        />
+      ) : (
+        <View style={{ alignItems: "center", marginTop: 20 }}>
+          <LoadingSVG width={80} height={80} />
+        </View>
+      )}
     </View>
   );
 }
@@ -133,7 +131,15 @@ function _lenderItem({ item, index }) {
   );
 }
 
-function ImgList({ uri, like, ITEM_WIDTH, ITEM_HEIGHT, id, navigation, moveCommunityPost }) {
+function ImgList({
+  uri,
+  like,
+  ITEM_WIDTH,
+  ITEM_HEIGHT,
+  id,
+  navigation,
+  moveCommunityPost,
+}) {
   return (
     <TouchableOpacity
       style={{
@@ -145,15 +151,27 @@ function ImgList({ uri, like, ITEM_WIDTH, ITEM_HEIGHT, id, navigation, moveCommu
         navigation.navigate("Community");
       }}
     >
-      <Image
-        source={{uri:uri?uri:null}}
-        style={{
-          width: "90%",
-          height: "90%",
-          alignSelf: "center",
-          borderRadius: 20,
-        }}
-      />
+      {uri ? (
+        <Image
+          source={{ uri: uri }}
+          style={{
+            width: "90%",
+            height: "90%",
+            alignSelf: "center",
+            borderRadius: 20,
+          }}
+        />
+      ) : (
+        <View
+          style={{
+            width: "90%",
+            height: "90%",
+            alignSelf: "center",
+            borderRadius: 20,
+            backgroundColor: "#ebf3fb",
+          }}
+        ></View>
+      )}
     </TouchableOpacity>
   );
 }

@@ -35,6 +35,8 @@ export const saveCourse = async (token, {course, img}) => {
     })),
   });
 
+  console.log(course);
+
   console.log(PLACE_URL);
   await fetch(PLACE_URL, OPTIONS("post", token, course.savePlaces)).then(
     (res) => res.status

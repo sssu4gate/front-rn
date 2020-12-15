@@ -52,7 +52,19 @@ function Post({ id, imgUri, title, like, moveCommunityPost, navigation }) {
         navigation.navigate("Community");
       }
     }>
-      <Image source={{uri: imgUri}} style={styles.img} />
+      {imgUri ? (
+        <Image
+           style={styles.img}
+          source={{ uri: imgUri }}
+        />
+      ) : (
+        <View
+          style={{
+            ...styles.img,
+            backgroundColor: "#ebf3fb",
+          }}
+        ></View>
+      )}
       <View style={styles.titleLine}>
         <Text style={{ flex: 0.2 }} />
         <Text style={styles.titleText}>{title}</Text>
