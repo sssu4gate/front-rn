@@ -3,15 +3,16 @@ import { View, Text, Image, Dimensions, ImageBackground } from "react-native";
 import * as theme from "../../assets/theme";
 import HeartPinkImage from "../../assets/Heart(pink).png";
 
-export default function PostTitle({ thumbnailImageUrl, post, imgData }) {
+export default function PostTitle({ post }) {
   return (
     <Container>
-      <ImageBackground source={{uri:imgData?.uri?imgData.uri:null}} style={{flex:1, resizeMode:'cover'}}>
-        <View style={{backgroundColor:'rgba(255,255,255, 0.8)'}}>
+      <ImageBackground source={{uri:post.courseImgUrl?post.courseImgUrl:null}} style={{flex:1, resizeMode:'cover'}}>
+        <View style={{backgroundColor:'rgba(255,255,255, 0.85)'}}>
           <Row paddingTop={14} style={{ minHeight: 60 }}>
             <Text
               style={{
-                fontSize: 40,
+                paddingTop:14,
+                fontSize: 30,
                 color: "#777",
                 fontWeight: "800",
                 flex: 1,
@@ -56,7 +57,7 @@ export default function PostTitle({ thumbnailImageUrl, post, imgData }) {
               >
                 <Image
                   style={{ width: 28, height: 28, borderRadius: 14 }}
-                  source={{ uri: thumbnailImageUrl }}
+                  source={{ uri: post.userImgUrl }}
                 />
               </View>
               <Text

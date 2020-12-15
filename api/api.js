@@ -35,9 +35,6 @@ export const saveCourse = async (token, {course, img}) => {
     })),
   });
 
-  console.log(course, img);
-  return ;
-
   console.log(PLACE_URL);
   await fetch(PLACE_URL, OPTIONS("post", token, course.savePlaces)).then(
     (res) => res.status
@@ -50,20 +47,9 @@ export const saveCourse = async (token, {course, img}) => {
     string:JSON.stringify(course),
     type:"application/json"
   })
+  formData.append('img', img);
 
   console.log(formData);
-
-  /*
-    let formData = new FormData();
-    formData.append('photo', { uri: localUri, name: filename, type });
-    return await fetch(YOUR_SERVER_URL, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'content-type': 'multipart/form-data',
-      },
-    });
-  */
 
   return fetch(COURSE_URL, {
     method: "post",
@@ -188,8 +174,8 @@ export const signupUser = async ({
 
 export const checkLoginedUser = async () => {
   try {
-    return JSON.parse(await AsyncStorage.getItem("user"));
-    //AsyncStorage.clear();
+    //return JSON.parse(await AsyncStorage.getItem("user"));
+    AsyncStorage.clear();
   } catch (err) {
     console.log(err);
   }
