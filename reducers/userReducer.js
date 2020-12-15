@@ -117,6 +117,7 @@ export function requestSignupUser(user) {
 
 export function signupUserSuccess(user) {
   console.log("signup success");
+  console.log(user);
   return {
     type: types.USER_SIGNUP_SUCCESS,
     isSigned: "signed",

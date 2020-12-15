@@ -39,7 +39,23 @@ export const saveCourse = async (token, course) => {
     (res) => res.status
   );
   console.log(COURSE_URL);
-  return fetch(COURSE_URL, OPTIONS("post", token, course))
+
+  const formData=new FormData();
+
+  formData.append("courseRequestDto", {
+    string:JSON.stringify(course),
+    type:"application/json"
+  })
+
+  console.log(formData);
+
+  return fetch(COURSE_URL, {
+    method: "post",
+    headers: {
+      Authorization: token,
+    },
+    body: formData,
+  })
     .then((res) => res.json())
     .then((json) => {
       console.log(json);
@@ -141,28 +157,23 @@ export const signupUser = async ({
     gender,
     nickName,
     refreshToken,
-    kakaoImgUrl: userImgUrl,
+    userImgUrl,
   };
   return fetch(
     URL,
-    OPTIONS("post", null, {
-      id,
-      accessToken,
-      birth,
-      gender,
-      nickName,
-      refreshToken,
-      kakaoImgUrl: userImgUrl,
-    })
+    OPTIONS("post", null, {...info, kakaoImgUrl: userImgUrl})
   )
     .then((res) => res.json())
-    .then((json) => ({ ...json, ...info }));
+    .then((json) => {
+      AsyncStorage.setItem("user", JSON.stringify({ ...info, ...json }));
+      return { ...info, ...json }
+    })
 };
 
 export const checkLoginedUser = async () => {
   try {
-    //return JSON.parse(await AsyncStorage.getItem("user"));
-    AsyncStorage.clear();
+    return JSON.parse(await AsyncStorage.getItem("user"));
+    //AsyncStorage.clear();
   } catch (err) {
     console.log(err);
   }
