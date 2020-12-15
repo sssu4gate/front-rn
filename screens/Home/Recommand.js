@@ -44,11 +44,8 @@ function Recommand({
     }
   }, [refreshing]);
 
-  console.log("************8");
-  console.log(postList);
-  console.log("************8");
-
   const navigation = useNavigation();
+
   const [index, setIndex] = React.useState(0);
   const SLIDER_WIDTH = Dimensions.get("window").width;
   const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
@@ -80,11 +77,14 @@ function Recommand({
         !postList["LATEST"].loading ? (
           <Carousel
             data={postList["LATEST"].postList.map(item=>({
+              id:item.id,
               uri:item.courseImgUrl,
               text:item.title,
               like: item.likeNum,
               ITEM_HEIGHT,
               ITEM_WIDTH,
+              moveCommunityPost,
+              navigation
             }))}
             renderItem={_lenderItem}
             sliderWidth={SLIDER_WIDTH}
@@ -122,6 +122,9 @@ function _lenderItem({ item, index }) {
         like={item.like}
         ITEM_WIDTH={item.ITEM_WIDTH}
         ITEM_HEIGHT={item.ITEM_HEIGHT}
+        id={item.id}
+        navigation={item.navigation}
+        moveCommunityPost={item.moveCommunityPost}
       />
       <Text style={[styles.text, { margin: -10, marginTop: -15 }]}>
         {item.text}
@@ -130,12 +133,16 @@ function _lenderItem({ item, index }) {
   );
 }
 
-function ImgList({ uri, like, ITEM_WIDTH, ITEM_HEIGHT }) {
+function ImgList({ uri, like, ITEM_WIDTH, ITEM_HEIGHT, id, navigation, moveCommunityPost }) {
   return (
-    <View
+    <TouchableOpacity
       style={{
         width: "100%",
         height: ITEM_HEIGHT,
+      }}
+      onPress={() => {
+        moveCommunityPost(id, "Popularity");
+        navigation.navigate("Community");
       }}
     >
       <Image
@@ -147,7 +154,7 @@ function ImgList({ uri, like, ITEM_WIDTH, ITEM_HEIGHT }) {
           borderRadius: 20,
         }}
       />
-    </View>
+    </TouchableOpacity>
   );
 }
 

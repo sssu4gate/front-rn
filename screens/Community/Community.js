@@ -32,7 +32,6 @@ function Community({
       screenOptions={({ route, navigation }) => ({
         headerShown: false,
       })}
-      mode="modal"
     >
       <Stack.Screen
         name="PostList"

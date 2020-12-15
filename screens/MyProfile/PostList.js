@@ -7,8 +7,12 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import { connect } from "react-redux";
+import {moveCommunityPost} from "../../reducers/communityReducer";
+import { useNavigation } from "@react-navigation/native";
 
-export default function MyPost({postList}) {
+function MyPost({postList, moveCommunityPost}) {
+  const navigation=useNavigation();
   return (
     <View style={{marginTop:20}}>
       {
@@ -21,6 +25,8 @@ export default function MyPost({postList}) {
             imgUri={post.courseImgUrl}
             title={post.title}
             like={post.likeNum}
+            navigation={navigation}
+            moveCommunityPost={moveCommunityPost}
           />
         );
         })):(
@@ -32,9 +38,20 @@ export default function MyPost({postList}) {
   );
 }
 
-function Post({ id, imgUri, title, like }) {
+export default connect(
+  state=>({
+  }),
+  { moveCommunityPost, }
+)(MyPost);
+
+function Post({ id, imgUri, title, like, moveCommunityPost, navigation }) {
   return (
-    <TouchableOpacity style={styles.postArea}>
+    <TouchableOpacity style={styles.postArea} onPress={
+      ()=>{
+        moveCommunityPost(id, "Popularity");
+        navigation.navigate("Community");
+      }
+    }>
       <Image source={{uri: imgUri}} style={styles.img} />
       <View style={styles.titleLine}>
         <Text style={{ flex: 0.2 }} />
