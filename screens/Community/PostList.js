@@ -117,7 +117,7 @@ const PostListPreview = connect(
                 course={post.course}
                 text={post.content}
                 writer={post.nickName}
-                profile={post.imgUrl}
+                profile={post.userImgUrl}
                 onPress={() =>
                   navigation.navigate("PostDetail", { id: post.id })
                 }
