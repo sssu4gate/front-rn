@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import { connect } from "react-redux";
 import * as theme from "../../assets/theme";
 import { setCourse } from "../../reducers/courseReducer";
+import categoryMap from "../../components/categoryMap";
 
 function CourseContent({
   course,
@@ -45,6 +46,7 @@ function CourseContent({
             price={0}
             title={item.place_name}
             index={index}
+            code={item.category_group_code}
           />
         ))}
         <View style={{ height: 40 }}>
@@ -244,7 +246,7 @@ function CourseContent({
   );
 }
 
-function PlaceItem({ title, index, price, type }) {
+function PlaceItem({ title, index, price, type, code }) {
   return (
     <TouchableOpacity
       style={{
@@ -284,7 +286,7 @@ function PlaceItem({ title, index, price, type }) {
           marginRight: 7,
         }}
       />
-      {/*<Image />*/}
+      <Image style={{width:25, height:25, marginRight:10}} source={categoryMap(code)}/>
       <Text style={{ color: "#3c3c3c", flex: 1 }}>{title}</Text>
       <View
         style={{

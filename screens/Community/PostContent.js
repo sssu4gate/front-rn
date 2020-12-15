@@ -1,8 +1,10 @@
 import * as React from "react";
-import { View, Text, Dimensions } from "react-native";
+import { View, Text, Dimensions, Image, TextInput, TouchableOpacity } from "react-native";
 import * as theme from "../../assets/theme";
+import categoryMap from "../../components/categoryMap";
 
 export default function PostContent({ post, initPlace, initPost, uploaded }) {
+  const [text, setText] = React.useState("");
   return (
     <View
       style={{
@@ -24,6 +26,7 @@ export default function PostContent({ post, initPlace, initPost, uploaded }) {
             price={item.cost}
             title={item.placeDto.place_name}
             index={index}
+            code={item.placeDto.category_group_code}
           />
         ))}
       </Content>
@@ -45,11 +48,33 @@ export default function PostContent({ post, initPlace, initPost, uploaded }) {
         <Text style={{ fontSize: 12, color: "#AAAAAA" }}>댓글</Text>
         <Line />
       </Content>
+      <Content style={{flexDirection:"column"}}>
+        <TextInput
+          style={{
+            textAlignVertical: "top",
+            minHeight: 120,
+            maxHeight: 120,
+            borderColor: "#e3e3e3",
+            borderWidth: 1,
+            borderRadius: 10,
+            flex: 1,
+            padding: 5,
+            marginBottom: 15,
+          }}
+          multiline
+          numberOfLines={4}
+          onChangeText={setText}
+          value={text}
+        />
+        <TouchableOpacity style={{flex:1, justifyContent:"center", alignItems:"center", borderColor:"#e3e3e3", borderWidth:1, padding:10, borderRadius:10, backgroundColor:theme.PRIMARY_COLOR, marginBottom:10}}>
+          <Text style={{color:"#fff", fontWeight:"bold", fontSize:16}}>댓글남기기</Text>
+        </TouchableOpacity>
+      </Content>
     </View>
   );
 }
 
-function PlaceItem({ title, index, price, type }) {
+function PlaceItem({ title, index, price, type, code }) {
   return (
     <View
       style={{
@@ -89,7 +114,7 @@ function PlaceItem({ title, index, price, type }) {
           marginRight: 7,
         }}
       />
-      {/*<Image />*/}
+      <Image style={{width:25, height:25, marginRight:10}} source={categoryMap(code)}/>
       <Text style={{ color: "#3c3c3c", flex: 1 }}>{title}</Text>
       <View
         style={{

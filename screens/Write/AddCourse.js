@@ -11,6 +11,7 @@ import {
 } from "../../reducers/placeReducer";
 import * as theme from "../../assets/theme";
 import LoadingSVG from "../../assets/Loading";
+import categoryMap from "../../components/categoryMap";
 
 const Container = styled.View`
   flex: 1;
@@ -135,6 +136,7 @@ function AddCourse({
                     paddingTop: 15,
                     paddingBottom: 15,
                     flexDirection: "row",
+                    alignItems:"center",
                   }}
                   onPress={() => {
                     if (
@@ -144,10 +146,10 @@ function AddCourse({
                     }
                   }}
                 >
-                  {/*<Image />*/}
+                  <Image style={{width:30, height:30, marginRight:10}} source={categoryMap(item.category_group_code)}/>
                   <Text
                     style={{
-                      paddingTop: 10,
+                      paddingTop: 5,
                       fontSize: 18,
                       height: 30,
                       color: "#3c3c3c",
