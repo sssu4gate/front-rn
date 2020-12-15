@@ -16,7 +16,38 @@ export const types = {
   USER_NAMECHK_ERROR: "USER_NAMECHK_ERROR",
 
   USER_PROFILE_SUCCESS: "USER_PROFILE_SUCCESS",
+  USER_POST_LIST_REQUEST: "USER_POST_LIST_REQUEST",
+  USER_POST_LIST_SUCCESS: "USER_POST_LIST_SUCCESS",
+  USER_POST_LIST_ERROR: "USER_POST_LIST_ERROR",
 };
+
+export function requestUserPostListCommunity(token, page, offset, option, startDate="", endDate="") {
+  return (dispatch) => {
+    dispatch({ type: types.USER_POST_LIST_REQUEST, option, page, offset, startDate, endDate });
+    return api
+      .requestUserPostList(token, page, offset, option, startDate, endDate)
+      .then((postList) => {
+        dispatch(successUserPostListCommunity(option, postList));
+      })
+      .catch((error) => dispatch(errorUserPostListCommunity(error)));
+  };
+}
+
+export function successUserPostListCommunity(option, postList) {
+  return {
+    type: types.USER_POST_LIST_SUCCESS,
+    postList,
+    option,
+  };
+}
+
+export function errorUserPostListCommunity(error) {
+  return {
+    type: types.USER_POST_LIST_ERROR,
+    error,
+  };
+}
+
 
 export function setUser(user) {
   return {
@@ -185,6 +216,28 @@ const defaultState = {
   isSigned: "unsigned", // unsigned, singed
   nameChecked: false,
   area: [],
+  postList: {
+    "WRITE":{
+      postList: [],
+      page: 1,
+      offset: 5,
+      loading: false,
+    },
+    "LIKE":{
+      postList: [],
+      page: 1,
+      offset: 5,
+      loading: false
+    },
+    "DATE":{
+      postList: [],
+      page: 1,
+      offset: 5,
+      loading: false,
+      startDate:"",
+      endDate:"",
+    }
+  }
 };
 
 export default (state = defaultState, action) => {
@@ -278,6 +331,41 @@ export default (state = defaultState, action) => {
         area: action.user.area,
         loading: false,
         error: null,
+      };
+
+  case types.USER_POST_LIST_REQUEST:
+      return {
+        ...state,
+        postList: {
+          ...state.postList,
+          [action.option]: {
+            ...state.postList[action.option],
+            page: action.page,
+            offset: action.offset,
+            loading: true,
+            startDate:action.startDate,
+            endDate:action.endDate,
+          },
+        },
+        error: null,
+      };
+  case types.USER_POST_LIST_SUCCESS:
+      return {
+        ...state,
+        postList: {
+          ...state.postList,
+          [action.option]: {
+            ...state.postList[action.option],
+            postList: action.postList,
+            loading: false,
+          },
+        },
+        error: null,
+      };
+  case types.USER_POST_LIST_ERROR:
+      return {
+        ...state,
+        error: action.error,
       };
     default:
       return state;

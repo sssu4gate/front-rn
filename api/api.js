@@ -192,3 +192,17 @@ export const requestPostList = (
   console.log("Start fetch", URL);
   return fetch(URL, OPTIONS("get", token)).then((res) => res.json());
 };
+
+export const requestUserPostList = (
+  token,
+  page = 1,
+  offset = 10,
+  option,
+  startDate="",
+  endDate="",
+) => {
+  option = option == "REC" ? "LIKE" : option; //REC 주석 해제해야함.
+  const URL = `https://capstone-4gate.herokuapp.com/user/info/course?offset=${offset}&page=${page}&type=${option}${startDate!=""?`&startDate=${startDate}`:""}${endDate!=""?`&endDate=${endDate}`:""}`;
+  console.log("Start fetch", URL);
+  return fetch(URL, OPTIONS("get", token)).then((res) => res.json());
+};

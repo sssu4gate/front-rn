@@ -9,63 +9,25 @@ import {
 } from "react-native";
 
 export default function MyPost({postList}) {
-  const dummy = [
-    {
-      id: 1,
-      imgUri: require("../../assets/아이유1.jpg"),
-      title: "title",
-      like: 0,
-    },
-    {
-      id: 2,
-      imgUri: require("../../assets/아이유2.jpg"),
-      title: "title2",
-      like: 2,
-    },
-    {
-      id: 3,
-      imgUri: require("../../assets/아이유3.jpg"),
-      title: "title3",
-      like: 3,
-    },
-    {
-      id: 4,
-      imgUri: require("../../assets/아이유4.jpg"),
-      title: "title3",
-      like: 3,
-    },
-    {
-      id: 5,
-      imgUri: require("../../assets/아이유5.jpg"),
-      title: "title4",
-      like: 3,
-    },
-    {
-      id: 6,
-      imgUri: require("../../assets/아이유5.jpg"),
-      title: "title4",
-      like: 3,
-    },
-    {
-      id: 7,
-      imgUri: require("../../assets/아이유4.jpg"),
-      title: "title4",
-      like: 3,
-    },
-  ];
   return (
-    <View>
-      {dummy.map((post) => {
+    <View style={{marginTop:20}}>
+      {
+        postList?.length!=0?(
+        postList.map((post) => {
         return (
           <Post
             key={post.id}
             id={post.id}
-            imgUri={post.imgUri}
+            imgUri={post.courseImgUrl}
             title={post.title}
-            like={post.like}
+            like={post.likeNum}
           />
         );
-      })}
+        })):(
+          <View style={{flex:1, justifyContent:"center", alignItems:"center", paddingTop:200}}>
+            <Text style={{fontSize:30, color:"#777"}}>아직 게시글이 없어요!</Text>
+          </View>
+        )}
     </View>
   );
 }
@@ -73,16 +35,16 @@ export default function MyPost({postList}) {
 function Post({ id, imgUri, title, like }) {
   return (
     <TouchableOpacity style={styles.postArea}>
-      <Image source={imgUri} style={styles.img} />
+      <Image source={{uri: imgUri}} style={styles.img} />
       <View style={styles.titleLine}>
         <Text style={{ flex: 0.2 }} />
         <Text style={styles.titleText}>{title}</Text>
         <View style={styles.like}>
           <Image
-            style={{ width: 24, height: 24 }}
+            style={{ width: 20, height: 20, marginRight:5 }}
             source={require("../../assets/Heart(pink).png")}
           />
-          <Text>{like}</Text>
+          <Text style={{color:"#777"}}>{like}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -96,10 +58,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   img: {
-    width: 320,
-    height: 120,
+    width: "85%",
+    height: 140,
     borderRadius: 20,
     alignSelf: "center",
+    marginBottom:10,
   },
   titleLine: {
     flexDirection: "row",
@@ -107,6 +70,8 @@ const styles = StyleSheet.create({
   like: {
     flexDirection: "row",
     flex: 0.2,
+    marginRight:10,
+    alignItems:"center"
   },
   titleText: {
     flex: 1,

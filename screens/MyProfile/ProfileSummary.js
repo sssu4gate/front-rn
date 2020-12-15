@@ -7,28 +7,66 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  RefreshControl,
 } from "react-native";
 import MyLike from "./MyLike";
 import MyPost from "./MyPost";
+import PostList from "./PostList";
 import Settings from "./Settings";
 import { connect } from "react-redux";
 import {
-  requestProfileUser,
-  requestNamechkUser,
   requestLoginUser,
-  setUser,
+  requestUserPostListCommunity,
 } from "../../reducers/userReducer";
+import * as theme from "../../assets/theme";
+import { setRefresh } from "../../reducers/refreshReducer";
+import LoadingSVG from "../../assets/Loading";
 
 export default connect(
   (state) => ({
     user: state.user,
+    token: state.user.accessToken,
+    postList:state.user.postList,
+    refresh: state.refresh,
   }),
-  { setUser, requestNamechkUser, requestProfileUser }
-)(function ProfileSummary({ navigation, user }) {
-  const [board, setBoard] = useState("post");
+  { requestUserPostListCommunity, setRefresh }
+)(function ProfileSummary({ navigation, user, requestUserPostListCommunity, postList, token, refresh, setRefresh }) {
+  const [board, setBoard] = useState("WRITE");
+
+  const [refreshing, setRefreshing] = React.useState(true);
+    const onRefresh = React.useCallback(() => {
+      setRefreshing(true);
+    }, []);
+  React.useEffect(() => {
+      const unsubscribe = navigation.addListener("tabPress", (e) => {
+        setRefreshing(true);
+      });
+      return unsubscribe;
+    }, [navigation]);
+
+  React.useEffect(() => {
+      if (refresh.Community) {
+        setRefresh({
+          ...refresh,
+          MyProfile: false,
+        });
+        if (!refreshing) setRefreshing(true);
+      }
+    }, [refresh.Community]);
+
+  React.useEffect(() => {
+      if (refreshing) {
+        setRefreshing(false);
+        requestUserPostListCommunity(token, 1, 10, board);
+      }
+    }, [refreshing]);
 
   return (
-    <ScrollView style={{ backgroundColor: "#ffffff" }}>
+    <ScrollView style={{ backgroundColor: "#ffffff" }}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <View style={styles.area1}>
         <View style={styles.area1_1}>
           {user.userImgUrl ? (
@@ -63,25 +101,32 @@ export default connect(
         </View>
       </View>
       <View>
-        <View style={{ flexDirection: "row", backgroundColor: "#ffffff" }}>
+        <View style={{ flexDirection: "row", backgroundColor: "#ffffff", marginLeft:10, marginTop:10}}>
           <TouchableOpacity
             onPress={() => {
-              setBoard("post");
+              setBoard("WRITE");
+              setRefreshing(true);
             }}
           >
-            <Text style={styles.like_post}>게시글</Text>
+            <Text style={{...styles.like_post, color:board=="WRITE"?theme.PRIMARY_COLOR:"#777" }}>게시글</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              setBoard("like");
+              setBoard("LIKE");
+              setRefreshing(true);
             }}
           >
-            <Text style={styles.like_post}>좋아요</Text>
+            <Text style={{...styles.like_post, color:board=="LIKE"?theme.PRIMARY_COLOR:"#777"}}>좋아요</Text>
           </TouchableOpacity>
         </View>
       </View>
-      {board == "post" && <MyPost />}
-      {board == "like" && <MyLike />}
+      {
+        postList[board].loading?(
+          <View style={{ alignItems: "center", marginTop: 20 }}>
+            <LoadingSVG width={80} height={80} />
+          </View>
+        ):(<PostList postList={postList[board].postList}/>)
+      }
     </ScrollView>
   );
 });

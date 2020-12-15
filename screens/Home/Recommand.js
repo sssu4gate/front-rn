@@ -26,6 +26,7 @@ import {
   scrollInterpolator,
   animatedStyles,
 } from "../../components/animations";
+import LoadingSVG from "../../assets/Loading";
 
 function Recommand({
   moveCommunityTab,
@@ -43,42 +44,15 @@ function Recommand({
     }
   }, [refreshing]);
 
+  console.log("************8");
+  console.log(postList);
+  console.log("************8");
+
   const navigation = useNavigation();
   const [index, setIndex] = React.useState(0);
   const SLIDER_WIDTH = Dimensions.get("window").width;
   const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
   const ITEM_HEIGHT = Math.round((ITEM_WIDTH * 3) / 5);
-
-  var imgList = [
-    {
-      uri: require("../../assets/아이유1.jpg"),
-      text: "도심속 한적한 아이유",
-      like: 11,
-      ITEM_HEIGHT: ITEM_HEIGHT,
-      ITEM_WIDTH: ITEM_WIDTH,
-    },
-    {
-      uri: require("../../assets/아이유2.jpg"),
-      text: "test2",
-      like: 22,
-      ITEM_HEIGHT: ITEM_HEIGHT,
-      ITEM_WIDTH: ITEM_WIDTH,
-    },
-    {
-      uri: require("../../assets/아이유3.jpg"),
-      text: "test3",
-      like: 22,
-      ITEM_HEIGHT: ITEM_HEIGHT,
-      ITEM_WIDTH: ITEM_WIDTH,
-    },
-    {
-      uri: require("../../assets/아이유4.jpg"),
-      text: "test4",
-      like: 22,
-      ITEM_HEIGHT: ITEM_HEIGHT,
-      ITEM_WIDTH: ITEM_WIDTH,
-    },
-  ];
 
   return (
     <View>
@@ -102,18 +76,32 @@ function Recommand({
           <Text style={styles.more}>더보기</Text>
         </TouchableOpacity>
       </View>
-      <Carousel
-        data={imgList}
-        renderItem={_lenderItem}
-        sliderWidth={SLIDER_WIDTH}
-        itemWidth={ITEM_WIDTH}
-        containerCustomStyle={styles.carouselContainer}
-        inactiveSlideShift={0}
-        onSnapToItem={(index) => setIndex({ index })}
-        scrollInterpolator={scrollInterpolator}
-        slideInterpolatedStyle={animatedStyles}
-        useScrollView={true}
-      />
+      {
+        !postList["LATEST"].loading ? (
+          <Carousel
+            data={postList["LATEST"].postList.map(item=>({
+              uri:item.courseImgUrl,
+              text:item.title,
+              like: item.likeNum,
+              ITEM_HEIGHT,
+              ITEM_WIDTH,
+            }))}
+            renderItem={_lenderItem}
+            sliderWidth={SLIDER_WIDTH}
+            itemWidth={ITEM_WIDTH}
+            containerCustomStyle={styles.carouselContainer}
+            inactiveSlideShift={0}
+            onSnapToItem={(index) => setIndex({ index })}
+            scrollInterpolator={scrollInterpolator}
+            slideInterpolatedStyle={animatedStyles}
+            useScrollView={true}
+          />
+        ):(
+          <View style={{ alignItems: "center", marginTop: 20 }}>
+            <LoadingSVG width={80} height={80} />
+          </View>
+        )
+      }
     </View>
   );
 }
@@ -151,7 +139,7 @@ function ImgList({ uri, like, ITEM_WIDTH, ITEM_HEIGHT }) {
       }}
     >
       <Image
-        source={uri}
+        source={{uri:uri?uri:null}}
         style={{
           width: "90%",
           height: "90%",

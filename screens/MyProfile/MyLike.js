@@ -62,21 +62,21 @@ export default function MyLike() {
 
 function Post({ id, imgUri, title, like }) {
   return (
-    <>
-      <TouchableOpacity style={styles.postArea}>
-        <Image source={{ uri: imgUri }} style={styles.img} />
-        <View style={styles.titleLine}>
-          <Text style={styles.titleText}>{title}</Text>
-          <View style={styles.like}>
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={{ uri: require("../../assets/Heart(pink).png") }}
-            />
-            <Text>{like}</Text>
-          </View>
+<TouchableOpacity style={styles.postArea}>
+      <Image source={imgUri} style={styles.img} />
+      <View style={styles.titleLine}>
+        <Text style={{ flex: 0.2 }} />
+        <Text style={styles.titleText}>{title}</Text>
+        <View style={styles.like}>
+          <Image
+            style={{ width: 24, height: 24 }}
+            source={require("../../assets/Heart(pink).png")}
+          />
+          <Text>{like}</Text>
         </View>
-      </TouchableOpacity>
-    </>
+      </View>
+    </TouchableOpacity>
+    
   );
 }
 
