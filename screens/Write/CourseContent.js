@@ -66,6 +66,7 @@ function CourseContent({
       <Content style={{ paddingBottom: 0, flexDirection: "column" }}>
         {course.memos?.map((item, index) => (
           <Memo
+            key={index}
             {...item}
             checkHandler={() => {
               setCourse({

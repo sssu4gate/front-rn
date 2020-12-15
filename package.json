@@ -20,6 +20,7 @@
     "expo": "^39.0.0",
     "expo-cli": "4.0.13",
     "expo-constants": "^9.2.0",
+    "expo-image-picker": "^9.2.1",
     "expo-status-bar": "~1.0.2",
     "node-fetch-npm": "^2.0.4",
     "prop-types": "^15.7.2",

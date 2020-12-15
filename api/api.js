@@ -22,7 +22,7 @@ export const searchPlace = (token, keyword, page = 1, offset = 10) => {
     });
 };
 
-export const saveCourse = async (token, course) => {
+export const saveCourse = async (token, {course, img}) => {
   const COURSE_URL = `https://capstone-4gate.herokuapp.com/course/save`;
   const PLACE_URL = `https://capstone-4gate.herokuapp.com/place/save`;
   const memoTypeMap = { CHECKOFF: 0, CHECKON: 1, MEMO: 2 };
@@ -34,6 +34,10 @@ export const saveCourse = async (token, course) => {
       type: memoTypeMap[memo.type],
     })),
   });
+
+  console.log(course, img);
+  return ;
+
   console.log(PLACE_URL);
   await fetch(PLACE_URL, OPTIONS("post", token, course.savePlaces)).then(
     (res) => res.status
@@ -48,6 +52,18 @@ export const saveCourse = async (token, course) => {
   })
 
   console.log(formData);
+
+  /*
+    let formData = new FormData();
+    formData.append('photo', { uri: localUri, name: filename, type });
+    return await fetch(YOUR_SERVER_URL, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    });
+  */
 
   return fetch(COURSE_URL, {
     method: "post",

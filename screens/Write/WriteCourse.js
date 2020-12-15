@@ -45,6 +45,7 @@ function WriteCourse({
   const [title, setTitle] = React.useState("");
   const [content, setContent] = React.useState("");
   const [text, setText] = React.useState("");
+  const [imgData, setImgData] = React.useState(null);
   const date = {
     ...(course.date ? { [course.date]: { selected: true } } : {}),
   };
@@ -53,6 +54,7 @@ function WriteCourse({
     setTitle("");
     setText("");
     setContent("");
+    setImgData(null);
     initCourse();
     initPlace();
   };
@@ -75,7 +77,7 @@ function WriteCourse({
       savePlaces: selectedPlaces,
       shareType: course.shareType,
     };
-    requestSaveCourse(token, finalCourse);
+    requestSaveCourse(token, {course: finalCourse, img: imgData});
   };
 
   React.useEffect(() => {
@@ -185,6 +187,8 @@ function WriteCourse({
             setCalendarVisible={setCalendarVisible}
             title={title}
             setTitle={setTitle}
+            imgData={imgData}
+            setImgData={setImgData}
           />
           <CourseContent
             content={content}
