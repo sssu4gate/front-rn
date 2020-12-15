@@ -4,6 +4,8 @@ import * as theme from "../../assets/theme";
 import PostContent from "./PostContent";
 import PostTitle from "./PostTitle";
 import { requestLoadPost } from "../../reducers/postReducer";
+import { setCourse } from "../../reducers/courseReducer";
+import {selectPlace} from "../../reducers/placeReducer";
 import { connect } from "react-redux";
 import LoadingSVG from "../../assets/Loading";
 
@@ -15,6 +17,8 @@ function PostDetail({
   token,
   requestLoadPost,
   post,
+  setCourse,
+  selectPlace
 }) {
   const [refreshing, setRefreshing] = React.useState(true);
   const onRefresh = React.useCallback(() => {
@@ -28,7 +32,22 @@ function PostDetail({
     if (refreshing) setRefreshing(false);
   }, [params, refreshing]);
 
-  console.log(post);
+  const exportHandler=()=>{
+    selectPlace(post.places.map(place=>place.placeDto));
+    setCourse({
+      backgroundImg: null,
+      title: post.title,
+      id: null,
+      date: null,
+      createdAt: null,
+      shareType: "PUBLIC",
+      places: post.places,
+      memos: [],
+      content: post.content,
+      totalCost: post.totalCost,
+    });
+    navigation.navigate("Write", {screen:"InitialWrite"});
+  }
 
   return (
     <View
@@ -50,7 +69,7 @@ function PostDetail({
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         >
-          <PostTitle post={post} />
+          <PostTitle post={post} exportHandler={exportHandler}/>
           <PostContent post={post} />
         </ScrollView>
       )}
@@ -65,5 +84,5 @@ export default connect(
     token: state.user.accessToken,
     post: state.post.post,
   }),
-  { requestLoadPost }
+  { requestLoadPost, setCourse, selectPlace }
 )(PostDetail);

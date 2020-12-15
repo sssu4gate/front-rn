@@ -1,9 +1,9 @@
 import * as React from "react";
-import { View, Text, Image, Dimensions, ImageBackground } from "react-native";
+import { View, Text, Image, Dimensions, ImageBackground, TouchableOpacity } from "react-native";
 import * as theme from "../../assets/theme";
 import HeartPinkImage from "../../assets/Heart(pink).png";
 
-export default function PostTitle({ post }) {
+export default function PostTitle({ post, exportHandler }) {
   return (
     <Container>
       <ImageBackground source={{uri:post.courseImgUrl?post.courseImgUrl:null}} style={{flex:1, resizeMode:'cover'}}>
@@ -20,7 +20,7 @@ export default function PostTitle({ post }) {
             >
               {post.title}
             </Text>
-            <IconContainer style={{ justifyContent: "right" }}>
+            <IconContainer style={{ justifyContent: "right", marginRight:10 }}>
               <Image
                 style={{ width: 20, height: 20, marginTop: 2, marginRight: 5 }}
                 source={HeartPinkImage}
@@ -35,6 +35,14 @@ export default function PostTitle({ post }) {
               >
                 {post.likeNum}
               </Text>
+            </IconContainer>
+            <IconContainer style={{marginRight:10}}>
+              <TouchableOpacity  onPress={exportHandler}>
+                <Image
+                  style={{ width: 20, height: 20, marginTop: 2, marginRight: 5 }}
+                source={require("../../assets/export.png")}
+                />
+              </TouchableOpacity>
             </IconContainer>
           </Row>
           <Row style={{ minHeight: 50 }}>

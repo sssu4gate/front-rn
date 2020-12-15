@@ -93,6 +93,13 @@ function WriteCourse({
     }
   }, [uploaded]);
 
+  React.useEffect(() => {
+    setTitle(course.title);
+    setText("");
+    setContent(course.content);
+    setImgData(course.backgroundImg);
+  }, [course]);
+
   return (
     <View
       style={{
