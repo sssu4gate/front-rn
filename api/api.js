@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+//아
 const OPTIONS = (method, token, data) => ({
   method: method, // *GET, POST, PUT, DELETE, etc.
   headers: {
@@ -22,7 +22,7 @@ export const searchPlace = (token, keyword, page = 1, offset = 10) => {
     });
 };
 
-export const saveCourse = async (token, {course, img}) => {
+export const saveCourse = async (token, { course, img }) => {
   const COURSE_URL = `https://capstone-4gate.herokuapp.com/course/save`;
   const PLACE_URL = `https://capstone-4gate.herokuapp.com/place/save`;
   const memoTypeMap = { CHECKOFF: 0, CHECKON: 1, MEMO: 2 };
@@ -43,13 +43,13 @@ export const saveCourse = async (token, {course, img}) => {
   );
   console.log(COURSE_URL);
 
-  const formData=new FormData();
+  const formData = new FormData();
 
   formData.append("courseRequestDto", {
-    string:JSON.stringify(course),
-    type:"application/json"
-  })
-  formData.append('img', img);
+    string: JSON.stringify(course),
+    type: "application/json",
+  });
+  formData.append("img", img);
 
   console.log(formData);
 
@@ -163,15 +163,12 @@ export const signupUser = async ({
     refreshToken,
     userImgUrl,
   };
-  return fetch(
-    URL,
-    OPTIONS("post", null, {...info, kakaoImgUrl: userImgUrl})
-  )
+  return fetch(URL, OPTIONS("post", null, { ...info, kakaoImgUrl: userImgUrl }))
     .then((res) => res.json())
     .then((json) => {
       AsyncStorage.setItem("user", JSON.stringify({ ...info, ...json }));
-      return { ...info, ...json }
-    })
+      return { ...info, ...json };
+    });
 };
 
 export const checkLoginedUser = async () => {
@@ -200,11 +197,13 @@ export const requestUserPostList = (
   page = 1,
   offset = 10,
   option,
-  startDate="",
-  endDate="",
+  startDate = "",
+  endDate = ""
 ) => {
   option = option == "REC" ? "LIKE" : option; //REC 주석 해제해야함.
-  const URL = `https://capstone-4gate.herokuapp.com/user/info/course?offset=${offset}&page=${page}&type=${option}${startDate!=""?`&startDate=${startDate}`:""}${endDate!=""?`&endDate=${endDate}`:""}`;
+  const URL = `https://capstone-4gate.herokuapp.com/user/info/course?offset=${offset}&page=${page}&type=${option}${
+    startDate != "" ? `&startDate=${startDate}` : ""
+  }${endDate != "" ? `&endDate=${endDate}` : ""}`;
   console.log("Start fetch", URL);
   return fetch(URL, OPTIONS("get", token)).then((res) => res.json());
 };
